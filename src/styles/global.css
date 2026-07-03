@@ -94,14 +94,15 @@ a {
   animation: fade-in 0.28s ease;
 }
 
+/* Opacity-only (no transform): a transform on .page would create a containing
+   block that traps the detail page's fixed .seasonal-backdrop, making it scroll
+   with the content instead of staying pinned to the viewport corners. */
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(6px);
   }
   to {
     opacity: 1;
-    transform: none;
   }
 }
 
@@ -794,6 +795,175 @@ a {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+/* ---------- Seasonal corner backdrop (detail page) ---------- */
+
+/* Fixed, ambient decoration layer; content sits above it via .detail-content. */
+.seasonal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.detail-content {
+  position: relative;
+  z-index: 1;
+}
+
+.seasonal-corner {
+  position: absolute;
+  width: clamp(130px, 36vw, 200px);
+  height: clamp(130px, 36vw, 200px);
+  color: var(--season-color);
+  opacity: 0.55;
+}
+
+.corner-tl {
+  top: 0;
+  left: 0;
+}
+.corner-tr {
+  top: 0;
+  right: 0;
+}
+.corner-bl {
+  bottom: calc(var(--nav-height) + 8px);
+  left: 0;
+}
+.corner-br {
+  bottom: calc(var(--nav-height) + 8px);
+  right: 0;
+}
+
+/* Soft season-colored glow, brightest at the actual screen corner. */
+.seasonal-glow {
+  position: absolute;
+  inset: 0;
+}
+.corner-tl .seasonal-glow {
+  background: radial-gradient(circle at 6% 6%, color-mix(in srgb, var(--season-color) 26%, transparent), transparent 70%);
+}
+.corner-tr .seasonal-glow {
+  background: radial-gradient(circle at 94% 6%, color-mix(in srgb, var(--season-color) 26%, transparent), transparent 70%);
+}
+.corner-bl .seasonal-glow {
+  background: radial-gradient(circle at 6% 94%, color-mix(in srgb, var(--season-color) 26%, transparent), transparent 70%);
+}
+.corner-br .seasonal-glow {
+  background: radial-gradient(circle at 94% 94%, color-mix(in srgb, var(--season-color) 26%, transparent), transparent 70%);
+}
+
+.motif {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.motif ellipse,
+.motif circle,
+.motif path {
+  fill: currentColor;
+  stroke: none;
+}
+.motif line {
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.leaf-vein {
+  stroke-width: 1;
+  opacity: 0.55;
+}
+
+/* Motion — only when the user hasn't asked to reduce motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .petal {
+    animation: petal-drift 9s ease-in-out infinite;
+  }
+  .petal-spin {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: season-spin 14s linear infinite;
+  }
+  .sun-rays {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: season-spin 32s linear infinite;
+  }
+  .sun-core {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: sun-pulse 4s ease-in-out infinite;
+  }
+  .leaf {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: leaf-sway 7s ease-in-out infinite;
+  }
+  .flake {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: flake-twinkle 3.6s ease-in-out infinite;
+  }
+}
+
+@keyframes season-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@keyframes petal-drift {
+  0% {
+    translate: 0 0;
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.75;
+  }
+  100% {
+    translate: -7px 11px;
+    opacity: 0.35;
+  }
+}
+@keyframes sun-pulse {
+  0%,
+  100% {
+    scale: 1;
+    opacity: 0.6;
+  }
+  50% {
+    scale: 1.12;
+    opacity: 0.95;
+  }
+}
+@keyframes leaf-sway {
+  0% {
+    rotate: -14deg;
+    translate: 0 -2px;
+  }
+  50% {
+    rotate: 14deg;
+    translate: 0 5px;
+  }
+  100% {
+    rotate: -14deg;
+    translate: 0 -2px;
+  }
+}
+@keyframes flake-twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    rotate: 0deg;
+  }
+  50% {
+    opacity: 0.8;
+    rotate: 30deg;
+  }
 }
 
 /* ---------- Longevity ---------- */

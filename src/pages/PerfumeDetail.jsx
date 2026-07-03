@@ -6,6 +6,7 @@ import ListToggleButtons from '../components/ListToggleButtons.jsx'
 import Tag from '../components/Tag.jsx'
 import SeasonTags from '../components/SeasonTags.jsx'
 import Longevity from '../components/Longevity.jsx'
+import SeasonalBackdrop from '../components/SeasonalBackdrop.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import { getOccasions, getSeasons, GENDER_META } from '../data/occasions.js'
 import { getLongevity } from '../data/longevity.js'
@@ -32,6 +33,8 @@ export default function PerfumeDetail() {
 
   return (
     <div className="page detail-page">
+      <SeasonalBackdrop occasions={perfume.occasions} />
+      <div className="detail-content">
       <button type="button" className="back-btn" onClick={() => navigate(-1)}>
         ← Back
       </button>
@@ -99,6 +102,7 @@ export default function PerfumeDetail() {
           </div>
         </section>
       )}
+      </div>
     </div>
   )
 }
