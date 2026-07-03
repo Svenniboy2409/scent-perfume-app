@@ -5,8 +5,10 @@ import NotesPyramid from '../components/NotesPyramid.jsx'
 import ListToggleButtons from '../components/ListToggleButtons.jsx'
 import Tag from '../components/Tag.jsx'
 import SeasonTags from '../components/SeasonTags.jsx'
+import Longevity from '../components/Longevity.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import { getOccasions, getSeasons, GENDER_META } from '../data/occasions.js'
+import { getLongevity } from '../data/longevity.js'
 
 export default function PerfumeDetail() {
   const { id } = useParams()
@@ -71,6 +73,11 @@ export default function PerfumeDetail() {
       <section className="detail-section">
         <h3 className="section-title">Fragrance Notes</h3>
         <NotesPyramid notes={perfume.notes} />
+      </section>
+
+      <section className="detail-section">
+        <h3 className="section-title">Longevity</h3>
+        <Longevity {...getLongevity(perfume)} />
       </section>
 
       {getSeasons(perfume.occasions).length > 0 && (

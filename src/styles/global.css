@@ -796,6 +796,43 @@ a {
   gap: 8px;
 }
 
+/* ---------- Longevity ---------- */
+
+.longevity-meter {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.longevity-seg {
+  flex: 1;
+  height: 8px;
+  max-width: 46px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  transition: background 0.15s;
+}
+
+.longevity-seg.filled {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.longevity-caption {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.longevity-label {
+  font-weight: 600;
+  color: var(--accent-deep);
+}
+
 /* ---------- Tags ---------- */
 
 .tag {
