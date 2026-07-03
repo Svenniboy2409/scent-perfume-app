@@ -1,0 +1,27 @@
+{
+  "name": "Scent · Perfume Collection",
+  "short_name": "Scent",
+  "description": "Track your perfume collection and wishlist.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#f6f1ea",
+  "theme_color": "#f2e8d6",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
