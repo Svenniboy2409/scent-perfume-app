@@ -842,6 +842,13 @@ a {
   mask: radial-gradient(58% 58% at 100% 100%, #000 0%, #000 18%, transparent 100%);
 }
 
+/* Bottom-corner glows end just above the fixed bottom nav — otherwise their
+   bottom band renders behind the (near-opaque) nav bar and is invisible. */
+.edge-bl,
+.edge-br {
+  bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .seasonal-edge {
     animation: edge-pulse 5s ease-in-out infinite;
