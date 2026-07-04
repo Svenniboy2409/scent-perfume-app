@@ -100,6 +100,19 @@ export default function SeasonalBackdrop({ occasions }) {
 
   return (
     <div className="seasonal-backdrop" aria-hidden="true">
+      {/* Glowing screen-edge border per season, anchored to its corner. */}
+      {seasons.map((season, i) => (
+        <span
+          key={`edge-${season}`}
+          className={`seasonal-edge edge-${CORNER[season]}`}
+          style={{
+            '--season-color': SEASON_META[season].color,
+            animationDelay: `${i * -1.6}s`,
+          }}
+        />
+      ))}
+
+      {/* Corner glow + animated motif per season. */}
       {seasons.map((season) => {
         const Motif = MOTIF[season]
         return (
