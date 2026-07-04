@@ -6,6 +6,7 @@ import ListToggleButtons from '../components/ListToggleButtons.jsx'
 import Tag from '../components/Tag.jsx'
 import SeasonTags from '../components/SeasonTags.jsx'
 import Longevity from '../components/Longevity.jsx'
+import TimeOfDayTags from '../components/TimeOfDayTags.jsx'
 import SeasonalBackdrop from '../components/SeasonalBackdrop.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import { getOccasions, getSeasons, GENDER_META } from '../data/occasions.js'
@@ -89,6 +90,11 @@ export default function PerfumeDetail() {
           <SeasonTags occasions={perfume.occasions} variant="pill" />
         </section>
       )}
+
+      <section className="detail-section">
+        <h3 className="section-title">Time of Day</h3>
+        <TimeOfDayTags perfume={perfume} />
+      </section>
 
       {getOccasions(perfume.occasions).length > 0 && (
         <section className="detail-section">

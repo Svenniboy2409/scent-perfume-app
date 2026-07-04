@@ -332,7 +332,7 @@ export const PERFUMES = [
       heart: ['Amberwood', 'Ambergris'],
       base: ['Fir Resin', 'Cedar'],
     },
-    occasions: ['Evening', 'Special', 'Date', 'Winter'],
+    occasions: ['Evening', 'Special', 'Date', 'Spring', 'Fall', 'Winter'],
     description:
       'Iconic and inimitable — a radiant saffron-amber sweetness with a "burnt sugar" glow. Enormous projection.',
   },
@@ -2593,7 +2593,7 @@ export const PERFUMES = [
       heart: ['Fruity Notes'],
       base: ['White Musk', 'Madagascar Vanilla', 'Amber'],
     },
-    occasions: ['Evening', 'Date', 'Special', 'Fall', 'Winter'],
+    occasions: ['Evening', 'Date', 'Special', 'Spring', 'Summer', 'Fall', 'Winter'],
     description:
       'A luscious fruity-amber — sparkling citrus and candied fruits over creamy vanilla and musk. Rich and radiant.',
   },
@@ -2882,7 +2882,7 @@ export const PERFUMES = [
       heart: ['Birch', 'Jasmine', 'Rose'],
       base: ['Musk', 'Ambergris', 'Patchouli', 'Vanilla'],
     },
-    occasions: ['Office', 'Date', 'Evening', 'Spring', 'Fall'],
+    occasions: ['Office', 'Date', 'Evening', 'Spring', 'Fall', 'Winter'],
     description:
       'A smoky, fruity powerhouse — juicy pineapple over birch smoke. The famous, brilliant-value Aventus alternative.',
   },
