@@ -1,7 +1,39 @@
 import { getSeasons, SEASON_META } from '../data/occasions.js'
+import { TIME_META } from '../data/timeOfDay.js'
 
 // Which corner each season is pinned to.
 const CORNER = { Spring: 'tl', Summer: 'tr', Fall: 'bl', Winter: 'br' }
+
+// --- Time-of-day icons (sun for Day, moon for Night), top-centre ---
+
+function SunIcon() {
+  return (
+    <svg viewBox="0 0 60 60" className="tod-svg" aria-hidden="true">
+      <g transform="translate(30 30)">
+        <g className="tod-rays">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <line key={i} x1="0" y1="-17" x2="0" y2="-24" transform={`rotate(${i * 30})`} />
+          ))}
+        </g>
+        <circle r="11" className="tod-suncore" />
+      </g>
+    </svg>
+  )
+}
+
+function MoonIcon() {
+  return (
+    <svg viewBox="0 0 60 60" className="tod-svg" aria-hidden="true">
+      {/* crescent */}
+      <path className="tod-moonbody" d="M40 12 a20 20 0 1 0 0 36 a15 15 0 1 1 0 -36 z" />
+      {/* twinkling star */}
+      <g className="tod-star" transform="translate(17 19)">
+        <line x1="0" y1="-4.5" x2="0" y2="4.5" />
+        <line x1="-4.5" y1="0" x2="4.5" y2="0" />
+      </g>
+    </svg>
+  )
+}
 
 // --- Per-season SVG motifs (small, use currentColor via --season-color) ---
 
@@ -93,13 +125,26 @@ const MOTIF = {
 }
 
 // Fixed, ambient decoration layer for the detail page: one season-colored
-// motif + glow per season the perfume suits, each pinned to its own corner.
-export default function SeasonalBackdrop({ occasions }) {
+// motif + glow per season the perfume suits (pinned to a corner), plus a
+// top-centre sun (Day) and/or moon (Night) for its ideal time of day.
+export default function SeasonalBackdrop({ occasions, times = [] }) {
   const seasons = getSeasons(occasions)
-  if (seasons.length === 0) return null
+  if (seasons.length === 0 && times.length === 0) return null
 
   return (
     <div className="seasonal-backdrop" aria-hidden="true">
+      {/* Time of day: sun on the left, moon on the right (top centre). */}
+      {times.includes('Day') && (
+        <span className="tod-icon tod-sun" style={{ '--tod-color': TIME_META.Day.color }}>
+          <SunIcon />
+        </span>
+      )}
+      {times.includes('Night') && (
+        <span className="tod-icon tod-moon" style={{ '--tod-color': TIME_META.Night.color }}>
+          <MoonIcon />
+        </span>
+      )}
+
       {/* Glowing screen-edge border per season, anchored to its corner. */}
       {seasons.map((season, i) => (
         <span

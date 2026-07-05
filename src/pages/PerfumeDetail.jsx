@@ -11,6 +11,7 @@ import SeasonalBackdrop from '../components/SeasonalBackdrop.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import { getOccasions, getSeasons, GENDER_META } from '../data/occasions.js'
 import { getLongevity } from '../data/longevity.js'
+import { getTimeOfDay } from '../data/timeOfDay.js'
 
 export default function PerfumeDetail() {
   const { id } = useParams()
@@ -34,7 +35,7 @@ export default function PerfumeDetail() {
 
   return (
     <div className="page detail-page">
-      <SeasonalBackdrop occasions={perfume.occasions} />
+      <SeasonalBackdrop occasions={perfume.occasions} times={getTimeOfDay(perfume)} />
       <div className="detail-content">
       <button type="button" className="back-btn" onClick={() => navigate(-1)}>
         ← Back
