@@ -62,17 +62,18 @@ function SpringMotif() {
 }
 
 function SummerMotif() {
-  // Sun with slowly rotating rays + gentle pulse.
+  // Shimmering heat / sea waves — deliberately NOT a sun, so it can't be
+  // confused with the Day time-of-day sun icon.
   return (
     <svg viewBox="0 0 100 100" className="motif motif-summer" aria-hidden="true">
-      <g transform="translate(62 34)">
-        <g className="sun-rays">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <line key={i} x1="0" y1="-16" x2="0" y2="-24" transform={`rotate(${i * 30})`} />
-          ))}
-        </g>
-        <circle r="11" className="sun-core" />
-      </g>
+      {[34, 50, 66].map((y, i) => (
+        <path
+          key={y}
+          className="wave"
+          style={{ animationDelay: `${i * 0.7}s` }}
+          d={`M14 ${y} q 11 -7 22 0 t 22 0 t 22 0`}
+        />
+      ))}
     </svg>
   )
 }
