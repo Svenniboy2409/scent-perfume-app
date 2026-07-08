@@ -6,28 +6,28 @@ const CORNER = { Spring: 'tl', Summer: 'tr', Fall: 'bl', Winter: 'br' }
 
 // --- Time-of-day icons (sun for Day, moon for Night), top-centre ---
 
-function SunIcon() {
+function SunIcon({ shades }) {
   return (
     <svg viewBox="0 0 60 60" className="tod-svg" aria-hidden="true">
       <g transform="translate(30 30)">
-        <g className="tod-rays">
+        <g className="tod-rays" style={{ color: shades[2] }}>
           {Array.from({ length: 12 }).map((_, i) => (
             <line key={i} x1="0" y1="-17" x2="0" y2="-24" transform={`rotate(${i * 30})`} />
           ))}
         </g>
-        <circle r="11" className="tod-suncore" />
+        <circle r="11" className="tod-suncore" style={{ color: shades[0] }} />
       </g>
     </svg>
   )
 }
 
-function MoonIcon() {
+function MoonIcon({ shades }) {
   return (
     <svg viewBox="0 0 60 60" className="tod-svg" aria-hidden="true">
       {/* crescent */}
-      <path className="tod-moonbody" d="M40 12 a20 20 0 1 0 0 36 a15 15 0 1 1 0 -36 z" />
+      <path className="tod-moonbody" style={{ color: shades[1] }} d="M40 12 a20 20 0 1 0 0 36 a15 15 0 1 1 0 -36 z" />
       {/* twinkling star */}
-      <g className="tod-star" transform="translate(17 19)">
+      <g className="tod-star" style={{ color: shades[0] }} transform="translate(17 19)">
         <line x1="0" y1="-4.5" x2="0" y2="4.5" />
         <line x1="-4.5" y1="0" x2="4.5" y2="0" />
       </g>
@@ -37,7 +37,7 @@ function MoonIcon() {
 
 // --- Per-season SVG motifs (small, use currentColor via --season-color) ---
 
-function SpringMotif() {
+function SpringMotif({ shades }) {
   // Drifting blossom petals.
   return (
     <svg viewBox="0 0 100 100" className="motif motif-spring" aria-hidden="true">
@@ -48,7 +48,7 @@ function SpringMotif() {
         { x: 68, y: 60, d: 2.2 },
         { x: 14, y: 74, d: 0.8 },
       ].map((p, i) => (
-        <g key={i} className="petal" style={{ animationDelay: `${p.d}s` }} transform={`translate(${p.x} ${p.y})`}>
+        <g key={i} className="petal" style={{ animationDelay: `${p.d}s`, color: shades[i % shades.length] }} transform={`translate(${p.x} ${p.y})`}>
           <g className="petal-spin">
             {[0, 72, 144, 216, 288].map((a) => (
               <ellipse key={a} cx="0" cy="-5" rx="2.6" ry="5" transform={`rotate(${a})`} />
@@ -61,7 +61,7 @@ function SpringMotif() {
   )
 }
 
-function SummerMotif() {
+function SummerMotif({ shades }) {
   // Shimmering heat / sea waves — deliberately NOT a sun, so it can't be
   // confused with the Day time-of-day sun icon.
   return (
@@ -70,7 +70,7 @@ function SummerMotif() {
         <path
           key={y}
           className="wave"
-          style={{ animationDelay: `${i * 0.7}s` }}
+          style={{ animationDelay: `${i * 0.7}s`, color: shades[i % shades.length] }}
           d={`M14 ${y} q 11 -7 22 0 t 22 0 t 22 0`}
         />
       ))}
@@ -78,7 +78,7 @@ function SummerMotif() {
   )
 }
 
-function FallMotif() {
+function FallMotif({ shades }) {
   // Swaying, falling leaves.
   return (
     <svg viewBox="0 0 100 100" className="motif motif-fall" aria-hidden="true">
@@ -88,7 +88,7 @@ function FallMotif() {
         { x: 36, y: 62, s: 1.1, d: 3.4 },
         { x: 70, y: 70, s: 0.75, d: 1.1 },
       ].map((l, i) => (
-        <g key={i} className="leaf" style={{ animationDelay: `${l.d}s` }} transform={`translate(${l.x} ${l.y}) scale(${l.s})`}>
+        <g key={i} className="leaf" style={{ animationDelay: `${l.d}s`, color: shades[i % shades.length] }} transform={`translate(${l.x} ${l.y}) scale(${l.s})`}>
           <path d="M0 -7 C5 -4 5 4 0 8 C-5 4 -5 -4 0 -7 Z" />
           <line x1="0" y1="-6" x2="0" y2="7" className="leaf-vein" />
         </g>
@@ -97,7 +97,7 @@ function FallMotif() {
   )
 }
 
-function WinterMotif() {
+function WinterMotif({ shades }) {
   // Twinkling snowflakes.
   return (
     <svg viewBox="0 0 100 100" className="motif motif-winter" aria-hidden="true">
@@ -108,7 +108,7 @@ function WinterMotif() {
         { x: 72, y: 66, s: 0.8, d: 0.7 },
         { x: 18, y: 72, s: 0.6, d: 3.2 },
       ].map((f, i) => (
-        <g key={i} className="flake" style={{ animationDelay: `${f.d}s` }} transform={`translate(${f.x} ${f.y}) scale(${f.s})`}>
+        <g key={i} className="flake" style={{ animationDelay: `${f.d}s`, color: shades[i % shades.length] }} transform={`translate(${f.x} ${f.y}) scale(${f.s})`}>
           {[0, 60, 120].map((a) => (
             <line key={a} x1="-7" y1="0" x2="7" y2="0" transform={`rotate(${a})`} />
           ))}
@@ -137,12 +137,12 @@ export default function SeasonalBackdrop({ occasions, times = [] }) {
       {/* Time of day: sun on the left, moon on the right (top centre). */}
       {times.includes('Day') && (
         <span className="tod-icon tod-sun" style={{ '--tod-color': TIME_META.Day.color }}>
-          <SunIcon />
+          <SunIcon shades={TIME_META.Day.shades} />
         </span>
       )}
       {times.includes('Night') && (
         <span className="tod-icon tod-moon" style={{ '--tod-color': TIME_META.Night.color }}>
-          <MoonIcon />
+          <MoonIcon shades={TIME_META.Night.shades} />
         </span>
       )}
 
@@ -168,7 +168,7 @@ export default function SeasonalBackdrop({ occasions, times = [] }) {
             style={{ '--season-color': SEASON_META[season].color }}
           >
             <span className="seasonal-glow" />
-            <Motif />
+            <Motif shades={SEASON_META[season].shades} />
           </div>
         )
       })}

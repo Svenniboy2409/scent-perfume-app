@@ -15,7 +15,7 @@ export default function SeasonTags({ occasions, variant = 'compact' }) {
           <span
             key={season}
             className="season-tag"
-            style={{ '--season-color': meta.color }}
+            style={{ '--season-color': meta.color, '--season-shade': meta.shades[0] }}
           >
             <span className="season-emoji" aria-hidden="true">
               {meta.emoji}

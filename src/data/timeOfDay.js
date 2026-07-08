@@ -9,8 +9,8 @@
 export const TIMES = ['Day', 'Night']
 
 export const TIME_META = {
-  Day: { emoji: '☀️', color: '#e0a12d' },
-  Night: { emoji: '🌙', color: '#5b5aa6' },
+  Day: { emoji: '☀️', color: '#e0a12d', shades: ['#f2c657', '#e0a12d', '#bf7f18'] },
+  Night: { emoji: '🌙', color: '#5b5aa6', shades: ['#9291cf', '#5b5aa6', '#3f3e79'] },
 }
 
 const DAY = ['Day']

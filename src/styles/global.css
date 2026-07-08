@@ -376,7 +376,12 @@ a {
   padding: 6px 13px;
   border-radius: 999px;
   font-size: 13px;
-  background: color-mix(in srgb, var(--season-color) 14%, transparent);
+  /* Subtle two-tone tint (light shade → primary) for a livelier pill. */
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--season-shade, var(--season-color)) 24%, transparent),
+    color-mix(in srgb, var(--season-color) 12%, transparent)
+  );
 }
 
 .result-count {
