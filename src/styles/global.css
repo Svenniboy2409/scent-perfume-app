@@ -922,11 +922,11 @@ a {
 .motif ellipse,
 .motif circle,
 .motif path {
-  fill: currentColor;
+  fill: var(--shape-fill, currentColor);
   stroke: none;
 }
 .motif line {
-  stroke: currentColor;
+  stroke: var(--shape-stroke, currentColor);
   fill: none;
   stroke-width: 2;
   stroke-linecap: round;
@@ -938,7 +938,7 @@ a {
 /* Summer heat/sea waves (stroked, not filled — overrides the .motif path fill). */
 .motif .wave {
   fill: none;
-  stroke: currentColor;
+  stroke: var(--shape-stroke, currentColor);
   stroke-width: 2.6;
   stroke-linecap: round;
 }
@@ -963,14 +963,14 @@ a {
   height: 100%;
 }
 .tod-svg line {
-  stroke: currentColor;
+  stroke: var(--shape-stroke, currentColor);
   stroke-width: 2.4;
   stroke-linecap: round;
   fill: none;
 }
 .tod-svg circle,
 .tod-moonbody {
-  fill: currentColor;
+  fill: var(--shape-fill, currentColor);
 }
 .tod-star line {
   stroke-width: 1.6;

@@ -4,18 +4,48 @@ import { TIME_META } from '../data/timeOfDay.js'
 // Which corner each season is pinned to.
 const CORNER = { Spring: 'tl', Summer: 'tr', Fall: 'bl', Winter: 'br' }
 
+// Three high-contrast linear gradients from a season/time shade palette
+// (light↔deep pairs), referenced by shapes via url(#prefix-n). objectBoundingBox
+// (default) maps each gradient across each referencing shape's own box, so every
+// petal/leaf/wave shows the full gradient. `prefix` must be unique on the page —
+// each motif/icon type renders at most once per detail page, so a static prefix
+// per type is safe.
+function GradDefs({ prefix, shades }) {
+  const pairs = [
+    [shades[0], shades[2]],
+    [shades[2], shades[1]],
+    [shades[1], shades[0]],
+  ]
+  return (
+    <defs>
+      {pairs.map((p, i) => (
+        <linearGradient key={i} id={`${prefix}-${i}`} x1="0" y1="0" x2="0.85" y2="1">
+          <stop offset="0%" stopColor={p[0]} />
+          <stop offset="100%" stopColor={p[1]} />
+        </linearGradient>
+      ))}
+    </defs>
+  )
+}
+
 // --- Time-of-day icons (sun for Day, moon for Night), top-centre ---
 
 function SunIcon({ shades }) {
   return (
     <svg viewBox="0 0 60 60" className="tod-svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="sbsun-core" cx="0.4" cy="0.34" r="0.75">
+          <stop offset="0%" stopColor={shades[0]} />
+          <stop offset="100%" stopColor={shades[2]} />
+        </radialGradient>
+      </defs>
       <g transform="translate(30 30)">
         <g className="tod-rays" style={{ color: shades[2] }}>
           {Array.from({ length: 12 }).map((_, i) => (
             <line key={i} x1="0" y1="-17" x2="0" y2="-24" transform={`rotate(${i * 30})`} />
           ))}
         </g>
-        <circle r="11" className="tod-suncore" style={{ color: shades[0] }} />
+        <circle r="11" className="tod-suncore" style={{ '--shape-fill': 'url(#sbsun-core)' }} />
       </g>
     </svg>
   )
@@ -24,8 +54,14 @@ function SunIcon({ shades }) {
 function MoonIcon({ shades }) {
   return (
     <svg viewBox="0 0 60 60" className="tod-svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="sbmoon-body" x1="0" y1="0" x2="0.5" y2="1">
+          <stop offset="0%" stopColor={shades[0]} />
+          <stop offset="100%" stopColor={shades[2]} />
+        </linearGradient>
+      </defs>
       {/* crescent */}
-      <path className="tod-moonbody" style={{ color: shades[1] }} d="M40 12 a20 20 0 1 0 0 36 a15 15 0 1 1 0 -36 z" />
+      <path className="tod-moonbody" style={{ '--shape-fill': 'url(#sbmoon-body)' }} d="M40 12 a20 20 0 1 0 0 36 a15 15 0 1 1 0 -36 z" />
       {/* twinkling star */}
       <g className="tod-star" style={{ color: shades[0] }} transform="translate(17 19)">
         <line x1="0" y1="-4.5" x2="0" y2="4.5" />
@@ -35,12 +71,13 @@ function MoonIcon({ shades }) {
   )
 }
 
-// --- Per-season SVG motifs (small, use currentColor via --season-color) ---
+// --- Per-season SVG motifs ---
 
 function SpringMotif({ shades }) {
-  // Drifting blossom petals.
+  // Drifting blossom petals, each a light↔deep green gradient.
   return (
     <svg viewBox="0 0 100 100" className="motif motif-spring" aria-hidden="true">
+      <GradDefs prefix="sbsp" shades={shades} />
       {[
         { x: 20, y: 18, d: 0 },
         { x: 52, y: 30, d: 1.6 },
@@ -48,7 +85,12 @@ function SpringMotif({ shades }) {
         { x: 68, y: 60, d: 2.2 },
         { x: 14, y: 74, d: 0.8 },
       ].map((p, i) => (
-        <g key={i} className="petal" style={{ animationDelay: `${p.d}s`, color: shades[i % shades.length] }} transform={`translate(${p.x} ${p.y})`}>
+        <g
+          key={i}
+          className="petal"
+          style={{ animationDelay: `${p.d}s`, '--shape-fill': `url(#sbsp-${i % 3})` }}
+          transform={`translate(${p.x} ${p.y})`}
+        >
           <g className="petal-spin">
             {[0, 72, 144, 216, 288].map((a) => (
               <ellipse key={a} cx="0" cy="-5" rx="2.6" ry="5" transform={`rotate(${a})`} />
@@ -62,15 +104,15 @@ function SpringMotif({ shades }) {
 }
 
 function SummerMotif({ shades }) {
-  // Shimmering heat / sea waves — deliberately NOT a sun, so it can't be
-  // confused with the Day time-of-day sun icon.
+  // Shimmering heat / sea waves (gradient stroke) — deliberately NOT a sun.
   return (
     <svg viewBox="0 0 100 100" className="motif motif-summer" aria-hidden="true">
+      <GradDefs prefix="sbsu" shades={shades} />
       {[34, 50, 66].map((y, i) => (
         <path
           key={y}
           className="wave"
-          style={{ animationDelay: `${i * 0.7}s`, color: shades[i % shades.length] }}
+          style={{ animationDelay: `${i * 0.7}s`, '--shape-stroke': `url(#sbsu-${i % 3})` }}
           d={`M14 ${y} q 11 -7 22 0 t 22 0 t 22 0`}
         />
       ))}
@@ -79,16 +121,22 @@ function SummerMotif({ shades }) {
 }
 
 function FallMotif({ shades }) {
-  // Swaying, falling leaves.
+  // Swaying, falling leaves — each a gradient fill; vein keeps a solid tint.
   return (
     <svg viewBox="0 0 100 100" className="motif motif-fall" aria-hidden="true">
+      <GradDefs prefix="sbfa" shades={shades} />
       {[
         { x: 24, y: 22, s: 1, d: 0 },
         { x: 58, y: 40, s: 0.8, d: 1.9 },
         { x: 36, y: 62, s: 1.1, d: 3.4 },
         { x: 70, y: 70, s: 0.75, d: 1.1 },
       ].map((l, i) => (
-        <g key={i} className="leaf" style={{ animationDelay: `${l.d}s`, color: shades[i % shades.length] }} transform={`translate(${l.x} ${l.y}) scale(${l.s})`}>
+        <g
+          key={i}
+          className="leaf"
+          style={{ animationDelay: `${l.d}s`, color: shades[i % 3], '--shape-fill': `url(#sbfa-${i % 3})` }}
+          transform={`translate(${l.x} ${l.y}) scale(${l.s})`}
+        >
           <path d="M0 -7 C5 -4 5 4 0 8 C-5 4 -5 -4 0 -7 Z" />
           <line x1="0" y1="-6" x2="0" y2="7" className="leaf-vein" />
         </g>
@@ -98,7 +146,8 @@ function FallMotif({ shades }) {
 }
 
 function WinterMotif({ shades }) {
-  // Twinkling snowflakes.
+  // Twinkling snowflakes — crisp lines in varied blue tints (flat, not gradient:
+  // objectBoundingBox gradients don't render on zero-area axis-aligned lines).
   return (
     <svg viewBox="0 0 100 100" className="motif motif-winter" aria-hidden="true">
       {[
