@@ -244,7 +244,7 @@ a {
 
 .search-input {
   width: 100%;
-  padding: 13px 14px 13px 42px;
+  padding: 13px 40px 13px 42px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--surface);
@@ -258,6 +258,68 @@ a {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.search-clear {
+  position: absolute;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--ink-soft);
+  font-size: 18px;
+  line-height: 1;
+  transition: background 0.15s, color 0.15s;
+}
+
+.search-clear:hover {
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+}
+
+/* Example queries, shown only while the field is empty. */
+.search-examples {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-top: -4px;
+}
+
+.search-examples::-webkit-scrollbar {
+  display: none;
+}
+
+.search-examples-label {
+  flex: 0 0 auto;
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.search-example {
+  flex: 0 0 auto;
+  padding: 4px 11px;
+  border: 1px dashed var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 12.5px;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.search-example:hover {
+  border-style: solid;
+  border-color: var(--accent);
+  color: var(--accent-deep);
+  background: var(--accent-soft);
 }
 
 .chip-row {
@@ -384,10 +446,52 @@ a {
   );
 }
 
-.result-count {
+.result-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
   margin: 0 2px 12px;
+}
+
+.result-count {
+  margin: 0;
   font-size: 13px;
   color: var(--ink-faint);
+}
+
+.result-sorted {
+  color: var(--ink-faint);
+  opacity: 0.75;
+}
+
+/* "Matching 🍂 Fall" — how a free-text query was interpreted. */
+.query-hints {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+.query-hints-label {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.query-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--hint-color) 35%, transparent);
+  background: color-mix(in srgb, var(--hint-color) 12%, var(--surface));
+  color: color-mix(in srgb, var(--hint-color) 75%, var(--ink));
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 /* ---------- Grid & cards ---------- */

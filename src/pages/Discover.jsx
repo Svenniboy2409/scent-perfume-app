@@ -5,8 +5,10 @@ import SearchFilterBar from '../components/SearchFilterBar.jsx'
 import PerfumeGrid from '../components/PerfumeGrid.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import Logo from '../components/Logo.jsx'
+import QueryHints from '../components/QueryHints.jsx'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { useSoftWallReveal } from '../hooks/useSoftWallReveal.js'
+import { describeQuery, searchPerfumes, suggestTerm } from '../utils/search.js'
 
 // Filters live in the URL's search params (rather than local state) so they
 // survive navigating to a perfume's detail page and back via the browser's
@@ -28,19 +30,23 @@ export default function Discover() {
     setSearchParams(next, { replace: true })
   }
 
+  // Chips narrow the catalogue first; the search engine then ranks whatever is
+  // left by relevance (an empty query falls back to brand → name order).
   const results = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    return PERFUMES.filter((p) => {
-      const matchesQuery =
-        !q || p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q)
-      const matchesGender = gender === 'All' || p.gender === gender
-      const matchesOccasion = occasion === 'All' || p.occasions.includes(occasion)
-      const matchesSeason = season === 'All' || p.occasions.includes(season)
-      return matchesQuery && matchesGender && matchesOccasion && matchesSeason
-    }).sort(
-      (a, b) => a.brand.localeCompare(b.brand) || a.name.localeCompare(b.name),
+    const shortlist = PERFUMES.filter(
+      (p) =>
+        (gender === 'All' || p.gender === gender) &&
+        (occasion === 'All' || p.occasions.includes(occasion)) &&
+        (season === 'All' || p.occasions.includes(season)),
     )
+    return searchPerfumes(shortlist, query)
   }, [query, gender, occasion, season])
+
+  const hints = useMemo(() => describeQuery(query), [query])
+  const suggestion = useMemo(
+    () => (results.length === 0 && query.trim() ? suggestTerm(PERFUMES, query) : null),
+    [results.length, query],
+  )
 
   const contentRef = useRef(null)
   useSoftWallReveal(contentRef)
@@ -72,9 +78,15 @@ export default function Discover() {
           onSeasonChange={(v) => setFilter('season', v)}
         />
 
-        <p className="result-count">
-          {results.length} {results.length === 1 ? 'result' : 'results'}
-        </p>
+        <div className="result-summary">
+          <p className="result-count">
+            {results.length} {results.length === 1 ? 'result' : 'results'}
+            {query.trim() && results.length > 0 && (
+              <span className="result-sorted"> · best match first</span>
+            )}
+          </p>
+          <QueryHints hints={hints} />
+        </div>
 
         {results.length > 0 ? (
           <PerfumeGrid perfumes={results} />
@@ -82,7 +94,13 @@ export default function Discover() {
           <EmptyState
             icon="⌕"
             title="No matches"
-            message="Try a different search term or clear your filters."
+            message={
+              suggestion
+                ? `Nothing matched “${query.trim()}”. You can search by brand, name, notes, season or mood.`
+                : 'Try another term — brand, name, a note like “vanilla”, a season like “winter”, or a moment like “gym”.'
+            }
+            actionLabel={suggestion ? `Search “${suggestion}” instead` : null}
+            onAction={suggestion ? () => setFilter('q', suggestion) : null}
           />
         )}
       </div>

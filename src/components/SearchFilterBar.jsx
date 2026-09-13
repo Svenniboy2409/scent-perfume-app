@@ -19,14 +19,47 @@ export default function SearchFilterBar({
           ⌕
         </span>
         <input
-          type="search"
+          // `type="text"` rather than "search": the browser's own clear button
+          // is tiny and inconsistent, and we render our own below.
+          type="text"
           className="search-input"
-          placeholder="Search by name or brand…"
+          placeholder="Brand, name, note, season, mood…"
           value={query}
           onChange={(e) => onQueryChange(e.target.value)}
           aria-label="Search perfumes"
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="none"
+          spellCheck={false}
+          enterKeyHint="search"
         />
+        {query && (
+          <button
+            type="button"
+            className="search-clear"
+            onClick={() => onQueryChange('')}
+            aria-label="Clear search"
+          >
+            ×
+          </button>
+        )}
       </div>
+
+      {!query && (
+        <div className="search-examples">
+          <span className="search-examples-label">Try</span>
+          {['Dior Sauvage', 'herfst', 'gym', 'vanilla', 'date night'].map((example) => (
+            <button
+              key={example}
+              type="button"
+              className="search-example"
+              onClick={() => onQueryChange(example)}
+            >
+              {example}
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className="chip-row" role="group" aria-label="Filter by gender">
         <button
