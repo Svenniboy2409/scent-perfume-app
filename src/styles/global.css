@@ -281,7 +281,8 @@ a {
   color: var(--accent-deep);
 }
 
-/* Example queries, shown only while the field is empty. */
+/* Example queries. Always on screen: a row that came and went with focus
+   would shift the whole list, which the search scroll-hold exists to prevent. */
 .search-examples {
   display: flex;
   align-items: center;
@@ -446,18 +447,40 @@ a {
   );
 }
 
+/* One line, always: the interpretation chips scroll sideways instead of
+   wrapping, so the result grid never shifts when a chip appears while typing. */
 .result-summary {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 6px 10px;
+  gap: 10px;
+  min-height: 26px;
   margin: 0 2px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.result-summary::-webkit-scrollbar {
+  display: none;
+}
+
+.result-count,
+.query-hints {
+  flex: 0 0 auto;
 }
 
 .result-count {
   margin: 0;
   font-size: 13px;
   color: var(--ink-faint);
+}
+
+/* Invisible tail. While the search field has focus, useSearchScrollLock grows
+   this so a shrinking result list can never drag the page upward; on blur it
+   collapses again after the view has glided back down to the real bottom. */
+.scroll-hold {
+  height: 0;
 }
 
 .result-sorted {
@@ -468,7 +491,7 @@ a {
 /* "Matching 🍂 Fall" — how a free-text query was interpreted. */
 .query-hints {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 5px;
 }

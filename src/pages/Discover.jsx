@@ -8,6 +8,7 @@ import Logo from '../components/Logo.jsx'
 import QueryHints from '../components/QueryHints.jsx'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { useSoftWallReveal } from '../hooks/useSoftWallReveal.js'
+import { useSearchScrollLock } from '../hooks/useSearchScrollLock.js'
 import { describeQuery, searchPerfumes, suggestTerm } from '../utils/search.js'
 
 // Filters live in the URL's search params (rather than local state) so they
@@ -49,6 +50,10 @@ export default function Discover() {
   )
 
   const contentRef = useRef(null)
+  // Keeps the page from sliding around while the result list churns on every
+  // keystroke; released (with a soft push back up) when the field loses focus.
+  const { searchActive, spacerRef, onSearchFocus, onSearchBlur } = useSearchScrollLock(contentRef)
+
   useSoftWallReveal(contentRef)
   useRestoreScroll(results.length > 0)
 
@@ -58,7 +63,10 @@ export default function Discover() {
         <Logo />
       </div>
 
-      <div className="discover-content" ref={contentRef}>
+      <div
+        className={`discover-content ${searchActive ? 'search-active' : ''}`}
+        ref={contentRef}
+      >
         <header className="page-header">
           <p className="eyebrow">Explore</p>
           <h1 className="page-title">Discover</h1>
@@ -76,6 +84,8 @@ export default function Discover() {
           onOccasionChange={(v) => setFilter('occasion', v)}
           season={season}
           onSeasonChange={(v) => setFilter('season', v)}
+          onSearchFocus={onSearchFocus}
+          onSearchBlur={onSearchBlur}
         />
 
         <div className="result-summary">
@@ -103,6 +113,10 @@ export default function Discover() {
             onAction={suggestion ? () => setFilter('q', suggestion) : null}
           />
         )}
+
+        {/* Grows only while the search is held, so a shrinking result list
+            can't drag the page (and the search bar) upward. */}
+        <div className="scroll-hold" ref={spacerRef} aria-hidden="true" />
       </div>
     </div>
   )

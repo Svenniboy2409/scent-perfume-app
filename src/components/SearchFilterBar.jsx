@@ -11,6 +11,8 @@ export default function SearchFilterBar({
   onOccasionChange,
   season,
   onSeasonChange,
+  onSearchFocus,
+  onSearchBlur,
 }) {
   return (
     <div className="filter-bar">
@@ -32,11 +34,15 @@ export default function SearchFilterBar({
           autoCapitalize="none"
           spellCheck={false}
           enterKeyHint="search"
+          onFocus={onSearchFocus}
+          onBlur={onSearchBlur}
         />
         {query && (
           <button
             type="button"
             className="search-clear"
+            // Keep the field focused so the scroll hold isn't released.
+            onMouseDown={(e) => e.preventDefault()}
             onClick={() => onQueryChange('')}
             aria-label="Clear search"
           >
@@ -45,21 +51,23 @@ export default function SearchFilterBar({
         )}
       </div>
 
-      {!query && (
-        <div className="search-examples">
-          <span className="search-examples-label">Try</span>
-          {['Dior Sauvage', 'herfst', 'gym', 'vanilla', 'date night'].map((example) => (
-            <button
-              key={example}
-              type="button"
-              className="search-example"
-              onClick={() => onQueryChange(example)}
-            >
-              {example}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Always rendered, even mid-search: a row that appeared on focus or
+          vanished on blur would shift everything below it. Tapping an
+          example simply replaces the query. */}
+      <div className="search-examples">
+        <span className="search-examples-label">Try</span>
+        {['Dior Sauvage', 'herfst', 'gym', 'vanilla', 'date night'].map((example) => (
+          <button
+            key={example}
+            type="button"
+            className="search-example"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => onQueryChange(example)}
+          >
+            {example}
+          </button>
+        ))}
+      </div>
 
       <div className="chip-row" role="group" aria-label="Filter by gender">
         <button
