@@ -240,6 +240,12 @@ const BRAND_ALIASES = {
   Bvlgari: ['bulgari'],
   Hermès: ['hermes'],
   Lancôme: ['lancome'],
+  'Hugo Boss': ['boss'],
+  'Calvin Klein': ['ck'],
+  'Ralph Lauren': ['polo', 'rl'],
+  'Abercrombie & Fitch': ['abercrombie', 'af'],
+  'Narciso Rodriguez': ['narciso'],
+  'Frederic Malle': ['malle', 'fm'],
 }
 
 const NAME_ALIASES = {
@@ -253,6 +259,8 @@ const NAME_ALIASES = {
   'armani-acqua-di-gio-parfum': ['adg'],
   'ysl-la-nuit-de-lhomme': ['lndlh', 'la nuit'],
   'mugler-amen': ['a men', 'amen'],
+  'tom-ford-fabulous': ['fucking fabulous', 'ff'],
+  'mfk-oud-satin-mood': ['osm'],
 }
 
 // Filler halves of multi-word synonyms — indexing these on their own would
