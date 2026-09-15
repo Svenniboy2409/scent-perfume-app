@@ -5,9 +5,11 @@ import SeasonTags from './SeasonTags.jsx'
 import { getPerfumeImages } from '../utils/images.js'
 import { getOccasions, GENDER_META } from '../data/occasions.js'
 import { rememberSelectedPerfume } from '../hooks/useRestoreScroll.js'
+import { useLanguage } from '../i18n/LanguageContext.jsx'
 
 export default function PerfumeCard({ perfume }) {
   const navigate = useNavigate()
+  const { term } = useLanguage()
   const primaryOccasion = getOccasions(perfume.occasions)[0]
   const cover = getPerfumeImages(perfume)[0]
   const genderMeta = GENDER_META[perfume.gender]
@@ -40,10 +42,10 @@ export default function PerfumeCard({ perfume }) {
         <h3 className="card-name">{perfume.name}</h3>
         <div className="card-meta">
           <span className="card-gender" style={{ '--gender-color': genderMeta.color }}>
-            <span aria-hidden="true">{genderMeta.emoji}</span> {perfume.gender}
+            <span aria-hidden="true">{genderMeta.emoji}</span> {term('gender', perfume.gender)}
           </span>
           {primaryOccasion && <span className="card-dot">·</span>}
-          {primaryOccasion && <span>{primaryOccasion}</span>}
+          {primaryOccasion && <span>{term('occasion', primaryOccasion)}</span>}
         </div>
         <SeasonTags occasions={perfume.occasions} variant="compact" />
       </div>

@@ -1,10 +1,12 @@
 import { useState, useRef } from 'react'
 import PerfumeImage from './PerfumeImage.jsx'
 import { getPerfumeImages } from '../utils/images.js'
+import { useLanguage } from '../i18n/LanguageContext.jsx'
 
 // Swipeable image gallery for the detail page. Shows one slide when only a
 // single photo is available; adds swipe + dot navigation for multiple.
 export default function PerfumeGallery({ perfume }) {
+  const { t } = useLanguage()
   const images = getPerfumeImages(perfume)
   // Always render at least one slide (the placeholder handles "no image").
   const slides = images.length > 0 ? images : [undefined]
@@ -45,7 +47,7 @@ export default function PerfumeGallery({ perfume }) {
             <button
               type="button"
               className="gallery-arrow gallery-prev"
-              aria-label="Previous image"
+              aria-label={t('gallery.previous')}
               disabled={index === 0}
               onClick={() => go(index - 1)}
             >
@@ -54,7 +56,7 @@ export default function PerfumeGallery({ perfume }) {
             <button
               type="button"
               className="gallery-arrow gallery-next"
-              aria-label="Next image"
+              aria-label={t('gallery.next')}
               disabled={index === slides.length - 1}
               onClick={() => go(index + 1)}
             >
@@ -65,13 +67,13 @@ export default function PerfumeGallery({ perfume }) {
       </div>
 
       {multiple && (
-        <div className="gallery-dots" role="tablist" aria-label="Image navigation">
+        <div className="gallery-dots" role="tablist" aria-label={t('gallery.navigation')}>
           {slides.map((_, i) => (
             <button
               type="button"
               key={i}
               className={`gallery-dot ${i === index ? 'active' : ''}`}
-              aria-label={`Go to image ${i + 1}`}
+              aria-label={t('gallery.goTo', i + 1)}
               aria-selected={i === index}
               onClick={() => go(i)}
             />

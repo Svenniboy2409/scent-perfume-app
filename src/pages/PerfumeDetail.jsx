@@ -12,10 +12,12 @@ import EmptyState from '../components/EmptyState.jsx'
 import { getOccasions, getSeasons, GENDER_META } from '../data/occasions.js'
 import { getLongevity } from '../data/longevity.js'
 import { getTimeOfDay } from '../data/timeOfDay.js'
+import { useLanguage } from '../i18n/LanguageContext.jsx'
 
 export default function PerfumeDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const { t, term, describe } = useLanguage()
   const perfume = PERFUMES.find((p) => p.id === id)
   const genderMeta = perfume && GENDER_META[perfume.gender]
 
@@ -24,9 +26,9 @@ export default function PerfumeDetail() {
       <div className="page">
         <EmptyState
           icon="?"
-          title="Perfume not found"
-          message="This fragrance doesn't exist or has been removed."
-          actionLabel="Back to Discover"
+          title={t('detail.notFoundTitle')}
+          message={t('detail.notFoundMessage')}
+          actionLabel={t('detail.backToDiscover')}
           actionTo="/"
         />
       </div>
@@ -38,7 +40,7 @@ export default function PerfumeDetail() {
       <SeasonalBackdrop occasions={perfume.occasions} times={getTimeOfDay(perfume)} />
       <div className="detail-content">
       <button type="button" className="back-btn" onClick={() => navigate(-1)}>
-        ← Back
+        {t('common.back')}
       </button>
 
       <div className="detail-hero">
@@ -52,7 +54,7 @@ export default function PerfumeDetail() {
             <span>{perfume.concentration}</span>
             <span className="card-dot">·</span>
             <span className="detail-gender" style={{ '--gender-color': genderMeta.color }}>
-              <span aria-hidden="true">{genderMeta.emoji}</span> {perfume.gender}
+              <span aria-hidden="true">{genderMeta.emoji}</span> {term('gender', perfume.gender)}
             </span>
             <span className="card-dot">·</span>
             <span>{perfume.year}</span>
@@ -62,48 +64,48 @@ export default function PerfumeDetail() {
 
       <ListToggleButtons perfume={perfume} />
 
-      <p className="detail-description">{perfume.description}</p>
+      <p className="detail-description">{describe(perfume)}</p>
 
       <section className="detail-section">
-        <h3 className="section-title">Main Accords</h3>
+        <h3 className="section-title">{t('detail.accords')}</h3>
         <div className="tag-wrap">
           {perfume.accords.map((accord) => (
             <Tag key={accord} variant="accord">
-              {accord}
+              {term('accord', accord)}
             </Tag>
           ))}
         </div>
       </section>
 
       <section className="detail-section">
-        <h3 className="section-title">Fragrance Notes</h3>
+        <h3 className="section-title">{t('detail.notes')}</h3>
         <NotesPyramid notes={perfume.notes} />
       </section>
 
       <section className="detail-section">
-        <h3 className="section-title">Longevity</h3>
+        <h3 className="section-title">{t('detail.longevity')}</h3>
         <Longevity {...getLongevity(perfume)} />
       </section>
 
       {getSeasons(perfume.occasions).length > 0 && (
         <section className="detail-section">
-          <h3 className="section-title">Season</h3>
+          <h3 className="section-title">{t('detail.season')}</h3>
           <SeasonTags occasions={perfume.occasions} variant="pill" />
         </section>
       )}
 
       <section className="detail-section">
-        <h3 className="section-title">Time of Day</h3>
+        <h3 className="section-title">{t('detail.timeOfDay')}</h3>
         <TimeOfDayTags perfume={perfume} />
       </section>
 
       {getOccasions(perfume.occasions).length > 0 && (
         <section className="detail-section">
-          <h3 className="section-title">Best For</h3>
+          <h3 className="section-title">{t('detail.bestFor')}</h3>
           <div className="tag-wrap">
             {getOccasions(perfume.occasions).map((occasion) => (
               <Tag key={occasion} variant="occasion">
-                {occasion}
+                {term('occasion', occasion)}
               </Tag>
             ))}
           </div>

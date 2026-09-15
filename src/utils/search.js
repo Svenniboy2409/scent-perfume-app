@@ -16,6 +16,20 @@ import { PERFUMES } from '../data/perfumes.js'
 import { SEASONS, OCCASIONS } from '../data/occasions.js'
 import { getLongevity } from '../data/longevity.js'
 import { getTimeOfDay } from '../data/timeOfDay.js'
+import { termsFor } from '../i18n/terms.js'
+import { DESCRIPTIONS_NL } from '../i18n/descriptions.nl.js'
+
+// Dutch display names, indexed alongside the English ones so a search works
+// the same whichever language the app is set to.
+const NL = {
+  season: termsFor('nl', 'season'),
+  occasion: termsFor('nl', 'occasion'),
+  gender: termsFor('nl', 'gender'),
+  time: termsFor('nl', 'time'),
+  longevity: termsFor('nl', 'longevity'),
+  accord: termsFor('nl', 'accord'),
+  note: termsFor('nl', 'note'),
+}
 
 // --- text helpers -----------------------------------------------------------
 
@@ -111,6 +125,7 @@ const OCCASION_WORDS = {
     'special', 'special occasion', 'wedding', 'bruiloft', 'trouwen', 'formal',
     'formeel', 'gala', 'ceremony', 'celebration', 'event', 'evenement',
     'luxury', 'luxe', 'statement', 'feestelijk', 'birthday', 'verjaardag',
+    'speciaal', 'bijzonder',
   ],
 }
 
@@ -339,29 +354,41 @@ function buildEntry(perfume) {
     if (perfume.occasions.includes(season)) {
       for (const w of SEASON_WORDS[season]) addConcept(w, W.concept)
       addConcept(season, W.concept)
+      addConcept(NL.season[season], W.concept)
     }
   }
   for (const occasion of OCCASIONS) {
     if (perfume.occasions.includes(occasion)) {
       for (const w of OCCASION_WORDS[occasion]) addConcept(w, W.concept)
       addConcept(occasion, W.concept)
+      addConcept(NL.occasion[occasion], W.concept)
     }
   }
   for (const w of GENDER_WORDS[perfume.gender] ?? []) addConcept(w, W.concept)
   addConcept(perfume.gender, W.concept)
+  addConcept(NL.gender[perfume.gender], W.concept)
   for (const time of getTimeOfDay(perfume)) {
     for (const w of TIME_WORDS[time] ?? []) addConcept(w, W.concept)
+    addConcept(NL.time[time], W.concept)
   }
 
   const longevity = getLongevity(perfume)
   addConcept(longevity.label, W.meta)
+  addConcept(NL.longevity[longevity.label], W.meta)
   for (const w of longevityWords(longevity.rating)) addConcept(w, W.meta)
 
-  for (const a of perfume.accords) addTranslated(a, W.accord)
+  for (const a of perfume.accords) {
+    addTranslated(a, W.accord)
+    add(NL.accord[a], W.accord)
+  }
   for (const group of ['top', 'heart', 'base']) {
-    for (const n of perfume.notes?.[group] ?? []) addTranslated(n, W.note)
+    for (const n of perfume.notes?.[group] ?? []) {
+      addTranslated(n, W.note)
+      add(NL.note[n], W.note)
+    }
   }
   add(perfume.description, W.description)
+  add(DESCRIPTIONS_NL[perfume.id], W.description)
 
   const name = normalize(perfume.name)
   const brand = normalize(perfume.brand)
@@ -560,10 +587,17 @@ export function suggestTerm(perfumes, query) {
     for (const word of tokenize(perfume.name)) {
       if (word.length >= 4) candidates.set(word, word)
     }
-    for (const accord of perfume.accords) candidates.set(normalize(accord), accord)
+    for (const accord of perfume.accords) {
+      candidates.set(normalize(accord), accord)
+      if (NL.accord[accord]) candidates.set(normalize(NL.accord[accord]), NL.accord[accord])
+    }
   }
-  for (const { words } of CONCEPT_GROUPS) {
-    for (const value of Object.keys(words)) candidates.set(normalize(value), value)
+  for (const { type, words } of CONCEPT_GROUPS) {
+    for (const value of Object.keys(words)) {
+      candidates.set(normalize(value), value)
+      const dutch = NL[type][value]
+      if (dutch) candidates.set(normalize(dutch), dutch)
+    }
   }
 
   let best = null

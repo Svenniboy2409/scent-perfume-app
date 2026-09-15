@@ -3,7 +3,11 @@
 // wisps — above a serif wordmark, a gold flourish and a small tagline.
 // The app icon (public/logo.svg) uses the same drawing on a dark ground, so
 // keep the two in step when changing the flacon.
+import { useLanguage } from '../i18n/LanguageContext.jsx'
+
 export default function Logo() {
+  const { t } = useLanguage()
+
   return (
     <div className="logo">
       <svg className="logo-emblem" viewBox="0 0 100 120" width="76" height="91" role="img" aria-label="Scent">
@@ -144,7 +148,7 @@ export default function Logo() {
         <path d="M66 0.8 L71.2 6 L66 11.2 L60.8 6 Z" fill="#c49a48" stroke="#8a6a24" strokeWidth="0.6" />
         <path d="M66 3.4 L68.6 6 L66 8.6 L63.4 6 Z" fill="#fff4d6" opacity="0.7" />
       </svg>
-      <p className="logo-tagline">Perfume Collection</p>
+      <p className="logo-tagline">{t('app.tagline')}</p>
     </div>
   )
 }

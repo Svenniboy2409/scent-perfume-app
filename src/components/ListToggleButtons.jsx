@@ -1,10 +1,12 @@
 import { useCollection } from '../context/CollectionContext.jsx'
+import { useLanguage } from '../i18n/LanguageContext.jsx'
 
 // Heart (wishlist) + check (collection) toggle buttons.
 // `size="sm"` renders the compact icon buttons used on cards;
 // default renders the full labeled buttons used on the detail page.
 export default function ListToggleButtons({ perfume, size = 'md' }) {
   const { isWishlisted, isCollected, toggleWishlist, toggleCollection } = useCollection()
+  const { t } = useLanguage()
   const wished = isWishlisted(perfume.id)
   const owned = isCollected(perfume.id)
 
@@ -14,7 +16,7 @@ export default function ListToggleButtons({ perfume, size = 'md' }) {
         <button
           type="button"
           className={`icon-btn ${wished ? 'active wish' : ''}`}
-          aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
+          aria-label={wished ? t('toggle.removeWishlistLabel') : t('toggle.addWishlistLabel')}
           aria-pressed={wished}
           onClick={() => toggleWishlist(perfume.id)}
         >
@@ -23,7 +25,7 @@ export default function ListToggleButtons({ perfume, size = 'md' }) {
         <button
           type="button"
           className={`icon-btn ${owned ? 'active own' : ''}`}
-          aria-label={owned ? 'Remove from collection' : 'Add to collection'}
+          aria-label={owned ? t('toggle.removeCollectionLabel') : t('toggle.addCollectionLabel')}
           aria-pressed={owned}
           onClick={() => toggleCollection(perfume.id)}
         >
@@ -42,7 +44,7 @@ export default function ListToggleButtons({ perfume, size = 'md' }) {
         onClick={() => toggleWishlist(perfume.id)}
       >
         <span className="btn-icon">{wished ? '♥' : '♡'}</span>
-        {wished ? 'On Wishlist' : 'Add to Wishlist'}
+        {wished ? t('toggle.onWishlist') : t('toggle.addWishlist')}
       </button>
       <button
         type="button"
@@ -51,7 +53,7 @@ export default function ListToggleButtons({ perfume, size = 'md' }) {
         onClick={() => toggleCollection(perfume.id)}
       >
         <span className="btn-icon">{owned ? '✓' : '+'}</span>
-        {owned ? 'In Collection' : 'Add to Collection'}
+        {owned ? t('toggle.inCollection') : t('toggle.addCollection')}
       </button>
     </div>
   )

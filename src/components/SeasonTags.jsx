@@ -1,9 +1,11 @@
 import { getSeasons, SEASON_META } from '../data/occasions.js'
+import { useLanguage } from '../i18n/LanguageContext.jsx'
 
 // Renders a perfume's seasons (in canonical order) as colored, emoji-prefixed
 // labels. `variant="pill"` is used on the detail page; the default compact form
 // is used on cards.
 export default function SeasonTags({ occasions, variant = 'compact' }) {
+  const { term } = useLanguage()
   const seasons = getSeasons(occasions)
   if (seasons.length === 0) return null
 
@@ -20,7 +22,7 @@ export default function SeasonTags({ occasions, variant = 'compact' }) {
             <span className="season-emoji" aria-hidden="true">
               {meta.emoji}
             </span>
-            {season}
+            {term('season', season)}
           </span>
         )
       })}

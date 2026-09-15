@@ -10,12 +10,14 @@ import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { useSoftWallReveal } from '../hooks/useSoftWallReveal.js'
 import { useSearchScrollLock } from '../hooks/useSearchScrollLock.js'
 import { describeQuery, searchPerfumes, suggestTerm } from '../utils/search.js'
+import { useLanguage } from '../i18n/LanguageContext.jsx'
 
 // Filters live in the URL's search params (rather than local state) so they
 // survive navigating to a perfume's detail page and back via the browser's
 // back button — the query string is part of that history entry.
 export default function Discover() {
   const [searchParams, setSearchParams] = useSearchParams()
+  const { t, anyTerm } = useLanguage()
   const query = searchParams.get('q') ?? ''
   const gender = searchParams.get('gender') ?? 'All'
   const occasion = searchParams.get('occasion') ?? 'All'
@@ -44,10 +46,13 @@ export default function Discover() {
   }, [query, gender, occasion, season])
 
   const hints = useMemo(() => describeQuery(query), [query])
-  const suggestion = useMemo(
-    () => (results.length === 0 && query.trim() ? suggestTerm(PERFUMES, query) : null),
-    [results.length, query],
-  )
+  // Suggestions come back as catalogue values (often English); show — and
+  // search for — them in the app language. The index knows both spellings.
+  const suggestion = useMemo(() => {
+    if (results.length > 0 || !query.trim()) return null
+    const term = suggestTerm(PERFUMES, query)
+    return term ? anyTerm(term) : null
+  }, [results.length, query, anyTerm])
 
   const contentRef = useRef(null)
   // Keeps the page from sliding around while the result list churns on every
@@ -68,11 +73,9 @@ export default function Discover() {
         ref={contentRef}
       >
         <header className="page-header">
-          <p className="eyebrow">Explore</p>
-          <h1 className="page-title">Discover</h1>
-          <p className="page-subtitle">
-            {PERFUMES.length} fragrances · notes &amp; occasions for every mood
-          </p>
+          <p className="eyebrow">{t('discover.eyebrow')}</p>
+          <h1 className="page-title">{t('discover.title')}</h1>
+          <p className="page-subtitle">{t('discover.subtitle', PERFUMES.length)}</p>
         </header>
 
         <SearchFilterBar
@@ -90,9 +93,9 @@ export default function Discover() {
 
         <div className="result-summary">
           <p className="result-count">
-            {results.length} {results.length === 1 ? 'result' : 'results'}
+            {t('discover.results', results.length)}
             {query.trim() && results.length > 0 && (
-              <span className="result-sorted"> · best match first</span>
+              <span className="result-sorted">{t('discover.bestMatch')}</span>
             )}
           </p>
           <QueryHints hints={hints} />
@@ -103,13 +106,13 @@ export default function Discover() {
         ) : (
           <EmptyState
             icon="⌕"
-            title="No matches"
+            title={t('discover.noMatches')}
             message={
               suggestion
-                ? `Nothing matched “${query.trim()}”. You can search by brand, name, notes, season or mood.`
-                : 'Try another term — brand, name, a note like “vanilla”, a season like “winter”, or a moment like “gym”.'
+                ? t('discover.noMatchesFor', query.trim())
+                : t('discover.noMatchesTips')
             }
-            actionLabel={suggestion ? `Search “${suggestion}” instead` : null}
+            actionLabel={suggestion ? t('discover.searchInstead', suggestion) : null}
             onAction={suggestion ? () => setFilter('q', suggestion) : null}
           />
         )}

@@ -1,5 +1,6 @@
 import { GENDER_META, SEASON_META } from '../data/occasions.js'
 import { TIME_META } from '../data/timeOfDay.js'
+import { useLanguage } from '../i18n/LanguageContext.jsx'
 
 // Small emoji/color for each concept a query can stand for. Occasions have no
 // meta of their own, so they fall back to a neutral pill.
@@ -22,11 +23,12 @@ function metaFor({ type, value }) {
 // Shows how a free-text query was understood — "herfst" → 🍂 Fall — so it's
 // obvious that concept words work, not just brand and product names.
 export default function QueryHints({ hints }) {
+  const { t, term } = useLanguage()
   if (!hints || hints.length === 0) return null
 
   return (
     <div className="query-hints">
-      <span className="query-hints-label">Matching</span>
+      <span className="query-hints-label">{t('search.matching')}</span>
       {hints.map(({ type, value }) => {
         const meta = metaFor({ type, value })
         return (
@@ -35,7 +37,7 @@ export default function QueryHints({ hints }) {
             className="query-hint"
             style={{ '--hint-color': meta.color }}
           >
-            <span aria-hidden="true">{meta.emoji}</span> {value}
+            <span aria-hidden="true">{meta.emoji}</span> {term(type, value)}
           </span>
         )
       })}

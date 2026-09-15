@@ -1,9 +1,11 @@
 import { getTimeOfDay, TIME_META } from '../data/timeOfDay.js'
+import { useLanguage } from '../i18n/LanguageContext.jsx'
 
 // Renders a perfume's ideal time(s) of day as colored, emoji-prefixed pills.
 // Reuses the season-pill styling (`.season-tags` / `.season-tag`), which is
 // driven purely by the `--season-color` custom property.
 export default function TimeOfDayTags({ perfume }) {
+  const { term } = useLanguage()
   const times = getTimeOfDay(perfume)
   if (times.length === 0) return null
 
@@ -20,7 +22,7 @@ export default function TimeOfDayTags({ perfume }) {
             <span className="season-emoji" aria-hidden="true">
               {meta.emoji}
             </span>
-            {time}
+            {term('time', time)}
           </span>
         )
       })}

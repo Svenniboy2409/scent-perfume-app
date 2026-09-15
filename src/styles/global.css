@@ -1187,3 +1187,254 @@ a {
     max-width: 460px;
   }
 }
+
+/* ---------- Settings ---------- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Room on the right of the Collection header for the gear. */
+.page-header-with-action {
+  position: relative;
+  padding-right: 52px;
+}
+
+.settings-gear {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
+  color: var(--accent-deep);
+  transition: transform 0.35s ease, border-color 0.15s, background 0.15s;
+}
+
+.settings-gear:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.settings-gear:active {
+  transform: rotate(60deg) scale(0.94);
+}
+
+.settings-gear:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.settings-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  padding: 18px 18px 20px;
+  margin-bottom: 16px;
+}
+
+.settings-card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 4px;
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.settings-card-icon {
+  font-size: 18px;
+}
+
+.settings-hint {
+  margin: 0 0 14px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+
+.segment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 15px;
+  font-weight: 600;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+}
+
+.segment-active {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-soft);
+}
+
+.segment-badge {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 20px;
+  border-radius: 6px;
+  background: var(--line);
+  color: var(--ink-soft);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.segment-active .segment-badge {
+  background: var(--accent);
+  color: #fff;
+}
+
+.segment:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.settings-counts {
+  margin: -6px 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-deep);
+}
+
+.settings-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.settings-actions .btn {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 10px;
+  font-size: 14px;
+}
+
+@media (max-width: 380px) {
+  .settings-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+.import-confirm {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  animation: fade-in 0.2s ease;
+}
+
+.import-summary {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.import-confirm .settings-hint {
+  margin-top: -6px;
+}
+
+.import-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.import-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+  transition: border-color 0.15s, transform 0.12s;
+}
+
+.import-choice:hover {
+  border-color: var(--accent);
+}
+
+.import-choice:active {
+  transform: scale(0.98);
+}
+
+.import-choice strong {
+  font-size: 14px;
+}
+
+.import-choice span {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.import-choice-replace strong {
+  color: var(--wish);
+}
+
+.import-cancel {
+  margin-top: 10px;
+  padding: 4px 2px;
+  border: none;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.settings-status {
+  margin: 14px 0 0;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.settings-status-ok {
+  background: var(--own-soft);
+  color: var(--own);
+}
+
+.settings-status-error {
+  background: var(--wish-soft);
+  color: var(--wish);
+}

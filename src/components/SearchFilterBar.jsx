@@ -1,4 +1,5 @@
 import { GENDERS, GENDER_META, OCCASIONS, SEASONS, SEASON_META } from '../data/occasions.js'
+import { useLanguage } from '../i18n/LanguageContext.jsx'
 
 // Controlled search + filter bar. Parent owns the state; this component only
 // renders inputs and reports changes.
@@ -14,6 +15,8 @@ export default function SearchFilterBar({
   onSearchFocus,
   onSearchBlur,
 }) {
+  const { t, term } = useLanguage()
+
   return (
     <div className="filter-bar">
       <div className="search-wrap">
@@ -25,10 +28,10 @@ export default function SearchFilterBar({
           // is tiny and inconsistent, and we render our own below.
           type="text"
           className="search-input"
-          placeholder="Brand, name, note, season, mood…"
+          placeholder={t('search.placeholder')}
           value={query}
           onChange={(e) => onQueryChange(e.target.value)}
-          aria-label="Search perfumes"
+          aria-label={t('search.label')}
           autoComplete="off"
           autoCorrect="off"
           autoCapitalize="none"
@@ -44,7 +47,7 @@ export default function SearchFilterBar({
             // Keep the field focused so the scroll hold isn't released.
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => onQueryChange('')}
-            aria-label="Clear search"
+            aria-label={t('search.clear')}
           >
             ×
           </button>
@@ -55,8 +58,8 @@ export default function SearchFilterBar({
           vanished on blur would shift everything below it. Tapping an
           example simply replaces the query. */}
       <div className="search-examples">
-        <span className="search-examples-label">Try</span>
-        {['Dior Sauvage', 'herfst', 'gym', 'vanilla', 'date night'].map((example) => (
+        <span className="search-examples-label">{t('search.try')}</span>
+        {t('search.examples').map((example) => (
           <button
             key={example}
             type="button"
@@ -69,13 +72,13 @@ export default function SearchFilterBar({
         ))}
       </div>
 
-      <div className="chip-row" role="group" aria-label="Filter by gender">
+      <div className="chip-row" role="group" aria-label={t('search.byGender')}>
         <button
           type="button"
           className={`chip ${gender === 'All' ? 'chip-active' : ''}`}
           onClick={() => onGenderChange('All')}
         >
-          All
+          {t('search.all')}
         </button>
         {GENDERS.map((g) => {
           const meta = GENDER_META[g]
@@ -88,19 +91,19 @@ export default function SearchFilterBar({
               style={{ '--gender-color': meta.color }}
               onClick={() => onGenderChange(g)}
             >
-              <span aria-hidden="true">{meta.emoji}</span> {g}
+              <span aria-hidden="true">{meta.emoji}</span> {term('gender', g)}
             </button>
           )
         })}
       </div>
 
-      <div className="chip-row" role="group" aria-label="Filter by occasion">
+      <div className="chip-row" role="group" aria-label={t('search.byOccasion')}>
         <button
           type="button"
           className={`chip chip-sm ${occasion === 'All' ? 'chip-active' : ''}`}
           onClick={() => onOccasionChange('All')}
         >
-          Any occasion
+          {t('search.anyOccasion')}
         </button>
         {OCCASIONS.map((o) => (
           <button
@@ -109,18 +112,18 @@ export default function SearchFilterBar({
             className={`chip chip-sm ${occasion === o ? 'chip-active' : ''}`}
             onClick={() => onOccasionChange(o)}
           >
-            {o}
+            {term('occasion', o)}
           </button>
         ))}
       </div>
 
-      <div className="chip-row" role="group" aria-label="Filter by season">
+      <div className="chip-row" role="group" aria-label={t('search.bySeason')}>
         <button
           type="button"
           className={`chip chip-sm ${season === 'All' ? 'chip-active' : ''}`}
           onClick={() => onSeasonChange('All')}
         >
-          Any season
+          {t('search.anySeason')}
         </button>
         {SEASONS.map((s) => {
           const meta = SEASON_META[s]
@@ -133,7 +136,7 @@ export default function SearchFilterBar({
               style={{ '--season-color': meta.color }}
               onClick={() => onSeasonChange(s)}
             >
-              <span aria-hidden="true">{meta.emoji}</span> {s}
+              <span aria-hidden="true">{meta.emoji}</span> {term('season', s)}
             </button>
           )
         })}

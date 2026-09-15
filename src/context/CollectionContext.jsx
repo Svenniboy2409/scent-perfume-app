@@ -35,6 +35,15 @@ export function CollectionProvider({ children }) {
     [setCollection, setWishlist],
   )
 
+  // Replaces both lists at once (used by backup import).
+  const setLists = useCallback(
+    (next) => {
+      setCollection(next.collection)
+      setWishlist(next.wishlist)
+    },
+    [setCollection, setWishlist],
+  )
+
   const value = useMemo(
     () => ({
       wishlist,
@@ -43,8 +52,9 @@ export function CollectionProvider({ children }) {
       isCollected,
       toggleWishlist,
       toggleCollection,
+      setLists,
     }),
-    [wishlist, collection, isWishlisted, isCollected, toggleWishlist, toggleCollection],
+    [wishlist, collection, isWishlisted, isCollected, toggleWishlist, toggleCollection, setLists],
   )
 
   return <CollectionContext.Provider value={value}>{children}</CollectionContext.Provider>

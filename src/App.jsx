@@ -5,6 +5,7 @@ import Discover from './pages/Discover.jsx'
 import Wishlist from './pages/Wishlist.jsx'
 import Collection from './pages/Collection.jsx'
 import PerfumeDetail from './pages/PerfumeDetail.jsx'
+import Settings from './pages/Settings.jsx'
 import './styles/global.css'
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/collection" element={<Collection />} />
           <Route path="/perfume/:id" element={<PerfumeDetail />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </main>
       <BottomNav />
