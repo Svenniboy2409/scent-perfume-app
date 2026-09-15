@@ -19,12 +19,12 @@ export const PERFUMES = [
     brand: 'Chanel',
     gender: 'Masculine',
     concentration: 'Eau de Parfum',
-    year: 2010,
+    year: 2014,
     accords: ['Woody', 'Aromatic', 'Citrus'],
     notes: {
-      top: ['Grapefruit', 'Lemon', 'Mint', 'Pink Pepper'],
-      heart: ['Ginger', 'Nutmeg', 'Jasmine', 'Melon'],
-      base: ['Incense', 'Vetiver', 'Cedar', 'Sandalwood', 'Labdanum'],
+      top: ['Grapefruit', 'Lemon', 'Mint', 'Bergamot', 'Pink Pepper', 'Aldehydes', 'Coriander'],
+      heart: ['Ginger', 'Jasmine', 'Nutmeg', 'Melon'],
+      base: ['Incense', 'Amber', 'Cedar', 'Sandalwood', 'Amberwood', 'Patchouli', 'Labdanum'],
     },
     occasions: ['Office', 'Evening', 'Date', 'Fall'],
     description:
@@ -126,11 +126,11 @@ export const PERFUMES = [
     notes: {
       top: ['Cardamom'],
       heart: ['Lavender', 'Cedar', 'Bergamot'],
-      base: ['Vetiver', 'Caraway', 'Tonka Bean'],
+      base: ['Vetiver', 'Caraway'],
     },
     occasions: ['Date', 'Evening', 'Fall'],
     description:
-      'Seductive and smooth — spicy cardamom and lavender over sweet tonka. A famously date-friendly scent.',
+      'Seductive and smooth — spicy cardamom and lavender over cedar, vetiver and caraway. A famously date-friendly scent.',
   },
   {
     id: 'ysl-y-edp',
@@ -143,7 +143,7 @@ export const PERFUMES = [
     notes: {
       top: ['Apple', 'Ginger', 'Bergamot'],
       heart: ['Sage', 'Juniper Berries', 'Geranium'],
-      base: ['Amberwood', 'Tonka Bean', 'Cedar', 'Vetiver'],
+      base: ['Vetiver', 'Cedar', 'Tonka Bean', 'Amberwood', 'Olibanum'],
     },
     occasions: ['Office', 'Daily', 'Date', 'Spring'],
     description:
@@ -175,9 +175,9 @@ export const PERFUMES = [
     year: 2008,
     accords: ['Spicy', 'Leather', 'Sweet'],
     notes: {
-      top: ['Blood Mandarin', 'Grapefruit', 'Mint'],
-      heart: ['Cinnamon', 'Spicy Notes', 'Rose'],
-      base: ['Leather', 'Amber', 'Woody Notes'],
+      top: ['Grapefruit', 'Blood Orange', 'Mint'],
+      heart: ['Rose', 'Cinnamon', 'Spicy Notes'],
+      base: ['Leather', 'Woody Notes', 'Patchouli', 'Amber'],
     },
     occasions: ['Evening', 'Date', 'Winter'],
     description:
@@ -194,7 +194,7 @@ export const PERFUMES = [
     notes: {
       top: ['Mint', 'Lavender', 'Bergamot', 'Cardamom'],
       heart: ['Cinnamon', 'Cumin', 'Orange Blossom'],
-      base: ['Vanilla', 'Tonka Bean', 'Sandalwood', 'Amber'],
+      base: ['Vanilla', 'Tonka Bean', 'Sandalwood', 'Amber', 'Cedar'],
     },
     occasions: ['Evening', 'Date', 'Fall'],
     description:
@@ -226,9 +226,9 @@ export const PERFUMES = [
     year: 2004,
     accords: ['Citrus', 'Aromatic', 'Woody', 'Fresh'],
     notes: {
-      top: ['Orange', 'Sea Notes', 'Aldehydes', 'Mandarin'],
+      top: ['Orange', 'Sea Notes', 'Aldehydes', 'Blood Mandarin'],
       heart: ['Pepper', 'Neroli', 'Cedar'],
-      base: ['Tonka Bean', 'White Musk', 'Vetiver', 'Amber'],
+      base: ['Vanilla', 'Tonka Bean', 'White Musk', 'Amber', 'Vetiver', 'Elemi'],
     },
     occasions: ['Daily', 'Office', 'Sport', 'Summer'],
     description:
@@ -277,9 +277,9 @@ export const PERFUMES = [
     year: 2019,
     accords: ['Woody', 'Fruity', 'Leather', 'Smoky'],
     notes: {
-      top: ['Bergamot', 'Pink Pepper', 'Clary Sage'],
+      top: ['Bergamot', 'Sage', 'Pink Pepper'],
       heart: ['Vetiver', 'Leather'],
-      base: ['Patchouli', 'Ambroxan', 'Akigalawood'],
+      base: ['Patchouli', 'Cacao', 'Ambroxan', 'Akigalawood'],
     },
     occasions: ['Office', 'Daily', 'Date', 'Fall'],
     description:
@@ -294,13 +294,13 @@ export const PERFUMES = [
     year: 2021,
     accords: ['Powdery', 'Sweet', 'Vanilla', 'Iris'],
     notes: {
-      top: ['Bergamot', 'Iris'],
-      heart: ['Orange Blossom', 'Myrrh'],
-      base: ['Vanilla', 'Leather', 'Tonka Bean'],
+      top: ['Mandarin Orange', 'Nutmeg'],
+      heart: ['Juniper', 'Sage'],
+      base: ['Iris', 'Vanilla', 'Leather', 'Tonka Bean', 'Patchouli'],
     },
     occasions: ['Evening', 'Date', 'Special', 'Winter'],
     description:
-      'Creamy, powdery vanilla with iris and orange blossom. A polished, sensual formal scent.',
+      'A polished leather-iris — mandarin and nutmeg over sage, drying down to creamy vanilla, tonka and soft leather.',
   },
   {
     id: 'azzaro-wanted',
@@ -311,8 +311,8 @@ export const PERFUMES = [
     year: 2016,
     accords: ['Spicy', 'Sweet', 'Woody', 'Citrus'],
     notes: {
-      top: ['Lemon', 'Ginger', 'Cardamom'],
-      heart: ['Juniper', 'Lavender', 'Mint', 'Apple'],
+      top: ['Lemon', 'Ginger', 'Lavender', 'Mint'],
+      heart: ['Cardamom', 'Juniper', 'Apple'],
       base: ['Tonka Bean', 'Vetiver', 'Woody Notes'],
     },
     occasions: ['Daily', 'Office', 'Date', 'Fall'],
@@ -329,7 +329,7 @@ export const PERFUMES = [
     accords: ['Amber', 'Sweet', 'Woody', 'Floral'],
     notes: {
       top: ['Saffron', 'Jasmine'],
-      heart: ['Amberwood', 'Ambergris'],
+      heart: ['Amberwood', 'Ambergris', 'Hedione'],
       base: ['Fir Resin', 'Cedar'],
     },
     occasions: ['Evening', 'Special', 'Date', 'Spring', 'Fall', 'Winter'],
@@ -345,9 +345,9 @@ export const PERFUMES = [
     year: 2016,
     accords: ['Amber', 'Vanilla', 'Warm Sweet', 'Balsamic'],
     notes: {
-      top: ['Amber'],
-      heart: ['Benzoin', 'Tonka Bean', 'Vanilla'],
-      base: ['Labdanum', 'Cedar'],
+      top: ['Labdanum', 'Orange'],
+      heart: ['Lavender', 'Benzoin'],
+      base: ['Amber', 'Vanilla', 'Tonka Bean', 'Musk', 'Cedar'],
     },
     occasions: ['Evening', 'Special', 'Winter'],
     description:
@@ -364,7 +364,7 @@ export const PERFUMES = [
     notes: {
       top: ['Apple', 'Bergamot', 'Mandarin', 'Lavender'],
       heart: ['Geranium', 'Violet', 'Jasmine'],
-      base: ['Vanilla', 'Cardamom', 'Sandalwood', 'Guaiac Wood'],
+      base: ['Vanilla', 'Cardamom', 'Sandalwood', 'Pepper', 'Guaiac Wood', 'Patchouli'],
     },
     occasions: ['Office', 'Evening', 'Date', 'Fall'],
     description:
@@ -380,8 +380,8 @@ export const PERFUMES = [
     accords: ['Tobacco', 'Vanilla', 'Spicy', 'Woody'],
     notes: {
       top: ['Cinnamon', 'Pepper'],
-      heart: ['Tobacco', 'Osmanthus', 'Incense'],
-      base: ['Vanilla', 'Vetiver', 'Cedar', 'Labdanum'],
+      heart: ['Osmanthus', 'Tobacco', 'Labdanum', 'Incense'],
+      base: ['Vanilla', 'Cedar', 'Vetiver', 'Patchouli', 'Musk'],
     },
     occasions: ['Evening', 'Special', 'Winter'],
     description:
@@ -396,13 +396,13 @@ export const PERFUMES = [
     year: 2018,
     accords: ['Oud', 'Woody', 'Aromatic', 'Warm Spicy'],
     notes: {
-      top: ['Nutmeg', 'Saffron', 'Lavender'],
-      heart: ['Oud', 'Patchouli'],
-      base: ['Musk', 'Sandalwood'],
+      top: ['Saffron', 'Nutmeg', 'Lavender'],
+      heart: ['Agarwood (Oud)'],
+      base: ['Patchouli', 'Musk'],
     },
     occasions: ['Evening', 'Special', 'Fall', 'Winter'],
     description:
-      'A powerful, aromatic oud with lavender and saffron over a musky sandalwood base. Big presence.',
+      'A powerful, aromatic oud with lavender, saffron and nutmeg over a musky patchouli base. Big presence.',
   },
   {
     id: 'xerjoff-naxos',
@@ -413,9 +413,9 @@ export const PERFUMES = [
     year: 2015,
     accords: ['Honey', 'Tobacco', 'Sweet', 'Aromatic'],
     notes: {
-      top: ['Bergamot', 'Lavender', 'Lemon'],
-      heart: ['Honey', 'Cinnamon', 'Jasmine', 'Tobacco'],
-      base: ['Tonka Bean', 'Vanilla', 'Cashmeran'],
+      top: ['Lavender', 'Bergamot', 'Lemon'],
+      heart: ['Honey', 'Cinnamon', 'Cashmeran', 'Jasmine Sambac'],
+      base: ['Tobacco Leaf', 'Vanilla', 'Tonka Bean'],
     },
     occasions: ['Evening', 'Special', 'Fall', 'Winter'],
     description:
@@ -481,9 +481,9 @@ export const PERFUMES = [
     year: 1921,
     accords: ['Aldehydic', 'Floral', 'Powdery', 'Woody'],
     notes: {
-      top: ['Aldehydes', 'Ylang-Ylang', 'Neroli', 'Bergamot'],
-      heart: ['Jasmine', 'Rose', 'Lily-of-the-Valley', 'Iris'],
-      base: ['Sandalwood', 'Vanilla', 'Musk', 'Vetiver'],
+      top: ['Aldehydes', 'Neroli', 'Ylang-Ylang', 'Peach', 'Bergamot'],
+      heart: ['Jasmine', 'Lily-of-the-Valley', 'Iris', 'May Rose'],
+      base: ['Sandalwood', 'Vetiver', 'Oakmoss', 'Patchouli', 'Vanilla'],
     },
     occasions: ['Evening', 'Special', 'Winter'],
     description:
@@ -496,11 +496,11 @@ export const PERFUMES = [
     gender: 'Feminine',
     concentration: 'Eau de Parfum',
     year: 2001,
-    accords: ['Citrus', 'Floral', 'Patchouli', 'Fresh'],
+    accords: ['Citrus', 'Patchouli', 'Floral', 'Vanilla'],
     notes: {
-      top: ['Orange', 'Bergamot', 'Grapefruit'],
-      heart: ['Jasmine', 'Rose', 'Litchi'],
-      base: ['Patchouli', 'Vetiver', 'Vanilla', 'White Musk'],
+      top: ['Orange', 'Mandarin Orange', 'Bergamot', 'Orange Blossom'],
+      heart: ['Turkish Rose', 'Jasmine', 'Mimosa', 'Ylang-Ylang'],
+      base: ['Patchouli', 'White Musk', 'Vanilla', 'Vetiver', 'Tonka Bean', 'Opoponax'],
     },
     occasions: ['Daily', 'Office', 'Date', 'Spring'],
     description:
@@ -515,9 +515,9 @@ export const PERFUMES = [
     year: 1999,
     accords: ['Floral', 'Fruity', 'Sweet'],
     notes: {
-      top: ['Pear', 'Melon', 'Magnolia', 'Bergamot'],
-      heart: ['Jasmine', 'Rose', 'Orchid', 'Lily-of-the-Valley'],
-      base: ['Musk', 'Vanilla', 'Blackberry', 'Cedar'],
+      top: ['Pear', 'Melon', 'Magnolia', 'Peach', 'Mandarin Orange', 'Bergamot'],
+      heart: ['Jasmine', 'Lily-of-the-Valley', 'Tuberose', 'Freesia', 'Rose', 'Orchid'],
+      base: ['Musk', 'Vanilla', 'Cedar', 'Blackberry'],
     },
     occasions: ['Office', 'Evening', 'Date', 'Spring'],
     description:
@@ -549,9 +549,9 @@ export const PERFUMES = [
     year: 2014,
     accords: ['Coffee', 'Vanilla', 'Sweet', 'White Floral'],
     notes: {
-      top: ['Pink Pepper', 'Orange Blossom', 'Pear'],
-      heart: ['Coffee', 'Jasmine', 'Bitter Almond'],
-      base: ['Vanilla', 'Patchouli', 'Cedar'],
+      top: ['Pear', 'Pink Pepper', 'Orange Blossom'],
+      heart: ['Coffee', 'Jasmine', 'Bitter Almond', 'Licorice'],
+      base: ['Vanilla', 'Patchouli', 'Cashmere Wood', 'Cedar'],
     },
     occasions: ['Evening', 'Date', 'Fall', 'Winter'],
     description:
@@ -566,9 +566,9 @@ export const PERFUMES = [
     year: 1992,
     accords: ['Sweet', 'Patchouli', 'Gourmand', 'Fruity'],
     notes: {
-      top: ['Bergamot', 'Cotton Candy', 'Melon', 'Coconut'],
-      heart: ['Honey', 'Red Berries', 'Peach', 'Plum'],
-      base: ['Patchouli', 'Vanilla', 'Chocolate', 'Caramel'],
+      top: ['Bergamot', 'Melon', 'Coconut', 'Mandarin', 'Cotton Candy', 'Black Currant'],
+      heart: ['Honey', 'Apricot', 'Plum', 'Peach', 'Jasmine', 'Rose'],
+      base: ['Patchouli', 'Vanilla', 'Tonka Bean', 'Chocolate', 'Caramel', 'Musk'],
     },
     occasions: ['Evening', 'Special', 'Winter'],
     description:
@@ -601,7 +601,7 @@ export const PERFUMES = [
     accords: ['Floral', 'Sweet', 'Powdery'],
     notes: {
       top: ['Tea', 'Bergamot', 'Osmanthus'],
-      heart: ['Jasmine', 'Orchid', 'Freesia', 'Rose'],
+      heart: ['Orchid', 'Jasmine', 'Rose', 'Freesia', 'Orange Blossom'],
       base: ['Patchouli', 'Vanilla', 'Musk'],
     },
     occasions: ['Date', 'Evening', 'Spring'],
@@ -651,9 +651,9 @@ export const PERFUMES = [
     year: 2013,
     accords: ['Fruity', 'Chypre', 'Sweet', 'Woody'],
     notes: {
-      top: ['Black Currant', 'Bergamot', 'Mandarin'],
-      heart: ['Rose', 'Freesia', 'May Rose'],
-      base: ['Vanilla', 'Patchouli', 'Musk', 'Amberwood'],
+      top: ['Black Currant'],
+      heart: ['May Rose', 'Freesia'],
+      base: ['Vanilla', 'Patchouli', 'Woody Notes', 'Ambroxan'],
     },
     occasions: ['Office', 'Evening', 'Date', 'Fall'],
     description:
@@ -685,9 +685,9 @@ export const PERFUMES = [
     year: 2015,
     accords: ['Sweet', 'Salty', 'Vanilla', 'Floral'],
     notes: {
-      top: ['Water Jasmine', 'Green Mandarin'],
-      heart: ['Salt', 'Ginger Flower'],
-      base: ['Vanilla', 'Ambergris', 'Sandalwood'],
+      top: ['Water Jasmine', 'Green Mandarin', 'Ginger Flower'],
+      heart: ['Vanilla', 'Salt'],
+      base: ['Cashmere Wood', 'Ambergris', 'Sandalwood'],
     },
     occasions: ['Date', 'Evening', 'Summer'],
     description:
@@ -770,9 +770,9 @@ export const PERFUMES = [
     year: 1985,
     accords: ['Green', 'Aromatic', 'Fresh', 'Woody'],
     notes: {
-      top: ['Lemon Verbena', 'Iris', 'Peppermint'],
-      heart: ['Violet Leaf', 'Iris'],
-      base: ['Sandalwood', 'Ambergris'],
+      top: ['Iris', 'Lemon Verbena'],
+      heart: ['Violet Leaf'],
+      base: ['Ambergris', 'Sandalwood'],
     },
     occasions: ['Office', 'Daily', 'Spring', 'Summer'],
     description:
@@ -821,13 +821,13 @@ export const PERFUMES = [
     year: 2018,
     accords: ['Floral', 'Woody', 'Warm Spicy', 'Iris'],
     notes: {
-      top: ['Pear', 'Cardamom'],
-      heart: ['Iris', 'Lavender'],
-      base: ['Patchouli', 'Black Vanilla', 'Leather'],
+      top: ['Black Pepper', 'Lavender'],
+      heart: ['Iris', 'Tolu Balsam'],
+      base: ['Patchouli', 'Black Vanilla'],
     },
     occasions: ['Office', 'Evening', 'Date', 'Fall'],
     description:
-      'A refined floral-woody with iris, pear and dark vanilla. Modern, elegant and versatile.',
+      'A refined woody-floral — powdery iris and black pepper over dark vanilla and patchouli. Modern, elegant and versatile.',
   },
   {
     id: 'dolce-gabbana-the-one',
@@ -923,9 +923,9 @@ export const PERFUMES = [
     year: 2019,
     accords: ['Lavender', 'Floral', 'Sweet', 'Aromatic'],
     notes: {
-      top: ['Lavender', 'Mandarin', 'Black Currant'],
+      top: ['Lavender', 'Mandarin Orange', 'Black Currant', 'Petitgrain'],
       heart: ['Lavender', 'Orange Blossom', 'Jasmine'],
-      base: ['Vanilla', 'Musk', 'Cedar', 'Ambergris'],
+      base: ['Madagascar Vanilla', 'Musk', 'Cedar', 'Ambergris'],
     },
     occasions: ['Office', 'Evening', 'Date', 'Fall'],
     description:
@@ -940,9 +940,9 @@ export const PERFUMES = [
     year: 2022,
     accords: ['Floral', 'Amber', 'Musky', 'Sweet'],
     notes: {
-      top: ['Neroli', 'Bergamot'],
-      heart: ['Jasmine', 'Orange Blossom'],
-      base: ['Amber', 'Musk', 'Vanilla'],
+      top: ['Pear', 'Tangerine', 'Bergamot'],
+      heart: ['Orange Blossom', 'Neroli', 'Jasmine Sambac'],
+      base: ['Bourbon Vanilla', 'Amber', 'White Musk', 'Benzoin'],
     },
     occasions: ['Daily', 'Office', 'Date', 'Spring'],
     description:
@@ -957,9 +957,9 @@ export const PERFUMES = [
     year: 2019,
     accords: ['Floral', 'Vanilla', 'Woody', 'Sweet'],
     notes: {
-      top: ['Black Currant', 'Bergamot'],
-      heart: ['Jasmine', 'Rose', 'Bourbon Vanilla'],
-      base: ['Guaiac Wood', 'Cashmeran', 'Vanilla'],
+      top: ['Black Currant', 'Pink Pepper', 'Bergamot'],
+      heart: ['Jasmine', 'Jasmine Sambac', 'Jasmine Tea'],
+      base: ['Bourbon Vanilla', 'Cashmeran', 'Guaiac Wood'],
     },
     occasions: ['Evening', 'Date', 'Fall'],
     description:
@@ -975,8 +975,8 @@ export const PERFUMES = [
     accords: ['Boozy', 'Sweet', 'Warm Spicy', 'Gourmand'],
     notes: {
       top: ['Cognac'],
-      heart: ['Cinnamon', 'Tonka Bean', 'Oak'],
-      base: ['Praline', 'Vanilla', 'Sandalwood'],
+      heart: ['Cinnamon', 'Tonka Bean', 'Oak', 'Hedione'],
+      base: ['Vanilla', 'Praline', 'Sandalwood', 'Candied Almond'],
     },
     occasions: ['Evening', 'Special', 'Winter'],
     description:
@@ -989,11 +989,11 @@ export const PERFUMES = [
     gender: 'Masculine',
     concentration: 'Eau de Parfum',
     year: 2012,
-    accords: ['Smoky', 'Incense', 'Spicy', 'Amber'],
+    accords: ['Smoky', 'Incense', 'Amber', 'Oud'],
     notes: {
-      top: ['Bergamot', 'Oregano', 'Pimento'],
-      heart: ['Amber', 'Frankincense', 'Opoponax', 'Cistus'],
-      base: ['Leather', 'Sandalwood', 'Musk', 'Patchouli'],
+      top: ['Oregano', 'Pepper', 'Bergamot'],
+      heart: ['Incense', 'Opoponax', 'Amber', 'Labdanum'],
+      base: ['Agarwood (Oud)', 'Leather', 'Sandalwood', 'Patchouli'],
     },
     occasions: ['Evening', 'Special', 'Fall', 'Winter'],
     description:
@@ -1010,7 +1010,7 @@ export const PERFUMES = [
     notes: {
       top: ['Citron', 'Bergamot', 'Sicilian Lemon', 'Blackcurrant'],
       heart: ['Patchouli', 'Sichuan Pepper'],
-      base: ['White Musk', 'Amber', 'Sandalwood', 'Vanilla'],
+      base: ['White Musk', 'Leather', 'Sandalwood', 'Oakmoss', 'Vanilla'],
     },
     occasions: ['Daily', 'Office', 'Summer', 'Spring'],
     description:
@@ -1042,9 +1042,9 @@ export const PERFUMES = [
     year: 2019,
     accords: ['Woody', 'Spicy', 'Fig', 'Sweet'],
     notes: {
-      top: ['Cardamom', 'Bergamot', 'Black Tea'],
-      heart: ['Fig', 'Iris', 'Jasmine'],
-      base: ['Sandalwood', 'Vetiver', 'Tonka Bean'],
+      top: ['Cardamom', 'Fig', 'Black Tea'],
+      heart: ['Iris', 'Bourbon Vetiver', 'Cistus'],
+      base: ['Sandalwood', 'Vanilla', 'Tonka Bean', 'Cedar', 'Patchouli'],
     },
     occasions: ['Daily', 'Office', 'Fall', 'Evening'],
     description:
@@ -1056,12 +1056,12 @@ export const PERFUMES = [
     brand: 'Zara',
     gender: 'Feminine',
     concentration: 'Eau de Parfum',
-    year: 2019,
+    year: 2020,
     accords: ['Sweet', 'Vanilla', 'Amber', 'Warm Spicy'],
     notes: {
-      top: ['Saffron', 'Bergamot'],
-      heart: ['Amberwood', 'Jasmine'],
-      base: ['Vanilla', 'Cedar', 'Musk'],
+      top: ['Saffron', 'Bitter Orange', 'Coriander'],
+      heart: ['Praline', 'Jasmine'],
+      base: ['Amber', 'Moss', 'Musk'],
     },
     occasions: ['Evening', 'Date', 'Winter'],
     description:
@@ -1076,9 +1076,9 @@ export const PERFUMES = [
     year: 1990,
     accords: ['Woody', 'Warm Spicy', 'Powdery', 'Sandalwood'],
     notes: {
-      top: ['Mandarin', 'Coriander', 'Rosewood'],
-      heart: ['Rose', 'Cinnamon', 'Carnation'],
-      base: ['Sandalwood', 'Vanilla', 'Amber', 'Vetiver'],
+      top: ['Rosewood', 'Coriander', 'Mandarin', 'Mahogany'],
+      heart: ['Cinnamon', 'Damask Rose', 'Carnation'],
+      base: ['Sandalwood', 'Tobacco', 'Vanilla', 'Leather', 'Amber', 'Ambrette'],
     },
     occasions: ['Evening', 'Special', 'Fall', 'Winter'],
     description:
@@ -1093,9 +1093,9 @@ export const PERFUMES = [
     year: 1994,
     accords: ['Aquatic', 'Woody', 'Spicy', 'Fresh'],
     notes: {
-      top: ['Yuzu', 'Bergamot', 'Cypress', 'Lemon'],
-      heart: ['Nutmeg', 'Cinnamon', 'Lily', 'Geranium'],
-      base: ['Sandalwood', 'Vetiver', 'Tobacco', 'Musk'],
+      top: ['Yuzu', 'Bergamot', 'Lemon', 'Tarragon'],
+      heart: ['Nutmeg', 'Water Lily'],
+      base: ['Tobacco', 'Sandalwood', 'Cedar', 'Vetiver', 'Musk'],
     },
     occasions: ['Daily', 'Office', 'Summer', 'Spring'],
     description:
@@ -1110,9 +1110,9 @@ export const PERFUMES = [
     year: 1996,
     accords: ['Fig', 'Green', 'Woody', 'Fresh'],
     notes: {
-      top: ['Fig Leaf'],
-      heart: ['Fig', 'Coconut'],
-      base: ['Fig Tree', 'Cedar', 'White Woods'],
+      top: ['Fig'],
+      heart: ['Fig Leaf'],
+      base: ['Fig Tree'],
     },
     occasions: ['Daily', 'Office', 'Summer', 'Spring'],
     description:
@@ -1144,9 +1144,9 @@ export const PERFUMES = [
     year: 2015,
     accords: ['Spicy', 'Leather', 'Amber', 'Woody'],
     notes: {
-      top: ['Bergamot', 'Grapefruit', 'Nutmeg', 'Saffron'],
-      heart: ['Rose', 'Jasmine', 'Cypress', 'Leather'],
-      base: ['Oud', 'Amber', 'Sandalwood', 'Vanilla'],
+      top: ['Cypress', 'Saffron', 'Cardamom', 'Artemisia', 'Bergamot', 'Grapefruit'],
+      heart: ['Bulgarian Rose', 'Nutmeg', 'Jasmine'],
+      base: ['Agarwood (Oud)', 'Cedar', 'Leather', 'Sandalwood', 'Amber', 'Tonka Bean', 'Vanilla', 'Musk'],
     },
     occasions: ['Evening', 'Special', 'Fall', 'Winter'],
     description:
@@ -1180,7 +1180,7 @@ export const PERFUMES = [
     notes: {
       top: ['Pear', 'Melon'],
       heart: ['Freesia', 'Rose'],
-      base: ['Patchouli', 'Amber', 'Musk'],
+      base: ['Musk', 'Amber', 'Patchouli', 'Rhubarb'],
     },
     occasions: ['Daily', 'Office', 'Fall', 'Spring'],
     description:
@@ -1195,9 +1195,9 @@ export const PERFUMES = [
     year: 2017,
     accords: ['Aromatic', 'Minty', 'Spicy', 'Woody'],
     notes: {
-      top: ['Bergamot', 'Peppermint', 'Pink Pepper'],
-      heart: ['Rose', 'Sichuan Pepper', 'Lavender'],
-      base: ['Sandalwood', 'Vetiver', 'Patchouli'],
+      top: ['Bergamot', 'Lemon', 'Pink Pepper'],
+      heart: ['Pepper', 'Rose', 'Peppermint'],
+      base: ['Sandalwood', 'Vetiver', 'Patchouli', 'Lavender'],
     },
     occasions: ['Date', 'Evening', 'Spring'],
     description:
@@ -1213,8 +1213,8 @@ export const PERFUMES = [
     accords: ['Sweet', 'Gourmand', 'Creamy', 'Powdery'],
     notes: {
       top: ['Lavender', 'Pear', 'Bergamot'],
-      heart: ['Whipped Cream', 'Coconut', 'Praline'],
-      base: ['Musk', 'Vanilla Orchid', 'Woody Notes'],
+      heart: ['Whipped Cream', 'Coconut', 'Praline', 'Vanilla Orchid'],
+      base: ['Musk', 'Woody Notes'],
     },
     occasions: ['Daily', 'Date', 'Winter'],
     description:
@@ -1244,15 +1244,15 @@ export const PERFUMES = [
     gender: 'Masculine',
     concentration: 'Eau de Toilette',
     year: 2020,
-    accords: ['Woody', 'Iris', 'Fresh', 'Powdery'],
+    accords: ['Woody', 'Powdery', 'Fresh Spicy', 'Musky'],
     notes: {
       top: ['Bergamot', 'Pink Pepper', 'Elemi'],
-      heart: ['Cashmere Wood', 'Iris', 'Cardamom'],
-      base: ['Iso E Super', 'Vetiver', 'Patchouli', 'White Musk'],
+      heart: ['Atlas Cedar', 'Cashmere Wood', 'Patchouli'],
+      base: ['Iso E Super', 'Haitian Vetiver', 'White Musk'],
     },
     occasions: ['Office', 'Daily', 'Date', 'Spring'],
     description:
-      'A smooth, modern woody-iris with a clean cashmere-wood base. Refined and highly versatile.',
+      'A smooth, modern woody musk — cedar and cashmere wood over a clean vetiver-musk base. Refined and highly versatile.',
   },
   {
     id: 'jpg-ultra-male',
@@ -1281,8 +1281,8 @@ export const PERFUMES = [
     accords: ['Honey', 'Sweet', 'Vanilla', 'Tobacco'],
     notes: {
       top: ['Lavender', 'Mint'],
-      heart: ['Honey', 'Vanilla'],
-      base: ['Tonka Bean', 'Benzoin', 'Tobacco'],
+      heart: ['Vanilla', 'Benzoin'],
+      base: ['Honey', 'Tonka Bean', 'Tobacco'],
     },
     occasions: ['Evening', 'Date', 'Special', 'Winter'],
     description:
@@ -1297,9 +1297,9 @@ export const PERFUMES = [
     year: 2019,
     accords: ['Sweet', 'Vanilla', 'Fruity', 'Woody'],
     notes: {
-      top: ['Green Notes', 'Pear'],
-      heart: ['Datura', 'Rose'],
-      base: ['Vanilla', 'Tonka Bean', 'Vetiver'],
+      top: ['Pear', 'Bergamot'],
+      heart: ['Jasmine', 'Vanilla Orchid'],
+      base: ['Vanilla', 'Vetiver', 'Tonka Bean'],
     },
     occasions: ['Evening', 'Date', 'Fall'],
     description:
@@ -1314,7 +1314,7 @@ export const PERFUMES = [
     year: 2017,
     accords: ['Sweet', 'Warm Spicy', 'Vanilla', 'Aromatic'],
     notes: {
-      top: ['Pink Pepper', 'Cardamom', 'Violet', 'Sage'],
+      top: ['Pink Pepper', 'Cardamom', 'Violet Leaf'],
       heart: ['Cinnamon', 'Sage', 'Melon'],
       base: ['Vanilla', 'Chestnut', 'Amberwood', 'Tonka Bean'],
     },
@@ -1331,9 +1331,9 @@ export const PERFUMES = [
     year: 2019,
     accords: ['Sweet', 'Vanilla', 'Caramel', 'Warm Spicy'],
     notes: {
-      top: ['Spices', 'Violet'],
-      heart: ['Lavender', 'Toffee', 'Cinnamon'],
-      base: ['Suede', 'Vanilla', 'Amber'],
+      top: ['Pink Pepper', 'Juniper', 'Violet'],
+      heart: ['Toffee', 'Cinnamon', 'Lavender', 'Sage'],
+      base: ['Vanilla', 'Amber', 'Tonka Bean', 'Suede'],
     },
     occasions: ['Evening', 'Date', 'Winter', 'Special'],
     description:
@@ -1399,9 +1399,9 @@ export const PERFUMES = [
     year: 2021,
     accords: ['Aromatic', 'Sweet', 'Woody', 'Fresh Spicy'],
     notes: {
-      top: ['Apple', 'Ginger', 'Bergamot'],
-      heart: ['Sage', 'Lavender', 'Incense', 'Juniper'],
-      base: ['Tonka Bean', 'Cedar', 'Olibanum', 'Amberwood'],
+      top: ['Grapefruit', 'Apple', 'Ginger', 'Aldehydes'],
+      heart: ['Sage', 'Lavender', 'Geranium'],
+      base: ['Cedar', 'Olibanum', 'Tonka Bean', 'Patchouli'],
     },
     occasions: ['Evening', 'Office', 'Date', 'Fall'],
     description:
@@ -1416,9 +1416,9 @@ export const PERFUMES = [
     year: 2016,
     accords: ['Fruity', 'Sweet', 'Floral', 'Chypre'],
     notes: {
-      top: ['Strawberry', 'Raspberry', 'Bergamot', 'Pear'],
-      heart: ['Datura', 'Peony', 'Orange Blossom', 'Jasmine'],
-      base: ['Patchouli', 'White Musk', 'Ambroxan', 'Cedar'],
+      top: ['Strawberry', 'Raspberry', 'Pear', 'Orange', 'Bergamot', 'Tangerine'],
+      heart: ['Peony', 'Jasmine Sambac', 'Datura', 'Orange Blossom'],
+      base: ['Patchouli', 'White Musk', 'Vanilla', 'Ambroxan', 'Moss', 'Cedar'],
     },
     occasions: ['Date', 'Evening', 'Spring'],
     description:
@@ -1433,9 +1433,9 @@ export const PERFUMES = [
     year: 2019,
     accords: ['Woody', 'Aromatic', 'Mineral', 'Powdery'],
     notes: {
-      top: ['Violet Leaves', 'Ginger'],
-      heart: ['Sage', 'Mineral Notes', 'Salt'],
-      base: ['Vetiver', 'Woody Notes', 'Tonka Bean'],
+      top: ['Mineral Notes', 'Violet Leaf', 'Salt'],
+      heart: ['Sage', 'Ginger'],
+      base: ['Woody Notes', 'Vetiver'],
     },
     occasions: ['Daily', 'Office', 'Date', 'Spring'],
     description:
@@ -1450,13 +1450,13 @@ export const PERFUMES = [
     year: 2023,
     accords: ['Floral', 'Vanilla', 'Sweet', 'Woody'],
     notes: {
-      top: ['Bergamot', 'Black Currant'],
-      heart: ['Jasmine', 'Jasmine Sambac'],
-      base: ['Bourbon Vanilla', 'Guaiac Wood', 'Cashmeran'],
+      top: ['Bourbon Vanilla', 'Amber'],
+      heart: ['Jasmine'],
+      base: ['Benzoin'],
     },
     occasions: ['Evening', 'Date', 'Winter'],
     description:
-      'A deeper, creamier Born in Roma — lush jasmine over a rich bourbon-vanilla and woods base. Warm and enveloping.',
+      'A deeper, creamier Born in Roma — jasmine wrapped in rich bourbon vanilla, amber and benzoin. Warm and enveloping.',
   },
   {
     id: 'valentino-uomo-2014',
@@ -1569,9 +1569,9 @@ export const PERFUMES = [
     year: 1993,
     accords: ['Powdery', 'Floral', 'Sweet', 'Vanilla'],
     notes: {
-      top: ['Orange Blossom', 'Star Anise', 'Rose', 'Mandarin Orange', 'Pear'],
-      heart: ['Ginger', 'Orchid', 'Orris Root', 'Cinnamon', 'Plum'],
-      base: ['Amber', 'Vanilla', 'Musk', 'Sandalwood', 'Tonka Bean'],
+      top: ['Orange Blossom', 'Star Anise', 'Rose', 'Mandarin Orange', 'Pear', 'Bergamot'],
+      heart: ['Ylang-Ylang', 'Ginger', 'Orchid', 'Tuberose', 'Iris', 'Plum'],
+      base: ['Vanilla', 'Amber', 'Musk', 'Cinnamon', 'Sandalwood'],
     },
     occasions: ['Evening', 'Special', 'Winter'],
     description:
@@ -1723,8 +1723,8 @@ export const PERFUMES = [
     accords: ['White Floral', 'Floral', 'Sweet', 'Woody'],
     notes: {
       top: ['Orange Blossom', 'Bergamot'],
-      heart: ['Tuberose', 'Jasmine', 'Indian Tuberose'],
-      base: ['Vanilla', 'White Musk', 'Cedar', 'Patchouli'],
+      heart: ['Tuberose', 'Indian Jasmine'],
+      base: ['Madagascar Vanilla', 'White Musk', 'Virginia Cedar'],
     },
     occasions: ['Daily', 'Office', 'Date', 'Spring'],
     description:
@@ -1807,9 +1807,9 @@ export const PERFUMES = [
     year: 2010,
     accords: ['Rose', 'Oud', 'Sweet', 'Woody'],
     notes: {
-      top: ['Saffron', 'Rose'],
-      heart: ['Rose', 'Agarwood (Oud)'],
-      base: ['Patchouli', 'Vanilla', 'Woody Notes'],
+      top: ['Rose'],
+      heart: ['Agarwood (Oud)'],
+      base: ['Patchouli', 'Vanilla'],
     },
     occasions: ['Evening', 'Special', 'Winter', 'Fall'],
     description:
@@ -1841,9 +1841,9 @@ export const PERFUMES = [
     year: 2020,
     accords: ['Lavender', 'Vanilla', 'Sweet', 'Warm Spicy'],
     notes: {
-      top: ['Lavender', 'Bergamot', 'Mandarin'],
-      heart: ['Orange Blossom', 'Jasmine', 'Saffron'],
-      base: ['Vanilla', 'Tonka Bean', 'Ambergris', 'Cedar'],
+      top: ['Lavender', 'Mandarin Orange', 'Bergamot'],
+      heart: ['Lavender', 'Orange Blossom', 'Jasmine Sambac', 'Orchid'],
+      base: ['Madagascar Vanilla', 'Tonka Bean', 'Ambergris', 'Vetiver'],
     },
     occasions: ['Evening', 'Date', 'Fall', 'Winter'],
     description:
@@ -1892,9 +1892,9 @@ export const PERFUMES = [
     year: 1981,
     accords: ['Animalic', 'Aromatic', 'Powdery', 'Warm Spicy'],
     notes: {
-      top: ['Aldehydes', 'Coriander', 'Clary Sage', 'Bergamot'],
-      heart: ['Patchouli', 'Carnation', 'Vetiver', 'Geranium', 'Cinnamon'],
-      base: ['Civet', 'Musk', 'Leather', 'Honey', 'Oakmoss', 'Amber'],
+      top: ['Aldehydes', 'Coriander', 'Clary Sage', 'Artemisia', 'Bergamot'],
+      heart: ['Patchouli', 'Carnation', 'Vetiver', 'Jasmine', 'Geranium', 'Orris Root', 'Cinnamon', 'Lavender'],
+      base: ['Civet', 'Musk', 'Leather', 'Honey', 'Oakmoss', 'Amber', 'Tonka Bean', 'Vanilla'],
     },
     occasions: ['Evening', 'Special', 'Winter'],
     description:
@@ -1909,13 +1909,13 @@ export const PERFUMES = [
     year: 2010,
     accords: ['Spicy', 'Aromatic', 'Sweet', 'Woody'],
     notes: {
-      top: ['Cardamom', 'Bergamot'],
-      heart: ['Lavender', 'Cumin', 'Caraway'],
-      base: ['Tonka Bean', 'Cedar', 'Vetiver'],
+      top: ['Pepper', 'Anise', 'Bergamot'],
+      heart: ['Fruity Notes', 'Lavender', 'Labdanum'],
+      base: ['Vanilla', 'Patchouli', 'Vetiver'],
     },
     occasions: ['Date', 'Evening', 'Fall', 'Winter'],
     description:
-      'A richer, spicier La Nuit — deeper cardamom and lavender over a warm tonka base. Sensual and refined.',
+      'A darker, sweeter La Nuit — peppery anise and lavender over labdanum, vanilla and patchouli. Sensual and refined.',
   },
   {
     id: 'ysl-black-opium-le-parfum',
@@ -1926,9 +1926,9 @@ export const PERFUMES = [
     year: 2022,
     accords: ['Coffee', 'Vanilla', 'Sweet', 'Floral'],
     notes: {
-      top: ['Pear', 'Orange Blossom'],
-      heart: ['Coffee', 'Jasmine'],
-      base: ['Vanilla', 'Tonka Bean', 'Cedar'],
+      top: ['Pear', 'Cinnamon', 'Green Mandarin'],
+      heart: ['Jasmine Sambac', 'Solar Notes', 'Orange Blossom'],
+      base: ['Madagascar Vanilla', 'Bourbon Vanilla', 'Coffee', 'Vanilla Orchid', 'Patchouli'],
     },
     occasions: ['Evening', 'Date', 'Winter'],
     description:
@@ -1943,13 +1943,13 @@ export const PERFUMES = [
     year: 2020,
     accords: ['Woody', 'Warm Spicy', 'Aromatic', 'Sweet'],
     notes: {
-      top: ['Cardamom', 'Bergamot'],
-      heart: ['Cinnamon', 'Geranium'],
-      base: ['Cedar', 'Tonka Bean', 'Vetiver'],
+      top: ['Ozonic Notes', 'Cardamom', 'Lemon'],
+      heart: ['Geranium', 'Violet Leaf', 'Basil'],
+      base: ['Amberwood', 'Cedar', 'Vetiver'],
     },
     occasions: ['Evening', 'Office', 'Date', 'Fall'],
     description:
-      'A warmer, spicier L\'Homme — cardamom and cinnamon over creamy cedar and tonka. Elegant and cozy.',
+      'A modern woody L’Homme — airy lemon and cardamom over violet leaf and basil, drying down to amberwood and cedar.',
   },
   {
     id: 'ysl-myslf-le-parfum',
@@ -1960,13 +1960,13 @@ export const PERFUMES = [
     year: 2024,
     accords: ['Floral', 'Woody', 'Warm Spicy', 'Sweet'],
     notes: {
-      top: ['Bergamot', 'Pear'],
-      heart: ['Orange Blossom', 'Saffron'],
-      base: ['Patchouli', 'Vanilla', 'Woody Notes'],
+      top: ['Black Pepper'],
+      heart: ['Orange Blossom'],
+      base: ['Bourbon Vanilla', 'Amber', 'Woody Notes', 'Patchouli'],
     },
     occasions: ['Evening', 'Date', 'Fall', 'Office'],
     description:
-      'A deeper, sweeter MYSLF — orange blossom and saffron over a warm, woody vanilla base. Modern and refined.',
+      'A deeper, warmer MYSLF — black pepper and rich orange blossom over bourbon vanilla, amber and woods. Modern and refined.',
   },
   {
     id: 'valentino-uomo-born-in-roma-coral-fantasy',
@@ -1975,15 +1975,15 @@ export const PERFUMES = [
     gender: 'Masculine',
     concentration: 'Eau de Toilette',
     year: 2022,
-    accords: ['Aromatic', 'Fresh Spicy', 'Woody', 'Fruity'],
+    accords: ['Aromatic', 'Woody', 'Fruity', 'Tobacco'],
     notes: {
-      top: ['Cardamom', 'Grapefruit', 'Green Apple'],
-      heart: ['Sage', 'Ginger', 'Violet Leaf'],
-      base: ['Vetiver', 'Woody Notes', 'Tonka Bean'],
+      top: ['Bergamot', 'Cardamom', 'Red Apple'],
+      heart: ['Lavender', 'Clary Sage', 'Geranium'],
+      base: ['Tobacco', 'Patchouli', 'Vetiver'],
     },
     occasions: ['Daily', 'Office', 'Spring', 'Summer'],
     description:
-      'A brighter, fresher Born in Roma — zesty grapefruit and cardamom over a clean woody base. Great for warm days.',
+      'A brighter, fruitier Born in Roma — juicy red apple and cardamom over lavender, with a smoky tobacco-vetiver base.',
   },
   {
     id: 'valentino-uomo-born-in-roma-intense',
@@ -1994,13 +1994,13 @@ export const PERFUMES = [
     year: 2023,
     accords: ['Woody', 'Amber', 'Aromatic', 'Sweet'],
     notes: {
-      top: ['Violet Leaves', 'Sage'],
-      heart: ['Mineral Notes', 'Nutmeg'],
-      base: ['Vanilla', 'Woody Notes', 'Vetiver'],
+      top: ['Vanilla'],
+      heart: ['Lavender'],
+      base: ['Vetiver'],
     },
     occasions: ['Evening', 'Date', 'Fall', 'Winter'],
     description:
-      'A deeper, warmer Uomo Born in Roma — the mineral-woody signature enriched with vanilla and spice.',
+      'A deeper, warmer Uomo Born in Roma — bourbon vanilla and lavender over smoky vetiver. Smooth and addictive.',
   },
   {
     id: 'valentino-uomo-acqua',
@@ -2011,13 +2011,13 @@ export const PERFUMES = [
     year: 2017,
     accords: ['Aromatic', 'Citrus', 'Fresh', 'Woody'],
     notes: {
-      top: ['Bergamot', 'Neroli', 'Cardamom'],
-      heart: ['Sage', 'Orange Blossom'],
-      base: ['Cedar', 'Vetiver', 'Musk'],
+      top: ['Mandarin Orange', 'Tomato'],
+      heart: ['Sage', 'Patchouli'],
+      base: ['Iris', 'Leather'],
     },
     occasions: ['Daily', 'Office', 'Summer', 'Spring'],
     description:
-      'A light, aromatic-citrus flanker of Valentino Uomo. Fresh, clean and easy for daytime and warm weather.',
+      'A lighter flanker of Valentino Uomo — mandarin, green tomato leaf and sage over a soft iris-leather base. Fresh and easy for daytime.',
   },
   {
     id: 'valentina',
@@ -2047,7 +2047,7 @@ export const PERFUMES = [
     notes: {
       top: ['Mandarin Orange', 'Bergamot', 'Ginger'],
       heart: ['Orange Blossom', 'Gardenia'],
-      base: ['Vanilla', 'Tonka Bean', 'Musk', 'Sandalwood'],
+      base: ['Vanilla', 'Tonka Bean', 'Musk', 'Sandalwood', 'Oakmoss'],
     },
     occasions: ['Daily', 'Date', 'Office', 'Spring'],
     description:
@@ -2062,9 +2062,9 @@ export const PERFUMES = [
     year: 2015,
     accords: ['Floral', 'Iris', 'Leather', 'Powdery'],
     notes: {
-      top: ['Bergamot'],
-      heart: ['Iris', 'Bulgarian Rose'],
-      base: ['Patchouli', 'Leather', 'Vanilla'],
+      top: ['Bergamot', 'Grapefruit'],
+      heart: ['Iris', 'Bulgarian Rose', 'Praline', 'Mahonial'],
+      base: ['Leather', 'Vanilla', 'Patchouli'],
     },
     occasions: ['Evening', 'Office', 'Date', 'Fall'],
     description:
@@ -2079,13 +2079,13 @@ export const PERFUMES = [
     year: 2024,
     accords: ['Green', 'Fresh', 'Aromatic', 'Woody'],
     notes: {
-      top: ['Basil', 'Green Notes', 'Bergamot'],
-      heart: ['Sage', 'Fig Leaf'],
-      base: ['Vetiver', 'Woody Notes', 'Musk'],
+      top: ['Bergamot'],
+      heart: ['Coffee'],
+      base: ['Vetiver'],
     },
     occasions: ['Daily', 'Office', 'Spring', 'Summer'],
     description:
-      'A green, leafy take on Born in Roma — crisp basil and fig leaf over clean vetiver. Fresh and energetic.',
+      'A bold twist on Born in Roma — bright bergamot and a green, bitter coffee accord over earthy vetiver. Fresh yet intriguing.',
   },
   {
     id: 'valentino-born-in-roma-the-gold',
@@ -2096,13 +2096,13 @@ export const PERFUMES = [
     year: 2024,
     accords: ['Floral', 'Vanilla', 'Sweet', 'Amber'],
     notes: {
-      top: ['Pink Pepper', 'Bergamot'],
-      heart: ['Jasmine', 'Orange Blossom'],
-      base: ['Vanilla', 'Amber', 'Woody Notes'],
+      top: ['Mandarin Orange'],
+      heart: ['Gardenia'],
+      base: ['Coconut'],
     },
     occasions: ['Evening', 'Date', 'Special', 'Winter'],
     description:
-      'A glowing, golden floral — jasmine and orange blossom over warm amber-vanilla. Luminous and sophisticated.',
+      'A sunny, golden floral — Italian mandarin and creamy gardenia over a solar coconut accord. Luminous and warm.',
   },
   {
     id: 'lv-ombre-nomade',
@@ -2181,9 +2181,9 @@ export const PERFUMES = [
     year: 2020,
     accords: ['Citrus', 'Aromatic', 'Fresh', 'Peppery'],
     notes: {
-      top: ['Bergamot', 'Mandarin', 'Sicilian Orange'],
-      heart: ['Pink Pepper', 'Black Pepper', 'Sage'],
-      base: ['Vetiver', 'Cedar', 'Ambroxan'],
+      top: ['Mandarin Orange', 'Bergamot', 'Sicilian Orange'],
+      heart: ['Neroli', 'Nutmeg', 'Pink Pepper', 'Black Pepper', 'Cardamom'],
+      base: ['Vetiver'],
     },
     occasions: ['Daily', 'Office', 'Spring', 'Summer'],
     description:
@@ -2215,9 +2215,9 @@ export const PERFUMES = [
     year: 2016,
     accords: ['White Floral', 'Green', 'Woody', 'Fresh'],
     notes: {
-      top: ['Magnolia', 'Lily-of-the-Valley'],
-      heart: ['Jasmine', 'Rose', 'Magnolia'],
-      base: ['Sandalwood', 'Guaiac Wood'],
+      top: ['Tangerine', 'Orange'],
+      heart: ['Lily-of-the-Valley', 'Magnolia', 'Jasmine', 'Rose'],
+      base: ['White Musk', 'Guaiac Wood', 'Sandalwood'],
     },
     occasions: ['Daily', 'Office', 'Spring', 'Summer'],
     description:
@@ -2227,14 +2227,14 @@ export const PERFUMES = [
     id: 'lv-nouveau-monde',
     name: 'Nouveau Monde',
     brand: 'Louis Vuitton',
-    gender: 'Unisex',
+    gender: 'Masculine',
     concentration: 'Eau de Parfum',
     year: 2018,
     accords: ['Oud', 'Leather', 'Sweet', 'Woody'],
     notes: {
       top: ['Saffron', 'Black Currant'],
       heart: ['Rose', 'Cacao', 'Leather'],
-      base: ['Agarwood (Oud)', 'Caramel', 'Vanilla', 'Amberwood', 'Patchouli'],
+      base: ['Agarwood (Oud)', 'Caramel', 'Vanilla', 'Amberwood', 'Olibanum', 'Patchouli'],
     },
     occasions: ['Evening', 'Special', 'Winter', 'Fall'],
     description:
@@ -2249,13 +2249,13 @@ export const PERFUMES = [
     year: 2023,
     accords: ['Citrus', 'Fruity', 'Green', 'Fresh'],
     notes: {
-      top: ['Black Currant', 'Lime', 'Mint'],
-      heart: ['Fig', 'Peach', 'Apricot', 'Pink Pepper'],
-      base: ['Ambrette', 'Carrot Seeds', 'Musk'],
+      top: ['Citron', 'Orange', 'Lemon', 'Mint', 'Black Currant', 'Coriander'],
+      heart: ['Apricot', 'Basil', 'Carrot Seeds', 'May Rose'],
+      base: ['Fig', 'Dates', 'Ambrette'],
     },
     occasions: ['Daily', 'Sport', 'Summer', 'Spring'],
     description:
-      'A cool, juicy cocktail — blackcurrant and lime with fig and stone fruit over a soft musky base. Crisp and refreshing.',
+      'A cool, juicy cocktail — citrus, mint and blackcurrant with fig, apricot and dates over a soft ambrette base. Crisp and refreshing.',
   },
   {
     id: 'lv-coeur-battant',
@@ -2283,7 +2283,7 @@ export const PERFUMES = [
     year: 1996,
     accords: ['Citrus', 'Aromatic', 'Fresh', 'Aquatic'],
     notes: {
-      top: ['Lemon', 'Bergamot', 'Pineapple', 'Rosemary'],
+      top: ['Lemon', 'Rosemary', 'Bergamot', 'Neroli', 'Pineapple'],
       heart: ['Coriander', 'Cyclamen', 'Jasmine', 'Oakmoss'],
       base: ['Musk', 'Sandalwood', 'Tonka Bean', 'Orris'],
     },
@@ -2402,9 +2402,9 @@ export const PERFUMES = [
     year: 2017,
     accords: ['White Floral', 'Floral', 'Fruity'],
     notes: {
-      top: ['Mandarin', 'Black Currant', 'Grapefruit', 'Orange'],
-      heart: ['Jasmine', 'Ylang-Ylang', 'Orange Blossom', 'Tuberose'],
-      base: ['Sandalwood', 'Musk'],
+      top: ['Grapefruit', 'Mandarin Orange', 'Black Currant'],
+      heart: ['Orange Blossom', 'Jasmine', 'Ylang-Ylang', 'Tuberose'],
+      base: ['Musk', 'Sandalwood', 'Cashmeran', 'Orris'],
     },
     occasions: ['Daily', 'Office', 'Date', 'Spring'],
     description:
@@ -2419,9 +2419,9 @@ export const PERFUMES = [
     year: 2018,
     accords: ['Amber', 'Vanilla', 'Sweet', 'Aromatic'],
     notes: {
-      top: ['Bergamot', 'Sichuan Pepper'],
-      heart: ['Lavender', 'Star Anise', 'Nutmeg', 'Vanilla'],
-      base: ['Ambroxan', 'Vanilla', 'Sandalwood', 'Tonka Bean'],
+      top: ['Bergamot'],
+      heart: ['Sichuan Pepper', 'Lavender', 'Star Anise', 'Nutmeg'],
+      base: ['Ambroxan', 'Vanilla'],
     },
     occasions: ['Evening', 'Date', 'Office', 'Fall', 'Winter'],
     description:
@@ -2470,8 +2470,8 @@ export const PERFUMES = [
     year: 2014,
     accords: ['Floral', 'Fresh', 'Fruity', 'Sweet'],
     notes: {
-      top: ['Sicilian Mandarin', 'Bergamot', 'Sweet Pea'],
-      heart: ['Pink Peony', 'Damask Rose', 'Apricot'],
+      top: ['Sicilian Mandarin'],
+      heart: ['Pink Peony', 'Damask Rose', 'Apricot', 'Peach'],
       base: ['White Musk'],
     },
     occasions: ['Daily', 'Office', 'Spring', 'Summer'],
@@ -2506,7 +2506,7 @@ export const PERFUMES = [
     notes: {
       top: ['Mint', 'Candy Apple', 'Lemon', 'Mandarin Orange'],
       heart: ['Ambroxan', 'Geranium', 'Clary Sage'],
-      base: ['Vanilla', 'Cedar', 'Patchouli'],
+      base: ['Vanilla', 'Leather', 'Cedar'],
     },
     occasions: ['Evening', 'Date', 'Fall', 'Winter'],
     description:
@@ -2572,9 +2572,9 @@ export const PERFUMES = [
     year: 2017,
     accords: ['Fruity', 'Floral', 'Sweet', 'Woody'],
     notes: {
-      top: ['Black Currant', 'Granny Smith Apple', 'Forget-Me-Not', 'Grapefruit'],
-      heart: ['Rose', 'Jasmine', 'Guava'],
-      base: ['Musk', 'Patchouli', 'Mahogany', 'Styrax'],
+      top: ['Black Currant', 'Granny Smith Apple', 'Clover', 'Forget-Me-Not'],
+      heart: ['Rose', 'Jasmine', 'Peach'],
+      base: ['Patchouli', 'Styrax', 'White Wood', 'Musk'],
     },
     occasions: ['Daily', 'Date', 'Evening', 'Spring'],
     description:
@@ -2657,9 +2657,9 @@ export const PERFUMES = [
     year: 2011,
     accords: ['Almond', 'Vanilla', 'Aromatic', 'Sweet'],
     notes: {
-      top: ['Bergamot', 'Heliotrope', 'Cumin'],
-      heart: ['Jasmine', 'Bitter Almond', 'Lavender'],
-      base: ['Amber', 'Vanilla', 'Sandalwood'],
+      top: ['Heliotrope', 'Cumin', 'Bergamot', 'Pink Pepper'],
+      heart: ['Bitter Almond', 'Lavender', 'Jasmine'],
+      base: ['Vanilla', 'Sandalwood', 'Amber', 'Musk', 'Cedar'],
     },
     occasions: ['Evening', 'Date', 'Office', 'Fall'],
     description:
@@ -2674,9 +2674,9 @@ export const PERFUMES = [
     year: 2018,
     accords: ['Aromatic', 'Citrus', 'Woody', 'Fresh'],
     notes: {
-      top: ['Bergamot', 'Mandarin', 'Lavender', 'Geranium'],
-      heart: ['Jasmine', 'Coriander', 'Violet', 'Cinnamon'],
-      base: ['Sandalwood', 'Musk', 'Ambergris'],
+      top: ['Lavender', 'Mandarin Orange', 'Bergamot', 'Geranium', 'Pink Pepper'],
+      heart: ['Hedione', 'Violet', 'Jasmine', 'Coriander', 'Cinnamon', 'Cardamom'],
+      base: ['Ambroxan', 'Amberwood', 'Musk', 'Balsam Fir', 'Tonka Bean'],
     },
     occasions: ['Daily', 'Office', 'Spring', 'Summer'],
     description:
@@ -2691,9 +2691,9 @@ export const PERFUMES = [
     year: 2017,
     accords: ['Floral', 'Sweet', 'Rose', 'Fruity'],
     notes: {
-      top: ['Lychee', 'Rhubarb', 'Bergamot', 'Nutmeg'],
-      heart: ['Turkish Rose', 'Peony', 'Musk', 'Petalia'],
-      base: ['Vanilla', 'Cashmeran', 'Incense', 'Vetiver'],
+      top: ['Litchi', 'Rhubarb', 'Bergamot', 'Nutmeg', 'Black Currant'],
+      heart: ['Turkish Rose', 'Peony', 'Musk', 'Petalia', 'Vanilla'],
+      base: ['Cashmeran', 'Incense', 'Cedar', 'Vetiver', 'Caramel'],
     },
     occasions: ['Date', 'Evening', 'Office', 'Spring'],
     description:
@@ -2708,9 +2708,9 @@ export const PERFUMES = [
     year: 2018,
     accords: ['Sweet', 'Rose', 'Powdery', 'Floral'],
     notes: {
-      top: ['Pear', 'Lychee', 'Bergamot'],
-      heart: ['Turkish Rose', 'Peony'],
-      base: ['Vanilla', 'Incense', 'Oud', 'Musk'],
+      top: ['Litchi', 'Pear', 'Bergamot', 'Pink Pepper', 'Grapefruit'],
+      heart: ['Turkish Rose', 'Agarwood (Oud)', 'Incense'],
+      base: ['Vanilla', 'Amber', 'Woody Notes', 'Musk', 'Vetiver'],
     },
     occasions: ['Evening', 'Date', 'Special', 'Winter'],
     description:
@@ -2742,9 +2742,9 @@ export const PERFUMES = [
     year: 2021,
     accords: ['Citrus', 'Aromatic', 'Fresh', 'Aquatic'],
     notes: {
-      top: ['Bergamot', 'Grapefruit'],
-      heart: ['Sage', 'Woody Notes', 'Sea Notes'],
-      base: ['Ambroxan', 'Patchouli', 'Musk'],
+      top: ['Bergamot', 'Pink Pepper', 'Artemisia'],
+      heart: ['Iris', 'Lavender', 'Sage', 'Suede', 'Saffron'],
+      base: ['Vetiver', 'Caramel', 'Patchouli', 'Musk'],
     },
     occasions: ['Daily', 'Office', 'Summer', 'Spring'],
     description:
@@ -2776,9 +2776,9 @@ export const PERFUMES = [
     year: 2011,
     accords: ['Vanilla', 'Caramel', 'Sweet', 'Powdery'],
     notes: {
-      top: ['Caramel'],
-      heart: ['Powdery Notes', 'Musk'],
-      base: ['Benzoin', 'Vanilla'],
+      top: ['Musk'],
+      heart: ['Benzoin', 'Vanilla'],
+      base: ['Caramel'],
     },
     occasions: ['Date', 'Evening', 'Fall', 'Winter'],
     description:
@@ -2861,9 +2861,9 @@ export const PERFUMES = [
     year: 2023,
     accords: ['Vanilla', 'Sweet', 'Gourmand', 'Aromatic'],
     notes: {
-      top: ['Lavender'],
-      heart: ['Vanilla', 'Cocoa'],
-      base: ['Vanilla', 'Cardamom', 'Ginger'],
+      top: ['Vanilla', 'Lavender', 'Cacao', 'Ginger'],
+      heart: ['Vanilla Caviar'],
+      base: ['Vanilla Absolute'],
     },
     occasions: ['Evening', 'Date', 'Fall', 'Winter'],
     description:
@@ -2944,11 +2944,11 @@ export const PERFUMES = [
     gender: 'Unisex',
     concentration: 'Eau de Parfum',
     year: 2018,
-    accords: ['Fruity', 'Amber', 'Sweet', 'Woody'],
+    accords: ['Sweet', 'Fruity', 'Amber', 'Musky'],
     notes: {
-      top: ['Orange', 'Lemon', 'Bergamot', 'Apple'],
-      heart: ['Rose', 'Cardamom'],
-      base: ['Amber', 'Agarwood (Oud)', 'Musk', 'Vanilla', 'Sandalwood'],
+      top: ['Green Notes', 'Bergamot'],
+      heart: ['Melon', 'Pineapple', 'Sweet Notes', 'Amber'],
+      base: ['Woody Notes', 'Musk', 'Vanilla'],
     },
     occasions: ['Evening', 'Special', 'Fall', 'Winter'],
     description:
@@ -2960,7 +2960,7 @@ export const PERFUMES = [
     brand: 'Emporio Armani',
     gender: 'Masculine',
     concentration: 'Eau de Parfum',
-    year: 2025,
+    year: 2026,
     accords: ['Sweet', 'Vanilla', 'Warm Spicy', 'Fruity'],
     notes: {
       top: ['Cherry', 'Mandarin Orange'],
@@ -3015,8 +3015,8 @@ export const PERFUMES = [
     accords: ['Woody', 'Citrus', 'Aromatic', 'Fresh Spicy'],
     notes: {
       top: ['Grapefruit', 'Lemon', 'Mint', 'Pink Pepper'],
-      heart: ['Ginger', 'Nutmeg', 'Jasmine', 'Melon'],
-      base: ['Incense', 'Vetiver', 'Cedar', 'Sandalwood', 'Labdanum'],
+      heart: ['Ginger', 'Nutmeg', 'Jasmine', 'Iso E Super'],
+      base: ['Incense', 'Cedar', 'Vetiver', 'Sandalwood', 'Patchouli', 'Labdanum', 'White Musk'],
     },
     occasions: ['Daily', 'Office', 'Date', 'Spring', 'Summer', 'Fall'],
     description:
@@ -3167,13 +3167,13 @@ export const PERFUMES = [
     year: 2021,
     accords: ['Woody', 'Warm Spicy', 'Sweet', 'Aromatic'],
     notes: {
-      top: ['Mint', 'Lemon', 'Bitter Orange'],
-      heart: ['Geranium', 'Clary Sage', 'Sichuan Pepper'],
-      base: ['Atlas Cedar', 'Vetiver', 'Patchouli', 'Vanilla'],
+      top: ['Mint', 'Lemon', 'Black Pepper', 'Elemi', 'Litsea Cubeba'],
+      heart: ['Green Apple', 'Geranium', 'Lavender', 'Sage', 'Pomarose'],
+      base: ['Tonka Bean', 'Amber', 'Vanilla', 'Patchouli', 'Benzoin'],
     },
     occasions: ['Evening', 'Date', 'Fall', 'Winter'],
     description:
-      'The most grown-up Eros — the minty signature dried out with cedar and vetiver. Woody, dark and refined.',
+      'The richest Eros — mint and black pepper over a fresh apple-lavender heart and a warm amber, tonka and vanilla base.',
   },
   {
     id: 'dior-eau-sauvage',
@@ -3184,8 +3184,8 @@ export const PERFUMES = [
     year: 1966,
     accords: ['Citrus', 'Aromatic', 'Fresh', 'Chypre'],
     notes: {
-      top: ['Lemon', 'Bergamot', 'Basil', 'Cumin'],
-      heart: ['Jasmine', 'Rose', 'Coriander', 'Patchouli', 'Orris Root'],
+      top: ['Lemon', 'Bergamot', 'Basil', 'Rosemary', 'Caraway'],
+      heart: ['Jasmine', 'Coriander', 'Carnation', 'Patchouli', 'Orris Root', 'Rose'],
       base: ['Oakmoss', 'Vetiver', 'Musk', 'Amber'],
     },
     occasions: ['Daily', 'Office', 'Spring', 'Summer'],
@@ -3201,9 +3201,9 @@ export const PERFUMES = [
     year: 2020,
     accords: ['Green', 'Fruity', 'Musky', 'Woody'],
     notes: {
-      top: ['Green Apple', 'Bergamot', 'Lemon'],
-      heart: ['Green Notes', 'Jasmine', 'Violet Leaf'],
-      base: ['White Musk', 'Cedar', 'Oakmoss'],
+      top: ['Green Apple', 'Bergamot', 'Mandarin Orange'],
+      heart: ['Petitgrain', 'Cedar', 'Cashmeran', 'Violet'],
+      base: ['Oakmoss', 'Musk', 'Amberwood', 'Patchouli'],
     },
     occasions: ['Daily', 'Office', 'Spring', 'Summer'],
     description:
@@ -3218,9 +3218,9 @@ export const PERFUMES = [
     year: 2023,
     accords: ['Vanilla', 'Sweet', 'Warm Spicy', 'Amber'],
     notes: {
-      top: ['Bergamot', 'Cinnamon'],
-      heart: ['Vanilla', 'Almond'],
-      base: ['Amber', 'Woody Notes', 'Musk'],
+      top: ['Cinnamon', 'Orange Blossom', 'Cardamom', 'Bergamot'],
+      heart: ['Bourbon Vanilla', 'Elemi'],
+      base: ['Praline', 'Musk', 'Ambroxan', 'Tonka Bean', 'Guaiac Wood', 'Candied Almond'],
     },
     occasions: ['Evening', 'Date', 'Special', 'Fall', 'Winter'],
     description:
@@ -3235,9 +3235,9 @@ export const PERFUMES = [
     year: 2021,
     accords: ['Woody', 'Oud', 'Sweet', 'Warm Spicy'],
     notes: {
-      top: ['Pear', 'Spicy Notes'],
-      heart: ['Praline', 'Agarwood (Oud)', 'Cedar'],
-      base: ['Patchouli', 'Vetiver', 'Amber'],
+      top: ['Lavender', 'Clary Sage', 'Bergamot'],
+      heart: ['Saffron', 'Praline'],
+      base: ['Agarwood (Oud)', 'Cedar'],
     },
     occasions: ['Evening', 'Special', 'Fall', 'Winter'],
     description:
@@ -3271,7 +3271,7 @@ export const PERFUMES = [
     notes: {
       top: ['Peach', 'Blood Orange', 'Cardamom', 'Heliotrope'],
       heart: ['Rum', 'Cognac', 'Davana', 'Jasmine'],
-      base: ['Vanilla', 'Patchouli', 'Tonka Bean', 'Sandalwood', 'Benzoin'],
+      base: ['Vanilla', 'Patchouli', 'Tonka Bean', 'Sandalwood', 'Benzoin', 'Cashmeran', 'Labdanum', 'Styrax', 'Vetiver'],
     },
     occasions: ['Evening', 'Date', 'Special', 'Fall', 'Winter'],
     description:
@@ -3304,8 +3304,8 @@ export const PERFUMES = [
     accords: ['Aromatic', 'Woody', 'Lavender', 'Vanilla'],
     notes: {
       top: ['Lavender', 'Bergamot'],
-      heart: ['Cedar', 'Vetiver'],
-      base: ['Patchouli', 'Vanilla', 'Musk'],
+      heart: ['Cedar', 'Vetiver', 'Patchouli'],
+      base: ['Vanilla', 'Musk'],
     },
     occasions: ['Evening', 'Date', 'Fall', 'Winter'],
     description:
@@ -3354,9 +3354,9 @@ export const PERFUMES = [
     year: 2021,
     accords: ['Fruity', 'Sweet', 'Floral', 'Vanilla'],
     notes: {
-      top: ['Red Currant', 'Lychee', 'Bergamot'],
-      heart: ['Rose', 'Jasmine', 'Peony'],
-      base: ['Vanilla', 'Tonka Bean', 'Vetiver'],
+      top: ['Red Currant', 'Lychee'],
+      heart: ['Rose'],
+      base: ['Vetiver', 'Vanilla'],
     },
     occasions: ['Date', 'Evening', 'Spring', 'Fall'],
     description:
@@ -3524,9 +3524,9 @@ export const PERFUMES = [
     year: 2020,
     accords: ['Sweet', 'Vanilla', 'Warm Spicy', 'Fruity'],
     notes: {
-      top: ['Apple', 'Cinnamon', 'Lavender'],
-      heart: ['Vanilla', 'Tonka Bean'],
-      base: ['Amber', 'Cedar', 'Sweet Notes'],
+      top: ['Apple', 'Cinnamon', 'Wild Lavender', 'Bergamot'],
+      heart: ['Orange Blossom', 'Lily-of-the-Valley'],
+      base: ['Vanilla', 'Tonka Bean', 'Amber', 'Patchouli'],
     },
     occasions: ['Evening', 'Date', 'Fall', 'Winter'],
     description:
@@ -3757,7 +3757,7 @@ export const PERFUMES = [
     id: 'maison-margiela-beach-walk',
     name: 'Replica Beach Walk',
     brand: 'Maison Margiela',
-    gender: 'Unisex',
+    gender: 'Feminine',
     concentration: 'Eau de Toilette',
     year: 2012,
     accords: ['Coconut', 'Solar', 'Floral', 'Musky'],
@@ -3813,9 +3813,9 @@ export const PERFUMES = [
     year: 2013,
     accords: ['Coffee', 'Rose', 'Sweet', 'Vanilla'],
     notes: {
-      top: ['Coffee', 'Rose'],
-      heart: ['Rose', 'White Musk'],
-      base: ['Vanilla', 'Amber', 'Musk'],
+      top: ['Floral Notes'],
+      heart: ['Rose', 'Coffee'],
+      base: ['Vanilla', 'Amber', 'White Musk'],
     },
     occasions: ['Evening', 'Date', 'Fall', 'Winter'],
     description:
@@ -3865,8 +3865,8 @@ export const PERFUMES = [
     accords: ['White Floral', 'Amber', 'Woody', 'Sweet'],
     notes: {
       top: ['Jasmine'],
-      heart: ['Indian Jasmine', 'Cashmeran'],
-      base: ['White Amber', 'Woody Notes'],
+      heart: ['Woody Notes'],
+      base: ['White Amber'],
     },
     occasions: ['Evening', 'Special', 'Fall', 'Winter'],
     description:
@@ -3898,9 +3898,9 @@ export const PERFUMES = [
     year: 2011,
     accords: ['Aromatic', 'Fresh', 'Fruity', 'Powdery'],
     notes: {
-      top: ['Lavender', 'Pineapple', 'Bergamot', 'Lemon Verbena'],
-      heart: ['Red Apple', 'Dried Fruits', 'Rose', 'Coumarin'],
-      base: ['Sandalwood', 'Tonka Bean', 'Oakmoss'],
+      top: ['Bergamot', 'Lavender', 'Pineapple Leaf', 'Verbena'],
+      heart: ['Oakmoss', 'Geranium', 'Coumarin', 'Apple', 'Rose', 'Dried Fruits'],
+      base: ['Sandalwood', 'Tonka Bean'],
     },
     occasions: ['Daily', 'Office', 'Date', 'Spring', 'Fall'],
     description:
@@ -3916,8 +3916,8 @@ export const PERFUMES = [
     accords: ['Citrus', 'Lavender', 'Vanilla', 'Woody'],
     notes: {
       top: ['Lemon', 'Lavender'],
-      heart: ['Lavender', 'Vetiver'],
-      base: ['Vanilla', 'Patchouli', 'Woody Notes'],
+      heart: ['Lavender', 'Patchouli', 'Apple'],
+      base: ['Vetiver', 'Vanilla'],
     },
     occasions: ['Daily', 'Office', 'Date', 'Spring', 'Summer'],
     description:
@@ -3932,9 +3932,9 @@ export const PERFUMES = [
     year: 2010,
     accords: ['Floral', 'Sweet', 'Honey', 'Woody'],
     notes: {
-      top: ['Bitter Orange', 'Raspberry', 'Neroli'],
-      heart: ['Jasmine', 'Gardenia', 'Orange Blossom'],
-      base: ['Honey', 'Patchouli', 'White Woods', 'Amber'],
+      top: ['Lemon', 'Raspberry', 'Neroli'],
+      heart: ['Orange Blossom', 'Jasmine Sambac', 'Gardenia'],
+      base: ['Honey', 'Patchouli'],
     },
     occasions: ['Evening', 'Date', 'Fall', 'Winter'],
     description:
@@ -3966,9 +3966,9 @@ export const PERFUMES = [
     year: 2018,
     accords: ['White Floral', 'Woody', 'Earthy', 'Powdery'],
     notes: {
-      top: ['Pear', 'Bergamot', 'Orange Blossom'],
-      heart: ['Tuberose', 'Jasmine', 'Orange Blossom'],
-      base: ['Patchouli', 'Vetiver', 'Vanilla', 'Ambrette'],
+      top: ['Bergamot', 'Fruity Notes'],
+      heart: ['Orange Blossom', 'Jasmine Sambac', 'Tuberose'],
+      base: ['Vetiver', 'Patchouli', 'Ambroxan', 'Vanilla'],
     },
     occasions: ['Evening', 'Office', 'Date', 'Spring', 'Fall'],
     description:
@@ -3985,7 +3985,7 @@ export const PERFUMES = [
     notes: {
       top: ['Grapefruit', 'Bergamot', 'Orange'],
       heart: ['Rose', 'Geranium', 'Jasmine', 'Narcissus', 'Peach'],
-      base: ['Patchouli', 'Sandalwood', 'Olibanum', 'Tonka Bean', 'Vanilla', 'Benzoin'],
+      base: ['Patchouli', 'Sandalwood', 'Olibanum', 'Tonka Bean', 'Vanilla', 'White Musk', 'Clove', 'Benzoin'],
     },
     occasions: ['Evening', 'Special', 'Fall', 'Winter'],
     description:
@@ -4017,9 +4017,9 @@ export const PERFUMES = [
     year: 2014,
     accords: ['Woody', 'Floral', 'Musky', 'Fresh'],
     notes: {
-      top: ['Ambrette', 'Nesberry', 'Bergamot'],
-      heart: ['Sandalwood', 'Magnolia', 'Violet'],
-      base: ['Chantilly Musk', 'Cedar', 'Amber'],
+      top: ['Sapodilla', 'Ambrette'],
+      heart: ['Magnolia', 'Violet', 'Sandalwood'],
+      base: ['Ambergris', 'Cedar', 'Musk'],
     },
     occasions: ['Daily', 'Office', 'Spring', 'Summer'],
     description:
