@@ -39,9 +39,6 @@ jobs:
       - name: Measure masks
         run: python scripts/bottle-masks/make_masks.py
 
-      - name: Remove the temporary preview branch
-        run: git push origin --delete tmp-mask-previews || true
-
       - name: Commit masks
         run: |
           git config user.name "github-actions[bot]"
