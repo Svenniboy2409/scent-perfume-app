@@ -207,12 +207,11 @@ def main():
         boxes[pid] = [int(x0), int(y0), int(x1), int(y1), image.width, image.height]
         white, length = edge_report(rgb, alpha)
         reports.append((white / max(length, 1), white, pid))
-        if preview_dir:
-            preview(rgb, alpha, preview_dir / f"{pid}.png")
         if pid in dump:
             wall = np.array([0.23, 0.16, 0.12])
             out = rgb * alpha[..., None] + wall * (1 - alpha[..., None])
-            dumped.append(out[max(0, y0 - 4) : y1 + 4, max(0, x0 - 4) : x1 + 4])
+            crop = out[max(0, y0 - 4) : y1 + 4, max(0, x0 - 4) : x1 + 4]
+            dumped.append(np.kron(crop, np.ones((2, 2, 1))))  # 2×, pixels kept sharp
         print(f"{i + 1}/{len(photos)} {pid} {boxes[pid]} whitish edge px: {white}/{length}")
         time.sleep(0.15)
 
@@ -231,21 +230,12 @@ def main():
         f"export const BOTTLE_MASKS = {{\n{lines},\n}}\n"
     )
     if dumped:
-        # A strip of the requested cut-outs, printed as base64 so it can be
-        # inspected from the log alone.
+        # The requested cut-outs side by side, at photo resolution.
         height = max(d.shape[0] for d in dumped)
         strip = np.concatenate(
             [np.pad(d, ((height - d.shape[0], 0), (0, 0), (0, 0)), constant_values=0.2) for d in dumped], axis=1
         )
-        buffer = io.BytesIO()
-        Image.fromarray((strip * 255).round().astype(np.uint8)).save(buffer, "PNG", optimize=True)
-        import base64
-
-        encoded = base64.b64encode(buffer.getvalue()).decode()
-        print("DUMP-BEGIN")
-        for k in range(0, len(encoded), 4000):
-            print("DUMP " + encoded[k : k + 4000])
-        print("DUMP-END")
+        Image.fromarray((strip * 255).round().astype(np.uint8)).save(preview_dir / "strip.png")
     print("most whitish outlines:")
     for share, white, pid in sorted(reports, reverse=True)[:25]:
         print(f"  {pid}: {white} px ({share:.1%})")
