@@ -3,7 +3,8 @@
 For each Fragrantica product photo (a bottle on a white backdrop) this writes
 public/bottle-masks/<id>.png: a mask the size of the bottle's bounding box
 whose alpha says, per photo pixel, how much of it is bottle — and
-<id>-rim.png, a thin dark-brown band along the inside of that edge. The Shelfie view
+<id>-rim.png, a thin band along the inside of that edge that the shelf paints
+dark brown. The Shelfie view
 lays it over the photo (CSS mask-image), so every bottle is cut out along its
 real outline, however round. Only the masks are stored — the photos themselves
 keep loading from Fragrantica. The bounding boxes go to
@@ -162,7 +163,6 @@ def make_mask(rgb, silhouette=None):
     return alpha
 
 
-RIM_COLOR = (46, 28, 16)  # dark walnut, like the cabinet's shadows
 RIM_WIDTH = 2  # photo px
 RIM_OPACITY = 0.85
 
@@ -174,9 +174,9 @@ def make_rim(alpha):
     inner = ndimage.grey_erosion(alpha, size=(2 * RIM_WIDTH + 1,) * 2)
     inner = ndimage.gaussian_filter(inner, 0.8)
     band = np.clip(alpha - inner, 0, 1) * RIM_OPACITY
+    # Alpha only, like the mask; the shelf paints it dark brown.
     h, w = alpha.shape
-    channels = [Image.new("L", (w, h), c) for c in RIM_COLOR]
-    return Image.merge("RGBA", (*channels, Image.fromarray((band * 255).round().astype(np.uint8))))
+    return Image.merge("LA", (Image.new("L", (w, h), 0), Image.fromarray((band * 255).round().astype(np.uint8))))
 
 
 def edge_report(rgb, alpha):

@@ -244,8 +244,11 @@
 .shelfie-rim {
   position: absolute;
   inset: 0;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  background: #2e1c10;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
   pointer-events: none;
 }
 
