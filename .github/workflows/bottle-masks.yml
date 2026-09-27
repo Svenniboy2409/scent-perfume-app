@@ -37,7 +37,7 @@ jobs:
         run: pip install numpy scipy pillow
 
       - name: Measure masks
-        run: python scripts/bottle-masks/make_masks.py --preview previews --dump lattafa-khamrah,prada-paradoxe,lacoste-l1212-blanc,dolce-gabbana-light-blue,creed-silver-mountain-water,french-avenue-liquid-brun,armani-stronger-with-you-intensely,valentino-uomo-born-in-roma-intense,jpg-le-male-le-parfum,ysl-y-edp
+        run: python scripts/bottle-masks/make_masks.py --preview previews --dump creed-silver-mountain-water
 
       # Temporary: previews of chosen cut-outs on a throwaway branch.
       - name: Push previews
