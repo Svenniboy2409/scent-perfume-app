@@ -37,7 +37,7 @@ jobs:
         run: pip install numpy scipy pillow
 
       - name: Measure masks
-        run: python scripts/bottle-masks/make_masks.py --preview previews --dump montale-intense-cafe,ysl-libre,viktor-rolf-flowerbomb,jpg-scandal,prada-paradoxe,lattafa-khamrah,armani-stronger-with-you-intensely,french-avenue-liquid-brun,valentino-uomo-born-in-roma-intense,jpg-le-male-le-parfum,ysl-y-edp,lattafa-qaed-al-fursan
+        run: python scripts/bottle-masks/make_masks.py --preview previews --dump viktor-rolf-flowerbomb,ysl-libre,ysl-y-edp,lattafa-khamrah,armani-stronger-with-you-intensely,montale-intense-cafe,lattafa-yara,dior-sauvage,chanel-allure-homme-sport,dolce-gabbana-light-blue
 
       # Temporary: previews of chosen cut-outs on a throwaway branch.
       - name: Push previews

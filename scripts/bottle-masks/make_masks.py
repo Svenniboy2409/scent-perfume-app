@@ -219,7 +219,6 @@ def main():
         rgb = np.asarray(image, dtype=float) / 255.0
         core = silhouette = None
         if photo["silhouette"]:
-            core = silhouette_core(photo["silhouette"], image.width, image.height)
             silhouette = silhouette_core(photo["silhouette"], image.width, image.height, 0)
         alpha = make_mask(rgb, core, silhouette)
         ys, xs = np.nonzero(alpha)
