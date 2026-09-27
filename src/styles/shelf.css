@@ -212,14 +212,21 @@
   background: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: translate 0.25s cubic-bezier(0.3, 1.4, 0.5, 1), filter 0.2s;
 }
 
+.shelfie-lift,
 .shelfie-cutout,
-.shelfie-glass {
+.shelfie-glass,
+.shelfie-rim {
   position: absolute;
   inset: 0;
   display: block;
+}
+
+/* Settling back down eases in without overshoot, so a bottle never dips into
+   the plank and always ends exactly where it stood. */
+.shelfie-lift {
+  transition: translate 0.2s ease-out;
 }
 
 .shelfie-cutout {
@@ -228,6 +235,16 @@
 
 .shelfie-glass {
   overflow: hidden;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.shelfie-rim {
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
 }
 
 .shelfie-glass img {
@@ -239,6 +256,7 @@
 }
 
 .shelfie-cutout .perfume-image.placeholder {
+  display: block;
   padding: 0;
 }
 
@@ -259,9 +277,12 @@
   background: radial-gradient(closest-side, rgba(20, 10, 4, 0.6), transparent);
 }
 
-.shelfie-bottle:hover,
-.shelfie-bottle.is-active {
+/* Lifted only while chosen (hover, keyboard focus or a tap — tracked in JS).
+   No CSS :hover here: on touch screens it sticks after a tap and would keep
+   the bottle floating after it's deselected. */
+.shelfie-bottle.is-active .shelfie-lift {
   translate: 0 -6px;
+  transition: translate 0.25s cubic-bezier(0.3, 1.4, 0.5, 1);
 }
 
 .shelfie-bottle.is-active .shelfie-cutout {

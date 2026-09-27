@@ -22,7 +22,9 @@ function initials(name) {
 
 // Elegant illustrated-bottle placeholder — always renders, always looks
 // intentional. Used when a perfume has no image or the remote image fails.
-function BottlePlaceholder({ perfume }) {
+// `standing` draws the bottle filling its box and resting on the box's bottom
+// edge, for places where it has to stand on something (the shelf).
+export function BottlePlaceholder({ perfume, standing = false }) {
   const hue = hueFromString(perfume.brand + perfume.name)
   const c1 = `hsl(${hue} 45% 42%)`
   const c2 = `hsl(${(hue + 40) % 360} 50% 24%)`
@@ -30,8 +32,13 @@ function BottlePlaceholder({ perfume }) {
   const gradId = `g-${perfume.id}`
 
   return (
-    <div className="perfume-image placeholder" aria-hidden="true">
-      <svg viewBox="0 0 120 150" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+    <div className={`perfume-image placeholder ${standing ? 'standing' : ''}`} aria-hidden="true">
+      <svg
+        viewBox={standing ? '29 13 62 124' : '0 0 120 150'}
+        width="100%"
+        height="100%"
+        preserveAspectRatio={standing ? 'xMidYMax meet' : 'xMidYMid meet'}
+      >
         <defs>
           <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={c1} />

@@ -1,8 +1,8 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import PerfumeImage from './PerfumeImage.jsx'
+import { BottlePlaceholder } from './PerfumeImage.jsx'
 import { getPerfumeImages } from '../utils/images.js'
-import { bottleSize, clipPathFor, getBottleShape } from '../utils/bottleShape.js'
+import { bottleSize, cutoutFor, getBottleShape } from '../utils/bottleShape.js'
 import { layoutShelves } from '../utils/shelfLayout.js'
 import { rememberSelectedPerfume, useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { useLanguage } from '../i18n/LanguageContext.jsx'
@@ -16,7 +16,7 @@ const FRAME = 22 // cabinet frame + inner padding on each side (px)
 const HEADROOM = 30 // space above the tallest bottle on a shelf (px)
 const SURFACE = 20 // visible top face of the plank the bottles stand on (px)
 const FRONT_FLOOR = 4 // front row stands this far up the top face (px)
-const FALLBACK_ASPECT = 1.6 // for perfumes without a measured photo
+const FALLBACK_ASPECT = 1.95 // for perfumes without a measured photo (the drawn bottle)
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
 
@@ -44,13 +44,16 @@ function FairyLights({ width }) {
 
 function ShelfBottle({ bottle, index, active, onPointerDown, onActivate, onHover }) {
   const { perfume, shape } = bottle
-  const [broken, setBroken] = useState(false)
-  const clipPath = useMemo(
-    () => (shape ? clipPathFor(shape, bottle.w, bottle.h) : null),
+  // The photo CDN occasionally refuses a request when many bottles load at
+  // once, so retry once before falling back to the drawn bottle.
+  const [attempt, setAttempt] = useState(0)
+  const cut = useMemo(
+    () => (shape ? cutoutFor(shape, bottle.w, bottle.h) : null),
     [shape, bottle.w, bottle.h],
   )
-  const src = getPerfumeImages(perfume)[0]
-  const cutout = shape && src && !broken
+  const photo = getPerfumeImages(perfume)[0]
+  const src = photo && attempt === 1 ? `${photo}${photo.includes('?') ? '&' : '?'}retry=1` : photo
+  const cutout = shape && photo && attempt < 2
 
   return (
     <button
@@ -70,26 +73,41 @@ function ShelfBottle({ bottle, index, active, onPointerDown, onActivate, onHover
       onClick={onActivate}
       onPointerEnter={(e) => e.pointerType === 'mouse' && onHover(perfume.id)}
       onPointerLeave={(e) => e.pointerType === 'mouse' && onHover(null)}
-      onFocus={() => onHover(perfume.id)}
+      // Only keyboard focus counts as hovering: a tapped button keeps its
+      // focus, which would otherwise hold the bottle up after deselecting.
+      onFocus={(e) => e.currentTarget.matches(':focus-visible') && onHover(perfume.id)}
       onBlur={() => onHover(null)}
     >
       <span className="shelfie-contact" aria-hidden="true" />
-      <span className="shelfie-cutout">
-        {cutout ? (
-          <span className="shelfie-glass" style={{ clipPath }}>
-            <img
-              src={src}
-              alt=""
-              draggable="false"
-              style={shape.image}
-              onError={() => setBroken(true)}
-            />
-          </span>
-        ) : (
-          <PerfumeImage perfume={perfume} />
-        )}
+      {/* Only this inner part lifts when the bottle is chosen: the button
+          itself stays put, so it always settles back in the same spot and
+          the pointer never slips off its bottom edge mid-lift. */}
+      <span className="shelfie-lift">
+        <span className="shelfie-cutout">
+          {cutout ? (
+            <span
+              className="shelfie-glass"
+              style={{
+                maskImage: cut.mask,
+                WebkitMaskImage: cut.mask,
+              }}
+            >
+              <img
+                key={src}
+                src={src}
+                alt=""
+                draggable="false"
+                style={shape.image}
+                onError={() => setAttempt((a) => a + 1)}
+              />
+              <span className="shelfie-rim" style={{ backgroundImage: cut.rim }} />
+            </span>
+          ) : (
+            <BottlePlaceholder perfume={perfume} standing />
+          )}
+        </span>
+        {index % 3 === 1 && <span className="shelfie-sparkle" aria-hidden="true" />}
       </span>
-      {index % 3 === 1 && <span className="shelfie-sparkle" aria-hidden="true" />}
     </button>
   )
 }
