@@ -14,9 +14,7 @@ How a mask is made:
      may not pass the coarse silhouette from silhouettes.js shrunk by 8px, so
      a white label or clear glass reaching the bottle's edge is at most
      nibbled at, never carved out. Nor may it cross the bottle's outline (a
-     brightness step), which keeps white and silver bottles whole. Where a
-     white bottle's edge vanishes entirely, a symmetric bottle's missing
-     chunk is filled from its mirrored other half.
+     brightness step), which keeps white and silver bottles whole.
   2. Along the outline, alpha follows how far a pixel is from white, so the
      light anti-aliased pixels that are half bottle, half backdrop fade out.
   3. The mask is then eroded by one photo pixel, which removes the last
@@ -107,51 +105,6 @@ def fetch(url):
             time.sleep(2 * (attempt + 1))
 
 
-MIRRORED = []  # pixels filled from the mirror image, per call that filled any
-
-
-def fill_from_mirror(alpha):
-    """Where a white bottle's edge vanishes into the white backdrop, the flood
-    bites a chunk out of it. Most bottles are symmetric: if this one is,
-    apart from such a bite, fill the bite from the mirrored other half."""
-    solid = alpha > 0.5
-    rows = np.nonzero(solid.any(axis=1))[0]
-    if len(rows) == 0:
-        return alpha
-    lefts, rights = [], []
-    for y in rows:
-        xs = np.nonzero(solid[y])[0]
-        lefts.append(xs[0])
-        rights.append(xs[-1])
-    lefts, rights = np.array(lefts), np.array(rights)
-    widths = rights - lefts
-    axis = np.median(((lefts + rights) / 2)[widths >= widths.max() * 0.5])
-    # Symmetric: on most rows both sides are equally far from the axis (a bite
-    # only affects some rows, so the median ignores it).
-    skew = np.median(np.abs((axis - lefts) - (rights - axis)))
-    if skew > widths.max() * 0.03:
-        return alpha
-    xs = np.arange(alpha.shape[1])
-    mirror_x = np.round(2 * axis - xs).astype(int)
-    valid = (mirror_x >= 0) & (mirror_x < alpha.shape[1])
-    mirrored = np.zeros_like(solid)
-    mirrored[:, valid] = solid[:, mirror_x[valid]]
-    # Thin slivers are just lighting or a slight tilt; only real bites count.
-    bite = ndimage.binary_opening(mirrored & ~solid, iterations=3)
-    labels, count = ndimage.label(bite)
-    if count == 0:
-        return alpha
-    sizes = ndimage.sum(bite, labels, range(1, count + 1))
-    big = np.isin(labels, np.nonzero(sizes >= solid.sum() * 0.01)[0] + 1)
-    if not big.any():
-        return alpha
-    # Grow the fill 1px so it meets the rest of the bottle seamlessly, but
-    # never past the mirrored outline.
-    big = ndimage.binary_dilation(big, iterations=1) & mirrored
-    MIRRORED.append(int(big.sum()))
-    return np.maximum(alpha, big.astype(float))
-
-
 def make_mask(rgb, core=None):
     """rgb: H×W×3 floats in 0..1 → H×W alpha in 0..1. `core`: H×W bool of
     pixels that are surely bottle."""
@@ -180,8 +133,6 @@ def make_mask(rgb, core=None):
     near = ndimage.distance_transform_edt(~backdrop) <= EDGE_BAND
     soft = np.clip((dist - BACKDROP) / (EDGE_SOFT - BACKDROP), 0, 1)
     alpha = np.where(near & ~backdrop, soft, alpha)
-
-    alpha = fill_from_mirror(alpha)
 
     # Smooth the outline a touch (no ragged steps), then drop the outermost
     # pixel row: whatever is left of the fringe goes.
@@ -237,7 +188,6 @@ def main():
     only = set(args)
     reports = []
     dumped = []
-    mirrored_ids = []
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     boxes = {}
     failed = []
@@ -255,11 +205,7 @@ def main():
         core = None
         if photo["silhouette"]:
             core = silhouette_core(photo["silhouette"], image.width, image.height)
-        before = len(MIRRORED)
         alpha = make_mask(rgb, core)
-        if len(MIRRORED) > before:
-            print(f"{pid}: filled {MIRRORED[-1]} px from the mirror image")
-            mirrored_ids.append(pid)
         ys, xs = np.nonzero(alpha)
         if len(xs) == 0:
             print(f"{pid}: nothing found", file=sys.stderr)
@@ -273,7 +219,7 @@ def main():
         boxes[pid] = [int(x0), int(y0), int(x1), int(y1), image.width, image.height]
         white, length = edge_report(rgb, alpha)
         reports.append((white / max(length, 1), white, pid))
-        if pid in dump or (dump and pid in mirrored_ids):
+        if pid in dump:
             wall = np.array([0.23, 0.16, 0.12])
             out = rgb * alpha[..., None] + wall * (1 - alpha[..., None])
             crop = out[max(0, y0 - 4) : y1 + 4, max(0, x0 - 4) : x1 + 4]
@@ -302,7 +248,6 @@ def main():
             [np.pad(d, ((height - d.shape[0], 0), (0, 0), (0, 0)), constant_values=0.2) for d in dumped], axis=1
         )
         Image.fromarray((strip * 255).round().astype(np.uint8)).save(preview_dir / "strip.png")
-    print(f"filled from the mirror image: {mirrored_ids}")
     print("most whitish outlines:")
     for share, white, pid in sorted(reports, reverse=True)[:25]:
         print(f"  {pid}: {white} px ({share:.1%})")

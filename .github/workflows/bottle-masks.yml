@@ -37,7 +37,7 @@ jobs:
         run: pip install numpy scipy pillow
 
       - name: Measure masks
-        run: python scripts/bottle-masks/make_masks.py --preview previews --dump creed-silver-mountain-water
+        run: python scripts/bottle-masks/make_masks.py --preview previews --dump afnan-supremacy-not-only-intense,armani-code-parfum,burberry-hero,chanel-bleu-de-chanel-edt,dior-addict,dolce-gabbana-k,hermes-h24,jpg-la-belle-le-parfum,lattafa-asad,lv-nouveau-monde,mugler-amen,parfums-de-marly-haltane,rasasi-la-yuqawam-homme,valentino-uomo-2014,viktor-rolf-spicebomb,ysl-myslf-le-parfum,jpg-scandal,montale-intense-cafe,viktor-rolf-flowerbomb,ysl-libre
 
       # Temporary: previews of chosen cut-outs on a throwaway branch.
       - name: Push previews
