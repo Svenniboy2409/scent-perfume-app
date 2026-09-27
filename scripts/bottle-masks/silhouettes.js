@@ -1,7 +1,6 @@
 // Coarse bottle silhouettes measured from each perfume's Fragrantica photo
-// (generated — do not edit by hand). make_masks.py uses them as the part of a
-// photo that is surely bottle, so white labels or clear glass touching the
-// bottle's edge aren't mistaken for the white backdrop.
+// (generated — do not edit by hand). make_masks.py uses them to tell white
+// pockets of backdrop enclosed by a bottle from white parts of the bottle.
 //
 // Format per perfume id: "x0,y0,x1,y1|a-b,a-b;a-b;…"
 //   x0..y1  bounding box of the bottle in the 375×500 photo, in ‰ of the photo

@@ -37,15 +37,10 @@ jobs:
         run: pip install numpy scipy pillow
 
       - name: Measure masks
-        run: python scripts/bottle-masks/make_masks.py --preview previews --dump lattafa-khamrah,viktor-rolf-flowerbomb,jpg-le-male-le-parfum,valentino-uomo-born-in-roma-intense,ysl-libre,armani-stronger-with-you-intensely,montale-intense-cafe,prada-paradoxe
+        run: python scripts/bottle-masks/make_masks.py
 
-      # Temporary: previews of chosen cut-outs on a throwaway branch.
-      - name: Push previews
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          cd previews && git init -q -b p && git add strip.png && git commit -qm previews
-          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" p:refs/heads/tmp-mask-previews
+      - name: Remove the temporary preview branch
+        run: git push origin --delete tmp-mask-previews || true
 
       - name: Commit masks
         run: |

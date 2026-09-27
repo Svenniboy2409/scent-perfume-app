@@ -11,19 +11,18 @@ src/data/bottleMasks.js.
 How a mask is made:
   1. Background = the near-white pixels connected to the photo's border (a
      flood fill), so white labels and caps inside the bottle stay. The flood
-     may not pass the coarse silhouette from silhouettes.js shrunk by 8px, so
-     a white label or clear glass reaching the bottle's edge is at most
-     nibbled at, never carved out. Nor may it cross the bottle's outline (a
-     brightness step), which keeps white and silver bottles whole. White
-     pockets enclosed by the bottle but outside its silhouette (between a
-     neck and a hanging tag) are backdrop as well.
+     may not cross the bottle's outline (a brightness step, small gaps
+     closed), which keeps white and clear-glass bottles whole. White pockets
+     enclosed by the bottle but outside its coarse silhouette (between a
+     neck and a hanging tag) are background too.
   2. Along the outline, alpha follows how far a pixel is from white, so the
      light anti-aliased pixels that are half bottle, half backdrop fade out.
-  3. The mask is then eroded by one photo pixel, which removes the last
-     whitish fringe row entirely.
+  3. The mask is smoothed a touch and eroded by one photo pixel, which
+     removes the last whitish fringe row entirely.
 
-Run from the repo root: python scripts/bottle-masks/make_masks.py
-(needs node, numpy, scipy and Pillow).
+Run from the repo root: python scripts/bottle-masks/make_masks.py [ids…]
+(needs node, numpy, scipy and Pillow). --preview DIR also writes each
+cut-out on the shelf's wall colour, for checking by eye.
 """
 
 import io
@@ -48,18 +47,17 @@ EDGE_BAND = 5  # px from the backdrop in which alpha is softened
 OUTLINE = 0.05  # brightness step that counts as the bottle's outline
 OUTLINE_GAP = 2  # gaps in the outline up to twice this (px) are closed
 MIN_ALPHA = 0.04
-CORE_INSET = 8  # px the coarse silhouette is shrunk by to be surely bottle
 
 
-def silhouette_core(code, width, height, inset=CORE_INSET):
+def silhouette_mask(code, width, height):
     """Rasterises a silhouettes.js entry, keeping each band to the width it
-    shares with its neighbours, then shrinks it by `inset`."""
+    shares with its neighbours."""
     box, bands = code.split("|")
     x0, y0, x1, y1 = (int(v) / 1000 for v in box.split(","))
     bands = [[tuple(map(int, run.split("-"))) for run in band.split(",")] for band in bands.split(";")]
     left, top = x0 * width, y0 * height
     box_w, band_h = (x1 - x0) * width, (y1 - y0) * height / len(bands)
-    core = np.zeros((height, width), bool)
+    mask = np.zeros((height, width), bool)
 
     def shared(run, neighbours):
         a, b = run
@@ -83,8 +81,8 @@ def silhouette_core(code, width, height, inset=CORE_INSET):
                 continue
             ys = slice(int(round(top + k * band_h)), int(round(top + (k + 1) * band_h)))
             xs = slice(int(np.ceil(left + a / 100 * box_w)), int(left + b / 100 * box_w))
-            core[ys, xs] = True
-    return ndimage.binary_erosion(core, iterations=inset) if inset else core
+            mask[ys, xs] = True
+    return mask
 
 
 def fetch(url):
@@ -107,14 +105,12 @@ def fetch(url):
             time.sleep(2 * (attempt + 1))
 
 
-def make_mask(rgb, core=None, silhouette=None):
-    """rgb: H×W×3 floats in 0..1 → H×W alpha in 0..1. `core`: H×W bool of
-    pixels that are surely bottle; `silhouette`: the coarse silhouette."""
+def make_mask(rgb, silhouette=None):
+    """rgb: H×W×3 floats in 0..1 → H×W alpha in 0..1. `silhouette`: H×W bool,
+    the coarse silhouette, if measured."""
     # Distance from white: how far the darkest channel is from 1.
     dist = 1.0 - rgb.min(axis=2)
     near_white = dist < BACKDROP
-    if core is not None:
-        near_white &= ~core
     # A white or silver bottle is as white as the backdrop; what separates
     # them is the thin outline around the bottle. The flood may not cross it,
     # nor slip through small gaps in it.
@@ -195,14 +191,8 @@ def main():
         preview_dir = Path(args[i + 1])
         preview_dir.mkdir(parents=True, exist_ok=True)
         del args[i : i + 2]
-    dump = []
-    if "--dump" in args:
-        i = args.index("--dump")
-        dump = args[i + 1].split(",")
-        del args[i : i + 2]
     only = set(args)
     reports = []
-    dumped = []
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     boxes = {}
     failed = []
@@ -217,10 +207,10 @@ def main():
             failed.append(pid)
             continue
         rgb = np.asarray(image, dtype=float) / 255.0
-        core = silhouette = None
+        silhouette = None
         if photo["silhouette"]:
-            silhouette = silhouette_core(photo["silhouette"], image.width, image.height, 0)
-        alpha = make_mask(rgb, core, silhouette)
+            silhouette = silhouette_mask(photo["silhouette"], image.width, image.height)
+        alpha = make_mask(rgb, silhouette)
         ys, xs = np.nonzero(alpha)
         if len(xs) == 0:
             print(f"{pid}: nothing found", file=sys.stderr)
@@ -234,11 +224,8 @@ def main():
         boxes[pid] = [int(x0), int(y0), int(x1), int(y1), image.width, image.height]
         white, length = edge_report(rgb, alpha)
         reports.append((white / max(length, 1), white, pid))
-        if pid in dump:
-            wall = np.array([0.23, 0.16, 0.12])
-            out = rgb * alpha[..., None] + wall * (1 - alpha[..., None])
-            crop = out[max(0, y0 - 4) : y1 + 4, max(0, x0 - 4) : x1 + 4]
-            dumped.append(np.kron(crop, np.ones((2, 2, 1))))  # 2×, pixels kept sharp
+        if preview_dir:
+            preview(rgb, alpha, preview_dir / f"{pid}.png")
         print(f"{i + 1}/{len(photos)} {pid} {boxes[pid]} whitish edge px: {white}/{length}")
         time.sleep(0.15)
 
@@ -256,13 +243,6 @@ def main():
         "// bounding box in photo pixels; the mask itself is public/bottle-masks/<id>.png.\n"
         f"export const BOTTLE_MASKS = {{\n{lines},\n}}\n"
     )
-    if dumped:
-        # The requested cut-outs side by side, at photo resolution.
-        height = max(d.shape[0] for d in dumped)
-        strip = np.concatenate(
-            [np.pad(d, ((height - d.shape[0], 0), (0, 0), (0, 0)), constant_values=0.2) for d in dumped], axis=1
-        )
-        Image.fromarray((strip * 255).round().astype(np.uint8)).save(preview_dir / "strip.png")
     print("most whitish outlines:")
     for share, white, pid in sorted(reports, reverse=True)[:25]:
         print(f"  {pid}: {white} px ({share:.1%})")
