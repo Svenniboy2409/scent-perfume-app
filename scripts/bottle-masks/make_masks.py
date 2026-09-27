@@ -13,7 +13,8 @@ How a mask is made:
      flood fill), so white labels and caps inside the bottle stay. The flood
      may not pass the coarse silhouette from silhouettes.js shrunk by 8px, so
      a white label or clear glass reaching the bottle's edge is at most
-     nibbled at, never carved out.
+     nibbled at, never carved out. Nor may it cross the bottle's outline (a
+     brightness step), which keeps white and silver bottles whole.
   2. Along the outline, alpha follows how far a pixel is from white, so the
      light anti-aliased pixels that are half bottle, half backdrop fade out.
   3. The mask is then eroded by one photo pixel, which removes the last
@@ -41,7 +42,9 @@ DATA_FILE = ROOT / "src" / "data" / "bottleMasks.js"
 
 BACKDROP = 0.025  # backdrop white: every channel within 2.5% of white (clear glass is a touch darker)
 EDGE_SOFT = 0.25  # along the outline, alpha reaches 1 at this distance from white
-EDGE_BAND = 3  # px from the backdrop in which alpha is softened
+EDGE_BAND = 5  # px from the backdrop in which alpha is softened
+OUTLINE = 0.05  # brightness step that counts as the bottle's outline
+OUTLINE_GAP = 2  # gaps in the outline up to twice this (px) are closed
 MIN_ALPHA = 0.04
 CORE_INSET = 8  # px the coarse silhouette is shrunk by to be surely bottle
 
@@ -110,6 +113,13 @@ def make_mask(rgb, core=None):
     near_white = dist < BACKDROP
     if core is not None:
         near_white &= ~core
+    # A white or silver bottle is as white as the backdrop; what separates
+    # them is the thin outline around the bottle. The flood may not cross it,
+    # nor slip through small gaps in it.
+    lum = rgb.mean(axis=2)
+    step = np.hypot(ndimage.sobel(lum, 0), ndimage.sobel(lum, 1)) / 4
+    outline = ndimage.binary_dilation(step > OUTLINE, iterations=OUTLINE_GAP)
+    near_white &= ~outline
 
     labels, _ = ndimage.label(near_white)
     border = np.unique(
@@ -124,7 +134,9 @@ def make_mask(rgb, core=None):
     soft = np.clip((dist - BACKDROP) / (EDGE_SOFT - BACKDROP), 0, 1)
     alpha = np.where(near & ~backdrop, soft, alpha)
 
-    # Drop the outermost pixel row: whatever is left of the fringe goes.
+    # Smooth the outline a touch (no ragged steps), then drop the outermost
+    # pixel row: whatever is left of the fringe goes.
+    alpha = ndimage.gaussian_filter(alpha, 0.5)
     alpha = ndimage.grey_erosion(alpha, size=(3, 3))
     # Specks (dust, stray shadow pixels) away from the bottle.
     solid = alpha > 0.5
