@@ -4,11 +4,12 @@ import { BottlePlaceholder } from './PerfumeImage.jsx'
 import { getFragranticaImage } from '../utils/images.js'
 import { bottleSize, getBottleShape } from '../utils/bottleShape.js'
 import { layoutShelves } from '../utils/shelfLayout.js'
+import { WOOD_FRAME, WOOD_PANEL, WOOD_PLANK } from '../utils/woodTexture.js'
 import { rememberSelectedPerfume, useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { useLanguage } from '../i18n/LanguageContext.jsx'
 import '../styles/shelf.css'
 
-// "Shelfie": the collection as bottles on a lit display cabinet. Each bottle
+// "Shelfie": the collection as bottles in a warmly lit walnut cabinet. Each bottle
 // is cut out of its product photo with a measured mask, sized by its
 // real proportions, and placed in a back or front row (see utils/shelfLayout).
 
@@ -37,6 +38,34 @@ function FairyLights({ width }) {
           className={`shelfie-bulb bulb-${i % 4}`}
           style={{ left: `${b.x}%`, top: `${b.y}px`, '--delay': `${(i * 0.37) % 2.4}s` }}
         />
+      ))}
+    </div>
+  )
+}
+
+const WOOD = { '--wood-frame': WOOD_FRAME, '--wood-panel': WOOD_PANEL, '--wood-plank': WOOD_PLANK }
+
+// A few specks of dust drifting slowly through the warm light.
+function Motes({ count }) {
+  const motes = useMemo(
+    () =>
+      Array.from({ length: count }, (_, i) => {
+        // Deterministic spread, so they don't jump around on re-render.
+        const r = (n) => (Math.sin((i + 1) * n) + 1) / 2
+        return {
+          left: `${6 + r(12.9898) * 88}%`,
+          top: `${12 + r(78.233) * 80}%`,
+          '--dx': `${(r(3.7) - 0.5) * 40}px`,
+          '--duration': `${9 + r(5.1) * 8}s`,
+          '--delay': `${-r(9.3) * 16}s`,
+        }
+      }),
+    [count],
+  )
+  return (
+    <div className="shelfie-motes" aria-hidden="true">
+      {motes.map((style, i) => (
+        <span key={i} className="shelfie-mote" style={style} />
       ))}
     </div>
   )
@@ -169,7 +198,7 @@ export default function PerfumeShelf({ perfumes }) {
   let order = 0
 
   return (
-    <div className="shelfie" ref={wrapRef}>
+    <div className="shelfie" ref={wrapRef} style={WOOD}>
       <div className="shelfie-frame">
       <div
         className="shelfie-cabinet"
@@ -178,6 +207,7 @@ export default function PerfumeShelf({ perfumes }) {
         }}
       >
         {usable > 0 && <FairyLights width={usable} />}
+        {shelves.length > 0 && <Motes count={Math.min(18, 6 + shelves.length * 4)} />}
 
         {shelves.map((shelf, s) => {
           const stageHeight = shelf.height + HEADROOM + FRONT_FLOOR + SURFACE
@@ -227,6 +257,9 @@ export default function PerfumeShelf({ perfumes }) {
               </div>
               <div className="shelfie-plank" aria-hidden="true">
                 <span className="shelfie-plate">{t('shelf.plaque', ROMAN[s] ?? s + 1)}</span>
+                <span className="shelfie-bracket is-left" />
+                <span className="shelfie-bracket is-right" />
+                <span className="shelfie-led" />
               </div>
             </section>
           )

@@ -4,49 +4,102 @@
    ============================================================ */
 
 .shelfie {
-  --wall: #3b2a21;
-  --wall-deep: #24180f;
-  --wood-light: #b27a48;
-  --wood: #8a5a33;
-  --wood-dark: #5a3a20;
-  --brass: #d9b66a;
+  --wall: #3a281c;
+  --wall-deep: #1f140c;
+  --wood-light: #c08a55;
+  --wood: #94623a;
+  --wood-dark: #5b3a20;
+  --walnut: #6e4527;
+  --walnut-deep: #3e2613;
+  --brass: #e0c078;
   --brass-deep: #9c7630;
-  margin-top: 4px;
+  --led: 255, 196, 128;
+  margin-top: 12px;
 }
 
-/* A walnut frame (with a little grain) around a warm, dimly lit back wall
-   with a faint pinstripe wallpaper. */
+/* ---------- The cabinet ---------- */
+
+/* A solid walnut case: grained stiles and rails with a soft sheen, a raised
+   crown on top and a plinth below. The grain textures come from
+   utils/woodTexture.js via custom properties set on .shelfie. */
 .shelfie-frame {
-  padding: 10px;
-  border-radius: 24px;
+  position: relative;
+  padding: 13px 13px 15px;
+  border-radius: 20px;
   background:
-    repeating-linear-gradient(
-      100deg,
-      rgba(255, 255, 255, 0.05) 0 3px,
-      transparent 3px 9px,
-      rgba(0, 0, 0, 0.07) 9px 11px,
-      transparent 11px 17px
-    ),
-    linear-gradient(135deg, #7a4f2c, #4d3019 55%, #6b4526);
+    linear-gradient(90deg, rgba(255, 225, 185, 0.14), transparent 7%, transparent 93%, rgba(0, 0, 0, 0.22)),
+    var(--wood-frame),
+    linear-gradient(135deg, #8a5a33, #5a3a20 50%, #774b2a);
+  background-size: auto, 90px 480px, auto;
   box-shadow:
-    0 14px 30px rgba(58, 38, 20, 0.3),
-    inset 0 1px 0 rgba(255, 220, 170, 0.25),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.35);
+    0 22px 38px -12px rgba(45, 26, 12, 0.55),
+    0 4px 10px rgba(45, 26, 12, 0.25),
+    inset 0 1px 0 rgba(255, 226, 180, 0.35),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.4),
+    inset 1px 0 0 rgba(255, 226, 180, 0.12),
+    inset -1px 0 0 rgba(0, 0, 0, 0.3);
 }
 
+/* Crown moulding along the top. */
+.shelfie-frame::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  right: -5px;
+  top: -7px;
+  height: 14px;
+  border-radius: 9px 9px 4px 4px;
+  background:
+    linear-gradient(180deg, rgba(255, 228, 186, 0.4), transparent 35%, rgba(0, 0, 0, 0.35)),
+    var(--wood-plank),
+    linear-gradient(180deg, #9a663b, #5e3c21);
+  background-size: auto, 480px 60px, auto;
+  box-shadow: 0 3px 5px rgba(30, 16, 6, 0.45);
+  z-index: 1;
+}
+
+/* Plinth along the bottom. */
+.shelfie-frame::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -5px;
+  height: 7px;
+  border-radius: 0 0 6px 6px;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent 50%),
+    var(--wood-plank),
+    linear-gradient(180deg, #6e4527, #4a2e18);
+  background-size: auto, 480px 60px, auto;
+  box-shadow: 0 6px 10px rgba(30, 16, 6, 0.35);
+}
+
+/* The inside: a back wall of vertical tongue-and-groove boards in dark
+   walnut, lit warmly from above and falling into shadow at the edges. */
 .shelfie-cabinet {
   position: relative;
   overflow: hidden;
   padding: 44px 12px 14px;
-  border-radius: 15px;
+  border-radius: 11px;
   background:
-    radial-gradient(120% 60% at 50% 0%, rgba(255, 196, 120, 0.16), transparent 70%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.022) 0 2px, transparent 2px 22px),
+    radial-gradient(130% 55% at 50% 0%, rgba(var(--led), 0.2), transparent 70%),
+    radial-gradient(90% 70% at 50% 45%, transparent 55%, rgba(12, 6, 2, 0.45)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.42) 0 1.5px,
+      rgba(255, 222, 180, 0.07) 1.5px 3px,
+      transparent 3px 58px
+    ),
+    var(--wood-panel),
     linear-gradient(180deg, var(--wall) 0%, var(--wall-deep) 100%);
+  background-size: auto, auto, auto, 58px 520px, auto;
   box-shadow:
-    inset 0 0 0 1px rgba(0, 0, 0, 0.4),
-    inset 0 18px 40px rgba(0, 0, 0, 0.45),
-    inset 0 -10px 30px rgba(0, 0, 0, 0.35);
+    inset 0 0 0 1px rgba(0, 0, 0, 0.55),
+    inset 0 22px 30px -8px rgba(0, 0, 0, 0.55),
+    inset 10px 0 18px -8px rgba(0, 0, 0, 0.5),
+    inset -10px 0 18px -8px rgba(0, 0, 0, 0.5),
+    inset 0 -12px 26px rgba(0, 0, 0, 0.4);
 }
 
 /* ---------- Fairy lights across the top ---------- */
@@ -118,31 +171,39 @@
 }
 
 .shelfie-shelf + .shelfie-shelf {
-  margin-top: 6px;
+  margin-top: 10px;
 }
 
 .shelfie-stage {
   position: relative;
 }
 
-/* A warm picture-light pool on the wall behind each shelf. */
+/* Warm light from the LED strip under the shelf above (or the fairy lights
+   on top), pooling on the back wall behind the bottles. */
 .shelfie-spot {
   position: absolute;
-  left: 8%;
-  right: 8%;
+  left: 2%;
+  right: 2%;
   top: 0;
   bottom: 0;
-  background: radial-gradient(
-    60% 85% at 50% 18%,
-    rgba(255, 214, 150, 0.22),
-    rgba(255, 190, 110, 0.07) 55%,
-    transparent 75%
-  );
+  background:
+    radial-gradient(70% 70% at 50% 0%, rgba(var(--led), 0.3), rgba(var(--led), 0.08) 55%, transparent 80%),
+    radial-gradient(50% 35% at 50% 100%, rgba(var(--led), 0.1), transparent 80%);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 40px);
+  mask-image: linear-gradient(180deg, transparent, #000 40px);
   pointer-events: none;
 }
 
-/* The plank's top face, seen from slightly above — lighter towards the
-   front edge where the light hits it. */
+.shelfie-spot::after {
+  /* A slow, barely-there flicker, like warm bulbs. */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 55% at 50% 0%, rgba(var(--led), 0.12), transparent 75%);
+}
+
+/* The plank's top face, seen from slightly above: varnished walnut, darker
+   towards the back wall, with a soft band of reflected light. */
 .shelfie-surface {
   position: absolute;
   left: -12px;
@@ -150,57 +211,146 @@
   bottom: 0;
   height: 20px;
   background:
-    repeating-linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.04) 0 2px,
-      transparent 2px 14px,
-      rgba(0, 0, 0, 0.05) 14px 16px,
-      transparent 16px 31px
-    ),
-    linear-gradient(180deg, #5c3b22 0%, var(--wood) 55%, var(--wood-light) 100%);
-  box-shadow: inset 0 6px 8px -4px rgba(0, 0, 0, 0.55);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.12) 45%, transparent 70%),
+    linear-gradient(180deg, transparent 55%, rgba(255, 224, 180, 0.2) 78%, transparent 92%),
+    var(--wood-plank),
+    linear-gradient(180deg, #5d3b22 0%, var(--wood) 60%, var(--wood-light) 100%);
+  background-size: auto, auto, 520px 26px, auto;
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.5);
 }
 
-/* The plank's front edge with a brass trim line and a little nameplate. */
+/* The plank's front edge: thick, grained, rounded over at the top (the
+   bright bullnose line) and with a small brass nameplate. */
 .shelfie-plank {
   position: relative;
-  height: 18px;
+  height: 22px;
   margin: 0 -12px;
   background:
-    repeating-linear-gradient(
-      92deg,
-      rgba(255, 255, 255, 0.06) 0 2px,
-      transparent 2px 11px,
-      rgba(0, 0, 0, 0.08) 11px 13px,
-      transparent 13px 26px
+    linear-gradient(
+      180deg,
+      rgba(255, 234, 200, 0.55) 0,
+      rgba(255, 234, 200, 0.12) 2px,
+      transparent 5px,
+      transparent 70%,
+      rgba(0, 0, 0, 0.35) 100%
     ),
-    linear-gradient(180deg, var(--wood) 0%, var(--wood-dark) 100%);
-  border-top: 1.5px solid var(--brass);
+    var(--wood-plank),
+    linear-gradient(180deg, var(--wood) 0%, var(--walnut) 55%, var(--walnut-deep) 100%);
+  background-size: auto, 560px 44px, auto;
   box-shadow:
-    0 10px 14px -6px rgba(0, 0, 0, 0.6),
-    inset 0 -2px 3px rgba(0, 0, 0, 0.3);
+    0 8px 12px -4px rgba(0, 0, 0, 0.6),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.45);
   z-index: 4;
+}
+
+/* The LED strip under the front of the plank, and its glow on the wall and
+   bottles of the shelf below. */
+.shelfie-led {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: 100%;
+  height: 2px;
+  border-radius: 1px;
+  background: rgb(var(--led));
+  box-shadow:
+    0 0 4px 1px rgba(var(--led), 0.9),
+    0 0 14px 4px rgba(var(--led), 0.35);
+  opacity: 0.85;
+}
+
+.shelfie-shelf:last-child .shelfie-led {
+  display: none;
+}
+
+/* Brass brackets holding the plank at both ends. */
+.shelfie-bracket {
+  position: absolute;
+  top: 100%;
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #d9bd7c, #a9843d 45%, #6f5222);
+  opacity: 0.9;
+}
+
+.shelfie-shelf:last-child .shelfie-bracket {
+  display: none;
+}
+
+.shelfie-bracket.is-left {
+  left: 12px;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.shelfie-bracket.is-right {
+  right: 12px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
 }
 
 .shelfie-plate {
   position: absolute;
   left: 50%;
-  top: 2px;
+  top: 4px;
   transform: translateX(-50%);
-  padding: 0 9px;
-  height: 13px;
-  line-height: 13px;
+  padding: 0 15px;
+  height: 14px;
+  line-height: 14px;
   border-radius: 3px;
-  background: linear-gradient(180deg, #f0d894, var(--brass) 45%, var(--brass-deep));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent 45%),
+    linear-gradient(90deg, #b8913f, #f0d894 30%, var(--brass) 60%, #b08a3a);
   box-shadow:
-    inset 0 0 0 1px rgba(90, 60, 20, 0.45),
-    0 1px 2px rgba(0, 0, 0, 0.4);
+    inset 0 0 0 1px rgba(90, 60, 20, 0.5),
+    inset 0 -1px 1px rgba(90, 60, 20, 0.35),
+    0 1px 2px rgba(0, 0, 0, 0.5);
   color: #4a3212;
   font-family: var(--serif);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
+  text-shadow: 0 1px 0 rgba(255, 240, 200, 0.5);
   white-space: nowrap;
+}
+
+/* Two little screws. */
+.shelfie-plate::before,
+.shelfie-plate::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff3cf, #8a6424 70%);
+  box-shadow: 0 0 0 0.5px rgba(70, 45, 15, 0.6);
+}
+
+.shelfie-plate::before {
+  left: 5px;
+}
+
+.shelfie-plate::after {
+  right: 5px;
+}
+
+/* ---------- Floating dust in the light ---------- */
+
+.shelfie-motes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.shelfie-mote {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: rgba(255, 226, 170, 0.7);
+  box-shadow: 0 0 3px 1px rgba(255, 210, 140, 0.35);
+  opacity: 0;
 }
 
 /* ---------- Bottles ---------- */
@@ -427,6 +577,46 @@
   .shelfie-sparkle {
     animation: glass-glint 4.2s ease-in-out infinite;
     animation-delay: calc(var(--delay) * 3);
+  }
+
+  .shelfie-spot::after {
+    animation: warm-flicker 7s ease-in-out infinite;
+  }
+
+  .shelfie-mote {
+    animation: mote-drift var(--duration) linear infinite;
+    animation-delay: var(--delay);
+  }
+}
+
+@keyframes warm-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 0.7;
+  }
+  60% {
+    opacity: 0.9;
+  }
+}
+
+/* Dust drifts slowly up and sideways, glinting as it passes through light. */
+@keyframes mote-drift {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    translate: var(--dx) -70px;
   }
 }
 
