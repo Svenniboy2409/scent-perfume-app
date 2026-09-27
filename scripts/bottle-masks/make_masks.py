@@ -42,7 +42,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT_DIR = ROOT / "public" / "bottle-masks"
 DATA_FILE = ROOT / "src" / "data" / "bottleMasks.js"
 
-BACKDROP = 0.025  # backdrop white: every channel within 2.5% of white (clear glass is a touch darker)
+BACKDROP = 0.015  # backdrop white: every channel within 1.5% of white (clear glass is a touch darker)
 EDGE_SOFT = 0.25  # along the outline, alpha reaches 1 at this distance from white
 EDGE_BAND = 5  # px from the backdrop in which alpha is softened
 OUTLINE = 0.05  # brightness step that counts as the bottle's outline
