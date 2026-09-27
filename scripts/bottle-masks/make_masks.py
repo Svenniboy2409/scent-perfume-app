@@ -14,7 +14,9 @@ How a mask is made:
      may not pass the coarse silhouette from silhouettes.js shrunk by 8px, so
      a white label or clear glass reaching the bottle's edge is at most
      nibbled at, never carved out. Nor may it cross the bottle's outline (a
-     brightness step), which keeps white and silver bottles whole.
+     brightness step), which keeps white and silver bottles whole. White
+     pockets enclosed by the bottle but outside its silhouette (between a
+     neck and a hanging tag) are backdrop as well.
   2. Along the outline, alpha follows how far a pixel is from white, so the
      light anti-aliased pixels that are half bottle, half backdrop fade out.
   3. The mask is then eroded by one photo pixel, which removes the last
@@ -49,9 +51,9 @@ MIN_ALPHA = 0.04
 CORE_INSET = 8  # px the coarse silhouette is shrunk by to be surely bottle
 
 
-def silhouette_core(code, width, height):
+def silhouette_core(code, width, height, inset=CORE_INSET):
     """Rasterises a silhouettes.js entry, keeping each band to the width it
-    shares with its neighbours, then shrinks it by CORE_INSET."""
+    shares with its neighbours, then shrinks it by `inset`."""
     box, bands = code.split("|")
     x0, y0, x1, y1 = (int(v) / 1000 for v in box.split(","))
     bands = [[tuple(map(int, run.split("-"))) for run in band.split(",")] for band in bands.split(";")]
@@ -82,7 +84,7 @@ def silhouette_core(code, width, height):
             ys = slice(int(round(top + k * band_h)), int(round(top + (k + 1) * band_h)))
             xs = slice(int(np.ceil(left + a / 100 * box_w)), int(left + b / 100 * box_w))
             core[ys, xs] = True
-    return ndimage.binary_erosion(core, iterations=CORE_INSET)
+    return ndimage.binary_erosion(core, iterations=inset) if inset else core
 
 
 def fetch(url):
@@ -105,9 +107,9 @@ def fetch(url):
             time.sleep(2 * (attempt + 1))
 
 
-def make_mask(rgb, core=None):
+def make_mask(rgb, core=None, silhouette=None):
     """rgb: H×W×3 floats in 0..1 → H×W alpha in 0..1. `core`: H×W bool of
-    pixels that are surely bottle."""
+    pixels that are surely bottle; `silhouette`: the coarse silhouette."""
     # Distance from white: how far the darkest channel is from 1.
     dist = 1.0 - rgb.min(axis=2)
     near_white = dist < BACKDROP
@@ -127,11 +129,24 @@ def make_mask(rgb, core=None):
     )
     border = border[border > 0]
     backdrop = np.isin(labels, border)
+    if silhouette is not None:
+        # Backdrop enclosed by the bottle (between a neck and a hanging tag,
+        # inside a logo's loop) can't be reached from the border; white
+        # pockets that lie mostly outside the silhouette are backdrop too.
+        count = labels.max()
+        if count:
+            index = np.arange(1, count + 1)
+            sizes = ndimage.sum(np.ones_like(labels), labels, index)
+            inside = ndimage.sum(silhouette, labels, index)
+            pockets = index[(sizes >= 4) & (inside < sizes * 0.5)]
+            backdrop |= np.isin(labels, pockets)
 
     alpha = (~backdrop).astype(float)
     # Soften the pixels near the backdrop by how white they are.
     near = ndimage.distance_transform_edt(~backdrop) <= EDGE_BAND
-    soft = np.clip((dist - BACKDROP) / (EDGE_SOFT - BACKDROP), 0, 1)
+    # Squared, so light pixels on the outline fade out decisively instead of
+    # leaving a faint glow.
+    soft = np.clip((dist - BACKDROP) / (EDGE_SOFT - BACKDROP), 0, 1) ** 2
     alpha = np.where(near & ~backdrop, soft, alpha)
 
     # Smooth the outline a touch (no ragged steps), then drop the outermost
@@ -202,10 +217,11 @@ def main():
             failed.append(pid)
             continue
         rgb = np.asarray(image, dtype=float) / 255.0
-        core = None
+        core = silhouette = None
         if photo["silhouette"]:
             core = silhouette_core(photo["silhouette"], image.width, image.height)
-        alpha = make_mask(rgb, core)
+            silhouette = silhouette_core(photo["silhouette"], image.width, image.height, 0)
+        alpha = make_mask(rgb, core, silhouette)
         ys, xs = np.nonzero(alpha)
         if len(xs) == 0:
             print(f"{pid}: nothing found", file=sys.stderr)
