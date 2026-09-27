@@ -10,10 +10,10 @@ src/data/bottleMasks.js.
 
 How a mask is made:
   1. Background = the near-white pixels connected to the photo's border (a
-     flood fill), so white labels and caps inside the bottle stay. The coarse
-     silhouette in silhouettes.js, shrunk a few pixels, marks what is surely
-     bottle, so a white label or clear glass reaching the bottle's edge is
-     never taken for backdrop.
+     flood fill), so white labels and caps inside the bottle stay. The flood
+     may not pass the coarse silhouette from silhouettes.js shrunk by 8px, so
+     a white label or clear glass reaching the bottle's edge is at most
+     nibbled at, never carved out.
   2. Along the outline, alpha follows how far a pixel is from white, so the
      light anti-aliased pixels that are half bottle, half backdrop fade out.
   3. The mask is then eroded by one photo pixel, which removes the last
@@ -43,7 +43,7 @@ BACKDROP = 0.075  # "near white": every channel within 7.5% of white
 EDGE_SOFT = 0.30  # along the outline, alpha reaches 1 at this distance from white
 EDGE_BAND = 3  # px from the backdrop in which alpha is softened
 MIN_ALPHA = 0.04
-CORE_INSET = 3  # px the coarse silhouette is shrunk by to be surely bottle
+CORE_INSET = 8  # px the coarse silhouette is shrunk by to be surely bottle
 
 
 def silhouette_core(code, width, height):
@@ -134,10 +134,25 @@ def make_mask(rgb, core=None):
         keep = np.isin(labels, np.nonzero(sizes >= max(40, sizes.max() * 0.004))[0] + 1)
         near_keep = ndimage.binary_dilation(keep, iterations=3)
         alpha = np.where(near_keep, alpha, 0)
-    if core is not None:
-        alpha = np.maximum(alpha, core)
     alpha[alpha < MIN_ALPHA] = 0
     return alpha
+
+
+def edge_report(rgb, alpha):
+    """Opaque pixels on the outline that are still whitish — what would show
+    as a light edge on the dark shelf. Returns (count, outline length)."""
+    solid = alpha > 0.35
+    outline = solid & ~ndimage.binary_erosion(solid, iterations=2)
+    whitish = rgb.min(axis=2) > 0.82
+    return int((outline & whitish).sum()), int(outline.sum())
+
+
+def preview(rgb, alpha, path):
+    """The cut-out on the shelf's wall colour, 2× — for checking by eye."""
+    wall = np.array([0.23, 0.16, 0.12])
+    out = rgb * alpha[..., None] + wall * (1 - alpha[..., None])
+    image = Image.fromarray((out * 255).round().astype(np.uint8))
+    image.resize((image.width * 2, image.height * 2), Image.NEAREST).save(path)
 
 
 def main():
@@ -146,7 +161,15 @@ def main():
             ["node", str(ROOT / "scripts" / "bottle-masks" / "list-photos.mjs")], text=True
         )
     )
-    only = set(sys.argv[1:])
+    args = sys.argv[1:]
+    preview_dir = None
+    if "--preview" in args:
+        i = args.index("--preview")
+        preview_dir = Path(args[i + 1])
+        preview_dir.mkdir(parents=True, exist_ok=True)
+        del args[i : i + 2]
+    only = set(args)
+    reports = []
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     boxes = {}
     failed = []
@@ -176,7 +199,11 @@ def main():
         mask = Image.merge("LA", (Image.new("L", (crop.shape[1], crop.shape[0]), 0), Image.fromarray(crop)))
         mask.save(OUT_DIR / f"{pid}.png", optimize=True)
         boxes[pid] = [int(x0), int(y0), int(x1), int(y1), image.width, image.height]
-        print(f"{i + 1}/{len(photos)} {pid} {boxes[pid]}")
+        white, length = edge_report(rgb, alpha)
+        reports.append((white / max(length, 1), white, pid))
+        if preview_dir:
+            preview(rgb, alpha, preview_dir / f"{pid}.png")
+        print(f"{i + 1}/{len(photos)} {pid} {boxes[pid]} whitish edge px: {white}/{length}")
         time.sleep(0.15)
 
     if only and DATA_FILE.exists():
@@ -193,6 +220,9 @@ def main():
         "// bounding box in photo pixels; the mask itself is public/bottle-masks/<id>.png.\n"
         f"export const BOTTLE_MASKS = {{\n{lines},\n}}\n"
     )
+    print("most whitish outlines:")
+    for share, white, pid in sorted(reports, reverse=True)[:25]:
+        print(f"  {pid}: {white} px ({share:.1%})")
     print(f"done: {len(boxes)} masks, {len(failed)} failed {failed}")
 
 
