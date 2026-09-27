@@ -2,7 +2,8 @@
 
 For each Fragrantica product photo (a bottle on a white backdrop) this writes
 public/bottle-masks/<id>.png: a mask the size of the bottle's bounding box
-whose alpha says, per photo pixel, how much of it is bottle. The Shelfie view
+whose alpha says, per photo pixel, how much of it is bottle — and
+<id>-rim.png, a thin dark-brown band along the inside of that edge. The Shelfie view
 lays it over the photo (CSS mask-image), so every bottle is cut out along its
 real outline, however round. Only the masks are stored — the photos themselves
 keep loading from Fragrantica. The bounding boxes go to
@@ -161,6 +162,23 @@ def make_mask(rgb, silhouette=None):
     return alpha
 
 
+RIM_COLOR = (46, 28, 16)  # dark walnut, like the cabinet's shadows
+RIM_WIDTH = 2  # photo px
+RIM_OPACITY = 0.85
+
+
+def make_rim(alpha):
+    """A thin dark-brown band just inside the cut-out's edge, fading inwards,
+    laid over the photo: it smooths the outline and hides whatever light
+    pixel might still sit on it."""
+    inner = ndimage.grey_erosion(alpha, size=(2 * RIM_WIDTH + 1,) * 2)
+    inner = ndimage.gaussian_filter(inner, 0.8)
+    band = np.clip(alpha - inner, 0, 1) * RIM_OPACITY
+    h, w = alpha.shape
+    channels = [Image.new("L", (w, h), c) for c in RIM_COLOR]
+    return Image.merge("RGBA", (*channels, Image.fromarray((band * 255).round().astype(np.uint8))))
+
+
 def edge_report(rgb, alpha):
     """Opaque pixels on the outline that are still whitish — what would show
     as a light edge on the dark shelf. Returns (count, outline length)."""
@@ -221,6 +239,8 @@ def main():
         # Black with the mask as alpha: tiny PNGs, used as alpha masks.
         mask = Image.merge("LA", (Image.new("L", (crop.shape[1], crop.shape[0]), 0), Image.fromarray(crop)))
         mask.save(OUT_DIR / f"{pid}.png", optimize=True)
+        rim = make_rim(alpha[y0:y1, x0:x1])
+        rim.save(OUT_DIR / f"{pid}-rim.png", optimize=True)
         boxes[pid] = [int(x0), int(y0), int(x1), int(y1), image.width, image.height]
         white, length = edge_report(rgb, alpha)
         reports.append((white / max(length, 1), white, pid))

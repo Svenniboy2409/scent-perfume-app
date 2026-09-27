@@ -22,6 +22,8 @@ export function getBottleShape(id) {
     shape = {
       aspect: bh / bw,
       mask: `url("${import.meta.env.BASE_URL}bottle-masks/${id}.png")`,
+      // A thin dark-brown band along the inside of the cut-out's edge.
+      rim: `url("${import.meta.env.BASE_URL}bottle-masks/${id}-rim.png")`,
       // Photo size and offset relative to the bottle's box.
       image: {
         width: `${(photoW / bw) * 100}%`,

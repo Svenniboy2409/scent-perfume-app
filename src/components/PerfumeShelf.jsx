@@ -90,6 +90,7 @@ function ShelfBottle({ bottle, index, active, onPointerDown, onActivate, onHover
                 style={shape.image}
                 onError={() => setAttempt((a) => a + 1)}
               />
+              <span className="shelfie-rim" style={{ backgroundImage: shape.rim }} />
             </span>
           ) : (
             <BottlePlaceholder perfume={perfume} standing />

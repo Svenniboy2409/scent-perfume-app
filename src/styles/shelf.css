@@ -240,6 +240,15 @@
   mask-repeat: no-repeat;
 }
 
+/* Smooths the cut-out's outline with a dark walnut edge (see make_masks.py). */
+.shelfie-rim {
+  position: absolute;
+  inset: 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
 .shelfie-glass img {
   position: absolute;
   max-width: none;
