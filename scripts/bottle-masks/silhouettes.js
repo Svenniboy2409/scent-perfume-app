@@ -1,6 +1,7 @@
-// Bottle silhouettes measured from each perfume's Fragrantica photo
-// (generated — do not edit by hand). Used by the Shelfie view to cut bottles
-// out of their white photo background and to size and layer them on a shelf.
+// Coarse bottle silhouettes measured from each perfume's Fragrantica photo
+// (generated — do not edit by hand). make_masks.py uses them as the part of a
+// photo that is surely bottle, so white labels or clear glass touching the
+// bottle's edge aren't mistaken for the white backdrop.
 //
 // Format per perfume id: "x0,y0,x1,y1|a-b,a-b;a-b;…"
 //   x0..y1  bounding box of the bottle in the 375×500 photo, in ‰ of the photo

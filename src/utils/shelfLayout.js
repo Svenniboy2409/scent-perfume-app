@@ -1,6 +1,6 @@
 // Arranges bottles on shelves for the Shelfie view.
 //
-// Every bottle's size comes from its photo silhouette (see data/bottleShapes.js):
+// Every bottle's size comes from its photo cut-out (see data/bottleMasks.js):
 // the height:width ratio of the cut-out decides how tall it stands, so a slim
 // Kouros towers over a squat Lost Cherry. Shelves then get two rows:
 //

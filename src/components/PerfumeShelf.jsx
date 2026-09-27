@@ -1,15 +1,15 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BottlePlaceholder } from './PerfumeImage.jsx'
-import { getPerfumeImages } from '../utils/images.js'
-import { bottleSize, cutoutFor, getBottleShape } from '../utils/bottleShape.js'
+import { getFragranticaImage } from '../utils/images.js'
+import { bottleSize, getBottleShape } from '../utils/bottleShape.js'
 import { layoutShelves } from '../utils/shelfLayout.js'
 import { rememberSelectedPerfume, useRestoreScroll } from '../hooks/useRestoreScroll.js'
 import { useLanguage } from '../i18n/LanguageContext.jsx'
 import '../styles/shelf.css'
 
 // "Shelfie": the collection as bottles on a lit display cabinet. Each bottle
-// is cut out of its product photo using its measured silhouette, sized by its
+// is cut out of its product photo with a measured mask, sized by its
 // real proportions, and placed in a back or front row (see utils/shelfLayout).
 
 const FRAME = 22 // cabinet frame + inner padding on each side (px)
@@ -19,24 +19,6 @@ const FRONT_FLOOR = 4 // front row stands this far up the top face (px)
 const FALLBACK_ASPECT = 1.95 // for perfumes without a measured photo (the drawn bottle)
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
-
-// Turns the photo's white background transparent: alpha falls from 1 to 0 as
-// a pixel's average brightness goes from 0.9 to 0.96 (JPEG noise on the white
-// backdrop sits above that). The erode then trims the 1px band of pixels that
-// are half bottle, half white, which would otherwise show as a light fringe.
-function KnockoutFilter() {
-  return (
-    <svg className="shelfie-defs" aria-hidden="true" focusable="false">
-      <filter id="shelfie-knockout" colorInterpolationFilters="sRGB" x="0" y="0" width="100%" height="100%">
-        <feColorMatrix
-          type="matrix"
-          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -5.5 -5.5 -5.5 0 15.84"
-        />
-        <feMorphology operator="erode" radius="0.7" />
-      </filter>
-    </svg>
-  )
-}
 
 function FairyLights({ width }) {
   const count = Math.max(5, Math.round(width / 40))
@@ -65,11 +47,7 @@ function ShelfBottle({ bottle, index, active, onPointerDown, onActivate, onHover
   // The photo CDN occasionally refuses a request when many bottles load at
   // once, so retry once before falling back to the drawn bottle.
   const [attempt, setAttempt] = useState(0)
-  const cut = useMemo(
-    () => (shape ? cutoutFor(shape, bottle.w, bottle.h) : null),
-    [shape, bottle.w, bottle.h],
-  )
-  const photo = getPerfumeImages(perfume)[0]
+  const photo = getFragranticaImage(perfume)
   const src = photo && attempt === 1 ? `${photo}${photo.includes('?') ? '&' : '?'}retry=1` : photo
   const cutout = shape && photo && attempt < 2
 
@@ -103,25 +81,16 @@ function ShelfBottle({ bottle, index, active, onPointerDown, onActivate, onHover
       <span className="shelfie-lift">
         <span className="shelfie-cutout">
           {cutout ? (
-            <>
-              {/* Edge: the photo with its white background filtered away,
-                  so the outline follows the real bottle pixel for pixel. */}
-              <span className="shelfie-glass is-edge" style={{ maskImage: cut.edge, WebkitMaskImage: cut.edge }}>
-                <img
-                  key={src}
-                  src={src}
-                  alt=""
-                  draggable="false"
-                  style={shape.image}
-                  onError={() => setAttempt((a) => a + 1)}
-                />
-              </span>
-              {/* Core: the inside of the bottle unfiltered, so white labels
-                  and caps stay. */}
-              <span className="shelfie-glass" style={{ maskImage: cut.core, WebkitMaskImage: cut.core }}>
-                <img key={src} src={src} alt="" draggable="false" style={shape.image} />
-              </span>
-            </>
+            <span className="shelfie-glass" style={{ maskImage: shape.mask, WebkitMaskImage: shape.mask }}>
+              <img
+                key={src}
+                src={src}
+                alt=""
+                draggable="false"
+                style={shape.image}
+                onError={() => setAttempt((a) => a + 1)}
+              />
+            </span>
           ) : (
             <BottlePlaceholder perfume={perfume} standing />
           )}
@@ -200,7 +169,6 @@ export default function PerfumeShelf({ perfumes }) {
 
   return (
     <div className="shelfie" ref={wrapRef}>
-      <KnockoutFilter />
       <div className="shelfie-frame">
       <div
         className="shelfie-cabinet"

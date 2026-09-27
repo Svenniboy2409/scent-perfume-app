@@ -26,3 +26,9 @@ export function getPerfumeImages(perfume) {
   }
   return []
 }
+
+/** The Fragrantica photo itself (the one the shelf's cut-out masks fit). */
+export function getFragranticaImage(perfume) {
+  const fid = perfume.fragranticaId ?? FRAGRANTICA_IDS[perfume.id]
+  return fid ? fragranticaImage(fid) : null
+}

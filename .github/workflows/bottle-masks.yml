@@ -2,12 +2,14 @@ name: Measure bottle masks
 
 # Re-measures the Shelfie cut-out masks (public/bottle-masks, see
 # scripts/bottle-masks/make_masks.py) and commits them. Runs when the script
-# changes, or by hand — e.g. after adding perfumes.
+# or the perfume list changes, or by hand.
 on:
   push:
     paths:
       - scripts/bottle-masks/**
       - .github/workflows/bottle-masks.yml
+      - src/data/fragranticaIds.js
+      - src/data/perfumes.js
   workflow_dispatch:
 
 permissions:

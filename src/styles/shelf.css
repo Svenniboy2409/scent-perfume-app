@@ -240,18 +240,6 @@
   mask-repeat: no-repeat;
 }
 
-/* The edge layer's photo loses its white background (see KnockoutFilter). */
-.shelfie-glass.is-edge img {
-  filter: url(#shelfie-knockout);
-}
-
-.shelfie-defs {
-  position: absolute;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-}
-
 .shelfie-glass img {
   position: absolute;
   max-width: none;

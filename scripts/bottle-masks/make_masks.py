@@ -10,7 +10,10 @@ src/data/bottleMasks.js.
 
 How a mask is made:
   1. Background = the near-white pixels connected to the photo's border (a
-     flood fill), so white labels and caps inside the bottle stay.
+     flood fill), so white labels and caps inside the bottle stay. The coarse
+     silhouette in silhouettes.js, shrunk a few pixels, marks what is surely
+     bottle, so a white label or clear glass reaching the bottle's edge is
+     never taken for backdrop.
   2. Along the outline, alpha follows how far a pixel is from white, so the
      light anti-aliased pixels that are half bottle, half backdrop fade out.
   3. The mask is then eroded by one photo pixel, which removes the last
@@ -40,6 +43,43 @@ BACKDROP = 0.075  # "near white": every channel within 7.5% of white
 EDGE_SOFT = 0.30  # along the outline, alpha reaches 1 at this distance from white
 EDGE_BAND = 3  # px from the backdrop in which alpha is softened
 MIN_ALPHA = 0.04
+CORE_INSET = 3  # px the coarse silhouette is shrunk by to be surely bottle
+
+
+def silhouette_core(code, width, height):
+    """Rasterises a silhouettes.js entry, keeping each band to the width it
+    shares with its neighbours, then shrinks it by CORE_INSET."""
+    box, bands = code.split("|")
+    x0, y0, x1, y1 = (int(v) / 1000 for v in box.split(","))
+    bands = [[tuple(map(int, run.split("-"))) for run in band.split(",")] for band in bands.split(";")]
+    left, top = x0 * width, y0 * height
+    box_w, band_h = (x1 - x0) * width, (y1 - y0) * height / len(bands)
+    core = np.zeros((height, width), bool)
+
+    def shared(run, neighbours):
+        a, b = run
+        overlaps = [r for r in neighbours if r[0] < b and r[1] > a]
+        if not overlaps:
+            return None
+        return max(a, min(r[0] for r in overlaps)), min(b, max(r[1] for r in overlaps))
+
+    for k, runs in enumerate(bands):
+        for run in runs:
+            a, b = run
+            for neighbours in (bands[k - 1] if k > 0 else None, bands[k + 1] if k + 1 < len(bands) else None):
+                if neighbours is None:
+                    continue
+                edge = shared((a, b), neighbours)
+                if edge is None:
+                    a = b
+                    break
+                a, b = max(a, edge[0]), min(b, edge[1])
+            if b <= a:
+                continue
+            ys = slice(int(round(top + k * band_h)), int(round(top + (k + 1) * band_h)))
+            xs = slice(int(np.ceil(left + a / 100 * box_w)), int(left + b / 100 * box_w))
+            core[ys, xs] = True
+    return ndimage.binary_erosion(core, iterations=CORE_INSET)
 
 
 def fetch(url):
@@ -62,11 +102,14 @@ def fetch(url):
             time.sleep(2 * (attempt + 1))
 
 
-def make_mask(rgb):
-    """rgb: H×W×3 floats in 0..1 → H×W alpha in 0..1."""
+def make_mask(rgb, core=None):
+    """rgb: H×W×3 floats in 0..1 → H×W alpha in 0..1. `core`: H×W bool of
+    pixels that are surely bottle."""
     # Distance from white: how far the darkest channel is from 1.
     dist = 1.0 - rgb.min(axis=2)
     near_white = dist < BACKDROP
+    if core is not None:
+        near_white &= ~core
 
     labels, _ = ndimage.label(near_white)
     border = np.unique(
@@ -91,6 +134,8 @@ def make_mask(rgb):
         keep = np.isin(labels, np.nonzero(sizes >= max(40, sizes.max() * 0.004))[0] + 1)
         near_keep = ndimage.binary_dilation(keep, iterations=3)
         alpha = np.where(near_keep, alpha, 0)
+    if core is not None:
+        alpha = np.maximum(alpha, core)
     alpha[alpha < MIN_ALPHA] = 0
     return alpha
 
@@ -105,7 +150,8 @@ def main():
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     boxes = {}
     failed = []
-    for i, (pid, url) in enumerate(sorted(photos.items())):
+    for i, (pid, photo) in enumerate(sorted(photos.items())):
+        url = photo["url"]
         if only and pid not in only:
             continue
         try:
@@ -115,7 +161,10 @@ def main():
             failed.append(pid)
             continue
         rgb = np.asarray(image, dtype=float) / 255.0
-        alpha = make_mask(rgb)
+        core = None
+        if photo["silhouette"]:
+            core = silhouette_core(photo["silhouette"], image.width, image.height)
+        alpha = make_mask(rgb, core)
         ys, xs = np.nonzero(alpha)
         if len(xs) == 0:
             print(f"{pid}: nothing found", file=sys.stderr)
