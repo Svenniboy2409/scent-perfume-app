@@ -58,6 +58,14 @@ const en = {
     emptyTitle: 'No perfumes yet',
     emptyMessage: 'Add the fragrances you already own with the + button to build your shelf.',
     settings: 'Settings',
+    view: 'View',
+    viewTiles: 'Tiles',
+    viewShelf: 'Shelfie',
+  },
+  shelf: {
+    plaque: (n) => `N° ${n}`,
+    open: 'Open',
+    hint: 'Tap a bottle to see its label — tap again to open it. The tallest bottles stand at the back.',
   },
   toggle: {
     addWishlist: 'Add to Wishlist',
@@ -173,6 +181,14 @@ const nl = {
     emptyTitle: 'Nog geen parfums',
     emptyMessage: 'Voeg met de +-knop de geuren toe die je al hebt en bouw je eigen collectie op.',
     settings: 'Instellingen',
+    view: 'Weergave',
+    viewTiles: 'Tegels',
+    viewShelf: 'Shelfie',
+  },
+  shelf: {
+    plaque: (n) => `N° ${n}`,
+    open: 'Openen',
+    hint: 'Tik op een flesje om het label te zien, tik nog eens om het te openen. De hoogste flessen staan achteraan.',
   },
   toggle: {
     addWishlist: 'Verlanglijst',

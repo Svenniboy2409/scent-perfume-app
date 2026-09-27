@@ -1438,3 +1438,71 @@ a {
   background: var(--wish-soft);
   color: var(--wish);
 }
+
+/* ---------- Collection view switch (Tiles / Shelfie) ---------- */
+
+.view-switch {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(100%, 260px);
+  margin: 0 0 16px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+
+/* The sliding pill behind the chosen option. */
+.view-thumb {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  transition: translate 0.28s cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+
+.view-thumb-right {
+  translate: 100% 0;
+}
+
+.view-option {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-faint);
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.view-option svg {
+  fill: currentColor;
+}
+
+.view-option-active {
+  color: var(--accent-deep);
+}
+
+.view-option:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.shelfie-loading {
+  height: 320px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, #5a3d28, #3b2a21);
+  opacity: 0.35;
+}

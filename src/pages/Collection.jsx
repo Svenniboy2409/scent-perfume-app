@@ -1,16 +1,55 @@
+import { lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
 import { PERFUMES } from '../data/perfumes.js'
 import { useCollection } from '../context/CollectionContext.jsx'
 import { useLanguage } from '../i18n/LanguageContext.jsx'
+import { useLocalStorage } from '../hooks/useLocalStorage.js'
 import PerfumeGrid from '../components/PerfumeGrid.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
 
+// The shelf (and its bottle-silhouette data) only loads when it's chosen.
+const PerfumeShelf = lazy(() => import('../components/PerfumeShelf.jsx'))
+
+const VIEW_KEY = 'perfume-app:collection-view'
+
+function TilesIcon() {
+  return (
+    <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
+      {[2, 11].map((x) =>
+        [2, 11].map((y) => <rect key={`${x}-${y}`} x={x} y={y} width="7" height="7" rx="1.8" />),
+      )}
+    </svg>
+  )
+}
+
+function ShelfIcon() {
+  return (
+    <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
+      <rect x="3" y="6" width="4" height="9" rx="1.2" />
+      <rect x="4.2" y="4" width="1.6" height="2.4" rx="0.5" />
+      <rect x="8.5" y="3" width="3.6" height="12" rx="1.2" />
+      <rect x="9.5" y="1.2" width="1.6" height="2.2" rx="0.5" />
+      <rect x="13.6" y="8.5" width="4" height="6.5" rx="1.6" />
+      <rect x="14.8" y="6.8" width="1.6" height="2" rx="0.5" />
+      <rect x="1" y="16" width="18" height="2.4" rx="1" />
+    </svg>
+  )
+}
+
 export default function Collection() {
   const { collection } = useCollection()
   const { t } = useLanguage()
+  const [storedView, setView] = useLocalStorage(VIEW_KEY, 'tiles')
+  const view = storedView === 'shelf' ? 'shelf' : 'tiles'
   const perfumes = PERFUMES.filter((p) => collection.includes(p.id))
-  useRestoreScroll(perfumes.length > 0)
+  // The shelf restores its own scroll position once its layout is measured.
+  useRestoreScroll(perfumes.length > 0 && view === 'tiles')
+
+  const views = [
+    { id: 'tiles', label: t('collection.viewTiles'), Icon: TilesIcon },
+    { id: 'shelf', label: t('collection.viewShelf'), Icon: ShelfIcon },
+  ]
 
   return (
     <div className="page">
@@ -31,7 +70,32 @@ export default function Collection() {
       </header>
 
       {perfumes.length > 0 ? (
-        <PerfumeGrid perfumes={perfumes} />
+        <>
+          <div className="view-switch" role="radiogroup" aria-label={t('collection.view')}>
+            {views.map(({ id, label, Icon }) => (
+              <button
+                key={id}
+                type="button"
+                role="radio"
+                aria-checked={view === id}
+                className={`view-option ${view === id ? 'view-option-active' : ''}`}
+                onClick={() => setView(id)}
+              >
+                <Icon />
+                {label}
+              </button>
+            ))}
+            <span className={`view-thumb ${view === 'shelf' ? 'view-thumb-right' : ''}`} aria-hidden="true" />
+          </div>
+
+          {view === 'shelf' ? (
+            <Suspense fallback={<div className="shelfie-loading" aria-hidden="true" />}>
+              <PerfumeShelf perfumes={perfumes} />
+            </Suspense>
+          ) : (
+            <PerfumeGrid perfumes={perfumes} />
+          )}
+        </>
       ) : (
         <EmptyState
           icon="✓"
