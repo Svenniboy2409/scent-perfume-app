@@ -168,8 +168,14 @@ def main():
         preview_dir = Path(args[i + 1])
         preview_dir.mkdir(parents=True, exist_ok=True)
         del args[i : i + 2]
+    dump = []
+    if "--dump" in args:
+        i = args.index("--dump")
+        dump = args[i + 1].split(",")
+        del args[i : i + 2]
     only = set(args)
     reports = []
+    dumped = []
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     boxes = {}
     failed = []
@@ -203,6 +209,10 @@ def main():
         reports.append((white / max(length, 1), white, pid))
         if preview_dir:
             preview(rgb, alpha, preview_dir / f"{pid}.png")
+        if pid in dump:
+            wall = np.array([0.23, 0.16, 0.12])
+            out = rgb * alpha[..., None] + wall * (1 - alpha[..., None])
+            dumped.append(out[max(0, y0 - 4) : y1 + 4, max(0, x0 - 4) : x1 + 4])
         print(f"{i + 1}/{len(photos)} {pid} {boxes[pid]} whitish edge px: {white}/{length}")
         time.sleep(0.15)
 
@@ -220,6 +230,22 @@ def main():
         "// bounding box in photo pixels; the mask itself is public/bottle-masks/<id>.png.\n"
         f"export const BOTTLE_MASKS = {{\n{lines},\n}}\n"
     )
+    if dumped:
+        # A strip of the requested cut-outs, printed as base64 so it can be
+        # inspected from the log alone.
+        height = max(d.shape[0] for d in dumped)
+        strip = np.concatenate(
+            [np.pad(d, ((height - d.shape[0], 0), (0, 0), (0, 0)), constant_values=0.2) for d in dumped], axis=1
+        )
+        buffer = io.BytesIO()
+        Image.fromarray((strip * 255).round().astype(np.uint8)).save(buffer, "PNG", optimize=True)
+        import base64
+
+        encoded = base64.b64encode(buffer.getvalue()).decode()
+        print("DUMP-BEGIN")
+        for k in range(0, len(encoded), 4000):
+            print("DUMP " + encoded[k : k + 4000])
+        print("DUMP-END")
     print("most whitish outlines:")
     for share, white, pid in sorted(reports, reverse=True)[:25]:
         print(f"  {pid}: {white} px ({share:.1%})")

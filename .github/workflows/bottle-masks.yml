@@ -37,14 +37,7 @@ jobs:
         run: pip install numpy scipy pillow
 
       - name: Measure masks
-        run: python scripts/bottle-masks/make_masks.py --preview previews
-
-      # The cut-outs on the shelf colour, to check by eye (kept one day).
-      - uses: actions/upload-artifact@v4
-        with:
-          name: bottle-mask-previews
-          path: previews
-          retention-days: 1
+        run: python scripts/bottle-masks/make_masks.py --dump lattafa-khamrah,french-avenue-liquid-brun,armani-stronger-with-you-intensely,valentino-uomo-born-in-roma-intense,jpg-le-male-le-parfum,ysl-y-edp
 
       - name: Commit masks
         run: |
