@@ -6,14 +6,14 @@ import { BOTTLE_SHAPES } from '../data/bottleShapes.js'
 
 const PHOTO_W = 375
 const PHOTO_H = 500
-// Trimmed off every edge, so the light anti-aliased halo around the bottle in
-// the photo never shows (px).
-const EDGE_INSET = 1.6
-// A thin dark-brown rim just inside that edge: whatever light pixels the
-// silhouette still catches blend into a wood-toned outline instead of
-// showing as white specks (px).
-const RIM = 1.7
-const RIM_COLOR = '#2e1c10'
+// The cut-out is made of two layers of the same photo (see PerfumeShelf):
+//   • the core — the silhouette shrunk well inside the bottle, shown as is, so
+//     white labels, caps and highlights inside the bottle are kept;
+//   • the edge — the silhouette grown a little, where a filter turns the
+//     photo's own white background pixels transparent. That edge follows the
+//     real outline pixel for pixel, however round the bottle is.
+const CORE_INSET = 4 // px
+const EDGE_OUTSET = 3 // px
 
 function parse(code) {
   const [boxPart, bandsPart] = code.split('|')
@@ -28,7 +28,9 @@ const overlapping = (runs, [a, b]) => (runs ?? []).filter(([c, d]) => c < b && d
 const f = (n) => Math.round(n * 100) / 100
 
 /**
- * SVG path tracing the silhouette at w × h px, shrunk inwards by `inset`.
+ * SVG path tracing the silhouette at w × h px, shrunk inwards by `inset`
+ * (a negative inset grows it). `strict` keeps each band to the width it shares
+ * with both neighbours, so it never pokes past a curving edge.
  *
  * Each run of each band becomes a hexagon: its measured width at the middle of
  * the band, and at the band's top and bottom edge only the width it shares with
@@ -36,7 +38,7 @@ const f = (n) => Math.round(n * 100) / 100
  * bodies) are thus followed with diagonals rather than stair steps, and every
  * step is cut on its inner side, so no white corners of the photo remain.
  */
-function silhouettePath(shape, w, h, inset) {
+function silhouettePath(shape, w, h, inset, strict = false) {
   const { bands } = shape
   const n = bands.length
   const bandH = h / n
@@ -66,8 +68,12 @@ function silhouettePath(shape, w, h, inset) {
         return [left, right]
       }
       const [tl, tr] = span(top)
-      const [ml, mr] = span(run)
       const [bl, br] = span(bottom)
+      let [ml, mr] = span(run)
+      if (strict) {
+        ml = Math.max(ml, tl, bl)
+        mr = Math.min(mr, tr, br)
+      }
       if (mr - ml < 0.5) continue
       const ym = (yTop + yBottom) / 2
       parts.push(
@@ -85,25 +91,13 @@ const svgUrl = (w, h, body) =>
   )}")`
 
 /**
- * Cut-out for a bottle drawn at w × h px (sizes are needed because the edge
- * trim and rim are in pixels):
- *   mask — CSS mask image that shows only the bottle;
- *   rim  — background image with the brown rim, laid over the photo.
+ * CSS mask images for a bottle drawn at w × h px (sizes are needed because the
+ * insets are in pixels): `core` and `edge`, as described at the top.
  */
 export function cutoutFor(shape, w, h) {
-  const outer = silhouettePath(shape, w, h, EDGE_INSET)
-  const inner = silhouettePath(shape, w, h, EDGE_INSET + RIM)
   return {
-    mask: svgUrl(w, h, `<path d="${outer}"/>`),
-    rim: svgUrl(
-      w,
-      h,
-      `<defs><filter id="s" x="-5%" y="-5%" width="110%" height="110%">` +
-        `<feGaussianBlur stdDeviation="0.8"/></filter>` +
-        `<mask id="m"><path d="${outer}" fill="#fff"/>` +
-        `<path d="${inner}" fill="#000" filter="url(#s)"/></mask></defs>` +
-        `<rect width="100%" height="100%" fill="${RIM_COLOR}" fill-opacity="0.8" mask="url(#m)"/>`,
-    ),
+    core: svgUrl(w, h, `<path d="${silhouettePath(shape, w, h, CORE_INSET, true)}"/>`),
+    edge: svgUrl(w, h, `<path d="${silhouettePath(shape, w, h, -EDGE_OUTSET)}"/>`),
   }
 }
 

@@ -216,8 +216,7 @@
 
 .shelfie-lift,
 .shelfie-cutout,
-.shelfie-glass,
-.shelfie-rim {
+.shelfie-glass {
   position: absolute;
   inset: 0;
   display: block;
@@ -230,7 +229,7 @@
 }
 
 .shelfie-cutout {
-  filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 1px rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 0.6px rgba(46, 28, 16, 0.7));
 }
 
 .shelfie-glass {
@@ -241,10 +240,16 @@
   mask-repeat: no-repeat;
 }
 
-.shelfie-rim {
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  pointer-events: none;
+/* The edge layer's photo loses its white background (see KnockoutFilter). */
+.shelfie-glass.is-edge img {
+  filter: url(#shelfie-knockout);
+}
+
+.shelfie-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }
 
 .shelfie-glass img {
