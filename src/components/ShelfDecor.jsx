@@ -35,7 +35,7 @@ const ITEMS = {
   pumpkins: { w: 84, h: 54, lift: 0 },
   books: { w: 92, h: 70, lift: 3 },
   candle: { w: 42, h: 62, lift: 2 },
-  cushion: { w: 76, h: 72, lift: 5 },
+  cushion: { w: 86, h: 38, lift: 2 },
   blanket: { w: 84, h: 44, lift: 3 },
   acorns: { w: 58, h: 30, lift: 0 },
   leaves: { w: 70, h: 18, lift: -4, z: 3 },

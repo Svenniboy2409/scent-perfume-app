@@ -284,10 +284,13 @@ export function Candle() {
   )
 }
 
+// A plaid cushion lying flat on the shelf, seen from slightly above: its
+// plump top face, the thickness of its front side and piping along the seam.
 export function Cushion() {
-  const shape = 'M6 9 Q38 1 70 7 Q76 36 70 64 Q38 71 7 64 Q1 36 6 9 Z'
+  const top = 'M9 9 Q43 2 77 8 Q85 15 79 23 Q43 28 7 23 Q0 16 9 9 Z'
+  const side = 'M7 23 Q43 28 79 23 Q83 28 77 33 Q43 37 9 33 Q3 28 7 23 Z'
   return (
-    <svg viewBox="0 0 76 72" width="100%" height="100%" overflow="visible">
+    <svg viewBox="0 0 86 38" width="100%" height="100%" overflow="visible">
       <defs>
         <pattern id="sd-plaid" width="12" height="12" patternUnits="userSpaceOnUse">
           <rect width="12" height="12" fill="#c98a36" />
@@ -298,27 +301,45 @@ export function Cushion() {
           <rect width="12" height="0.6" y="1.6" fill="rgba(70,30,10,0.3)" />
           <rect width="0.6" height="12" x="1.6" fill="rgba(70,30,10,0.3)" />
         </pattern>
-        <radialGradient id="sd-cushion-shade" cx="0.42" cy="0.38" r="0.72">
-          <stop offset="0.45" stopColor="#fff" stopOpacity="0.08" />
-          <stop offset="0.7" stopColor="#000" stopOpacity="0" />
-          <stop offset="1" stopColor="#2a1206" stopOpacity="0.55" />
+        {/* The plaid seen at a low angle: squashed vertically on the top face. */}
+        <pattern id="sd-plaid-top" width="12" height="5" patternUnits="userSpaceOnUse" patternTransform="skewX(-12)">
+          <rect width="12" height="5" fill="#d39440" />
+          <rect width="12" height="1.4" y="1.8" fill="rgba(140,48,28,0.5)" />
+          <rect width="3.4" height="5" x="4.2" fill="rgba(140,48,28,0.5)" />
+          <rect width="12" height="0.4" y="4.2" fill="rgba(255,238,205,0.45)" />
+          <rect width="0.8" height="5" x="10" fill="rgba(255,238,205,0.45)" />
+        </pattern>
+        <radialGradient id="sd-cushion-top" cx="0.45" cy="0.4" r="0.7">
+          <stop offset="0.3" stopColor="#fff" stopOpacity="0.16" />
+          <stop offset="0.75" stopColor="#000" stopOpacity="0" />
+          <stop offset="1" stopColor="#2a1206" stopOpacity="0.4" />
         </radialGradient>
+        <linearGradient id="sd-cushion-side" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#000" stopOpacity="0.15" />
+          <stop offset="1" stopColor="#1a0802" stopOpacity="0.5" />
+        </linearGradient>
       </defs>
-      <path d={shape} fill="url(#sd-plaid)" />
-      <path d={shape} fill="url(#sd-cushion-shade)" />
-      <path d={shape} fill="none" stroke="#7a2e1a" strokeWidth="2.2" />
-      {/* Soft creases towards the button */}
-      <path d="M38 36 L20 20 M38 36 L57 19 M38 36 L21 53 M38 36 L56 53" stroke="rgba(60,20,8,0.22)" strokeWidth="1" />
-      {/* Embroidered leaf patch */}
-      <circle cx="38" cy="36" r="10.5" fill="#efe2c6" />
-      <circle cx="38" cy="36" r="9" fill="none" stroke="#b0512e" strokeWidth="0.8" strokeDasharray="1.6 1.2" />
-      <Leaf x={38} y={36} size={13} rotate={-10} colour="#c2512b" />
+      {/* Front side */}
+      <path d={side} fill="url(#sd-plaid)" />
+      <path d={side} fill="url(#sd-cushion-side)" />
+      {/* Top face */}
+      <path d={top} fill="url(#sd-plaid-top)" />
+      <path d={top} fill="url(#sd-cushion-top)" />
+      {/* Soft dips towards the centre */}
+      <path d="M43 15.5 L16 10.5 M43 15.5 L70 10 M43 15.5 L14 21 M43 15.5 L72 20.5" stroke="rgba(60,20,8,0.2)" strokeWidth="0.9" />
+      {/* Piping along the seams */}
+      <path d={top} fill="none" stroke="#7a2e1a" strokeWidth="1.8" />
+      <path d="M9 33 Q43 37 77 33" fill="none" stroke="#6a2616" strokeWidth="1.4" />
+      {/* Embroidered leaf patch on top */}
+      <ellipse cx="43" cy="15.5" rx="10.5" ry="5.2" fill="#efe2c6" />
+      <ellipse cx="43" cy="15.5" rx="9" ry="4.2" fill="none" stroke="#b0512e" strokeWidth="0.7" strokeDasharray="1.5 1.1" />
+      <Leaf x={43} y={15.5} size={11} rotate={-8} colour="#c2512b" flat />
       {/* Corner tassels */}
       {[
-        [6, 9, -135],
-        [70, 7, -45],
-        [7, 64, 135],
-        [70, 64, 45],
+        [9, 9, -150],
+        [77, 8, -30],
+        [7, 23, 160],
+        [79, 23, 20],
       ].map(([x, y, r]) => (
         <g key={`${x}-${y}`} transform={`translate(${x} ${y}) rotate(${r})`} stroke="#8a3a1e" strokeWidth="1" strokeLinecap="round">
           <path d="M0 0 l6 -1.5 M0 0 l6.5 0 M0 0 l6 1.5" />
