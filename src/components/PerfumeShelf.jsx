@@ -1,7 +1,7 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BottlePlaceholder } from './PerfumeImage.jsx'
-import { DecorItem, EdgeDecor, FallingLeaves, SleepingCat, planDecor } from './ShelfDecor.jsx'
+import { DecorItem, EdgeDecor, FallingLeaves, SleepingCat, UpperDecor, planDecor } from './ShelfDecor.jsx'
 import { getFragranticaImage } from '../utils/images.js'
 import { bottleSize, getBottleShape } from '../utils/bottleShape.js'
 import { layoutShelves } from '../utils/shelfLayout.js'
@@ -233,6 +233,7 @@ export default function PerfumeShelf({ perfumes }) {
               <div className="shelfie-stage" style={{ height: stageHeight }}>
                 <span className="shelfie-spot" aria-hidden="true" />
                 <span className="shelfie-surface" aria-hidden="true" />
+                {decor[s]?.upper && <UpperDecor upper={decor[s].upper} first={s === 0} />}
                 {decor[s]?.items.map((item) => (
                   <DecorItem key={item.type} item={item} floor={FRONT_FLOOR} />
                 ))}

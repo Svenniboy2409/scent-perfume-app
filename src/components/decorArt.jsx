@@ -563,3 +563,257 @@ export function CatArt() {
     </svg>
   )
 }
+
+// ---------- More shelf items ----------
+
+export function Pinecones() {
+  return (
+    <svg viewBox="0 0 60 32" width="100%" height="100%" overflow="visible">
+      {/* A sprig of pine behind them */}
+      <g stroke="#3f5a2e" strokeWidth="0.9" strokeLinecap="round">
+        <path d="M4 26 Q28 18 56 22" stroke="#5b3a1c" strokeWidth="1.4" fill="none" />
+        {Array.from({ length: 13 }, (_, i) => {
+          const x = 8 + i * 3.6
+          const y = 24.5 - Math.sin((i / 12) * Math.PI) * 3.2
+          return <path key={i} d={`M${x} ${y} l${-3 + (i % 3)} -9 M${x} ${y} l${3.5 - (i % 2)} -8.5 M${x} ${y} l${-4.5 + (i % 2)} -6`} stroke={i % 2 ? '#7a9a4a' : '#5f8038'} strokeWidth="1.1" />
+        })}
+      </g>
+      <Pinecone x={16} y={20} r={-8} s={1.05} />
+      <Pinecone x={44} y={22} r={78} s={0.95} />
+      <Pinecone x={30} y={25} r={-70} s={0.75} />
+    </svg>
+  )
+}
+
+export function JackOLantern() {
+  return (
+    <>
+      <span className="decor-glow is-jack" aria-hidden="true" />
+      <svg viewBox="0 0 54 50" width="100%" height="100%" overflow="visible">
+        <defs>
+          <radialGradient id="sd-jack-light" cx="0.5" cy="0.5" r="0.6">
+            <stop offset="0" stopColor="#fff2b0" />
+            <stop offset="0.6" stopColor="#ffc54a" />
+            <stop offset="1" stopColor="#e8791c" />
+          </radialGradient>
+        </defs>
+        <Pumpkin x={27} y={32} s={1.5} vine={false} />
+        <g className="decor-jack-face" fill="url(#sd-jack-light)" stroke="#7a3410" strokeWidth="0.6">
+          <path d="M13 27 L19 20 L22.5 28 Z" />
+          <path d="M41 27 L35 20 L31.5 28 Z" />
+          <path d="M25 31 L27 27.5 L29 31 Z" />
+          <path d="M11 34 Q27 46 43 34 L39.5 37.5 L37 35 L33.5 39.5 L30.5 36.5 L27 40.5 L23.5 36.5 L20.5 39.5 L17 35 L14.5 37.5 Z" />
+        </g>
+        <Leaf x={48} y={47} size={11} rotate={30} colour={LEAF_COLOURS[2]} flat />
+      </svg>
+    </>
+  )
+}
+
+export function Apples() {
+  const apple = (x, y, r, colour, leaf) => (
+    <g key={`${x}-${y}`} transform={`translate(${x} ${y})`}>
+      <path d={`M0 ${-r * 0.7} C${r} ${-r * 1.3} ${r * 1.3} ${r * 0.4} ${r * 0.35} ${r * 0.95} Q0 ${r * 0.8} ${-r * 0.35} ${r * 0.95} C${-r * 1.3} ${r * 0.4} ${-r} ${-r * 1.3} 0 ${-r * 0.7} Z`} fill={colour} />
+      <ellipse cx={-r * 0.4} cy={-r * 0.2} rx={r * 0.22} ry={r * 0.35} fill="#fff" opacity="0.35" />
+      <path d={`M0 ${-r * 0.65} q0.5 ${-r * 0.4} 1.6 ${-r * 0.6}`} stroke="#5b3a1c" strokeWidth="1.1" fill="none" strokeLinecap="round" />
+      {leaf && <path d={`M1 ${-r * 0.9} q5 -4 8 0 q-4 2 -8 0 z`} fill="#6f8a34" />}
+    </g>
+  )
+  return (
+    <svg viewBox="0 0 72 52" width="100%" height="100%" overflow="visible">
+      <defs>
+        <linearGradient id="sd-wicker" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#c99a5c" />
+          <stop offset="1" stopColor="#8a6030" />
+        </linearGradient>
+      </defs>
+      {/* Handle */}
+      <path d="M10 26 Q36 -6 62 26" stroke="#8a6030" strokeWidth="3.4" fill="none" />
+      <path d="M10 26 Q36 -6 62 26" stroke="#c99a5c" strokeWidth="1.2" fill="none" strokeDasharray="3 2" />
+      {/* Apples */}
+      {apple(22, 24, 8.5, '#c0392b', true)}
+      {apple(48, 23, 8, '#a8b83a', false)}
+      {apple(35, 21, 9, '#d6452b', true)}
+      {/* Checked cloth peeking over the rim */}
+      <path d="M44 27 L60 23 L56 33 Z" fill="#efe2c6" />
+      <path d="M47 26.2 L55.5 32 M51 25.2 L57.4 29 M44.5 29 L58 25.5" stroke="#b0512e" strokeWidth="1.3" opacity="0.8" />
+      {/* Basket */}
+      <path d="M6 28 H66 L60 50 H12 Z" fill="url(#sd-wicker)" />
+      <g stroke="#6e4a22" strokeWidth="0.8" opacity="0.8">
+        {Array.from({ length: 11 }, (_, i) => (
+          <path key={`v${i}`} d={`M${11 + i * 5} 28 L${13.5 + i * 4.3} 50`} />
+        ))}
+        <path d="M7.5 33.5 H64.5 M9 39 H63 M10.5 44.5 H61.5" />
+      </g>
+      <g stroke="#e0bd82" strokeWidth="0.6" opacity="0.5">
+        <path d="M7.2 35 H64.8 M8.7 40.5 H63.3 M10.2 46 H61.8" />
+      </g>
+      <rect x="4.5" y="26.5" width="63" height="3.6" rx="1.8" fill="#a8783f" />
+      <path d="M5 27.4 H67" stroke="#dcb47a" strokeWidth="0.8" />
+    </svg>
+  )
+}
+
+export function Mushrooms() {
+  return (
+    <svg viewBox="0 0 48 36" width="100%" height="100%" overflow="visible">
+      {/* Moss */}
+      <path d="M2 34 Q6 27 12 30 Q17 25 24 29 Q31 25 37 29 Q43 27 46 34 Z" fill="#5f7a34" />
+      <path d="M5 33 q2 -3 4 -1 M15 31 q2 -3 4 -1 M29 31 q2 -3 4 -1 M38 32 q2 -3 4 0" stroke="#86a24a" strokeWidth="1" fill="none" />
+      {/* Brown cap */}
+      <path d="M33 30 Q32.5 22 34 18 H38 Q39.5 22 39 30 Z" fill="#efe3cc" />
+      <path d="M26 19 Q36 6 46 19 Q36 22 26 19 Z" fill="#9a5a2a" />
+      <path d="M29 16 Q36 9 43 16" stroke="#c07a42" strokeWidth="1" fill="none" opacity="0.7" />
+      {/* Red toadstool */}
+      <path d="M14 31 Q13 20 15 13 H20 Q22 20 21 31 Z" fill="#f4ead8" />
+      <path d="M15.5 21 Q17.5 22.5 19.8 21" stroke="#d8c7a6" strokeWidth="1" fill="none" />
+      <path d="M4 14 Q17.5 -4 31 14 Q17.5 18 4 14 Z" fill="#c8321f" />
+      <path d="M8 10 Q17.5 0 27 10" stroke="#e8634a" strokeWidth="1.4" fill="none" opacity="0.6" />
+      <circle cx="11" cy="10" r="1.6" fill="#fbf2e2" />
+      <circle cx="17" cy="5.5" r="1.9" fill="#fbf2e2" />
+      <circle cx="23.5" cy="9" r="1.5" fill="#fbf2e2" />
+      <circle cx="15" cy="12" r="1.1" fill="#fbf2e2" />
+      <circle cx="21" cy="12.5" r="1" fill="#fbf2e2" />
+      {/* A tiny one */}
+      <path d="M7.5 32 v-4 h2 v4 z" fill="#efe3cc" />
+      <path d="M5.5 28.4 Q8.5 23.5 11.5 28.4 Q8.5 29.4 5.5 28.4 Z" fill="#b8742c" />
+    </svg>
+  )
+}
+
+export function Owl() {
+  return (
+    <svg viewBox="0 0 36 50" width="100%" height="100%" overflow="visible">
+      <defs>
+        <radialGradient id="sd-owl" cx="0.4" cy="0.35" r="0.8">
+          <stop offset="0" stopColor="#c98a4a" />
+          <stop offset="1" stopColor="#7a4a22" />
+        </radialGradient>
+      </defs>
+      {/* Body with ear tufts */}
+      <path d="M6 10 L9 2 L13 8 Q18 6 23 8 L27 2 L30 10 Q35 22 33 36 Q30 48 18 48 Q6 48 3 36 Q1 22 6 10 Z" fill="url(#sd-owl)" />
+      {/* Wings */}
+      <path d="M4 24 Q1 36 8 44 Q10 34 8 24 Z M32 24 Q35 36 28 44 Q26 34 28 24 Z" fill="#6a3e1c" />
+      {/* Belly with scalloped feathers */}
+      <ellipse cx="18" cy="35" rx="9.5" ry="11" fill="#e8c79a" />
+      <g stroke="#b88a52" strokeWidth="0.8" fill="none">
+        <path d="M11.5 30 q2 2 4 0 q2 2 4 0 q2 2 4 0 M11 35 q2 2 4 0 q2 2 4 0 q2 2 4 0 q1.5 1.5 2.5 0 M12 40 q2 2 4 0 q2 2 4 0 q2 2 4 0" />
+      </g>
+      {/* Eyes (they blink) */}
+      <circle cx="12" cy="17" r="6.2" fill="#f3e2c2" />
+      <circle cx="24" cy="17" r="6.2" fill="#f3e2c2" />
+      <g className="decor-owl-eyes">
+        <circle cx="12" cy="17" r="3.6" fill="#e8a33a" />
+        <circle cx="24" cy="17" r="3.6" fill="#e8a33a" />
+        <circle cx="12" cy="17" r="2" fill="#2a1608" />
+        <circle cx="24" cy="17" r="2" fill="#2a1608" />
+        <circle cx="12.8" cy="16.2" r="0.7" fill="#fff" />
+        <circle cx="24.8" cy="16.2" r="0.7" fill="#fff" />
+      </g>
+      <path d="M16.5 21 L19.5 21 L18 25 Z" fill="#d98a2a" />
+      {/* Feet on a little branch */}
+      <path d="M4 48.5 H32" stroke="#5b3a1c" strokeWidth="2.6" strokeLinecap="round" />
+      <path d="M13 46 v3 M15 46 v3 M21 46 v3 M23 46 v3" stroke="#d98a2a" strokeWidth="1.2" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+// ---------- Up high in a compartment ----------
+
+// A cobweb in a top corner (drawn for the top-left; mirrored for the right),
+// with a little spider bobbing on its thread.
+export function Cobweb() {
+  const spokes = [4, 22, 45, 68, 86].map((deg) => (deg * Math.PI) / 180)
+  const radii = [10, 19, 29, 40, 52]
+  const point = (a, r) => [Math.cos(a) * r, Math.sin(a) * r]
+  const rings = radii.map((r, ri) => {
+    let d = ''
+    spokes.forEach((a, i) => {
+      const [x, y] = point(a, r * (1 + (i % 2) * 0.05))
+      if (i === 0) d += `M${x} ${y}`
+      else {
+        const mid = (a + spokes[i - 1]) / 2
+        const [cx, cy] = point(mid, r * 0.8)
+        d += ` Q${cx} ${cy} ${x} ${y}`
+      }
+    })
+    return <path key={ri} d={d} />
+  })
+  return (
+    <svg viewBox="0 0 64 64" width="100%" height="100%" overflow="visible">
+      <g stroke="rgba(242,236,224,0.55)" strokeWidth="0.6" fill="none">
+        {spokes.map((a, i) => {
+          const [x, y] = point(a, 60)
+          return <path key={i} d={`M0 0 L${x} ${y}`} />
+        })}
+        {rings}
+      </g>
+      <g className="decor-spider">
+        <path d="M34 26 V40" stroke="rgba(242,236,224,0.6)" strokeWidth="0.5" />
+        <g transform="translate(34 42)">
+          <g stroke="#1e140e" strokeWidth="0.8" strokeLinecap="round" fill="none">
+            <path d="M-1.5 -0.5 l-3.5 -2.5 l-1 -2 M-1.5 0.5 l-4 -0.5 l-1.5 1.5 M-1.5 1.5 l-3.5 2 l-0.5 2 M1.5 -0.5 l3.5 -2.5 l1 -2 M1.5 0.5 l4 -0.5 l1.5 1.5 M1.5 1.5 l3.5 2 l0.5 2" />
+          </g>
+          <ellipse cx="0" cy="1" rx="2.4" ry="3" fill="#2a1c14" />
+          <circle cx="0" cy="-2" r="1.6" fill="#2a1c14" />
+          <circle cx="-0.6" cy="-2.3" r="0.35" fill="#fff" />
+          <circle cx="0.6" cy="-2.3" r="0.35" fill="#fff" />
+        </g>
+      </g>
+    </svg>
+  )
+}
+
+// A friendly little ghost.
+export function Ghost() {
+  return (
+    <svg viewBox="0 0 40 48" width="100%" height="100%" overflow="visible">
+      <defs>
+        <radialGradient id="sd-ghost" cx="0.4" cy="0.3" r="0.8">
+          <stop offset="0" stopColor="#ffffff" />
+          <stop offset="0.7" stopColor="#f3eee6" />
+          <stop offset="1" stopColor="#d9d0c2" />
+        </radialGradient>
+      </defs>
+      <path
+        d="M20 3 C31 3 36 12 36 23 L36 40 Q33 45 30 40 Q27 45 24 40 Q21 45 18 40 Q15 45 12 40 Q9 45 6 40 L4 23 C4 12 9 3 20 3 Z"
+        fill="url(#sd-ghost)"
+        opacity="0.93"
+      />
+      {/* Little arms */}
+      <path d="M5 26 Q0 25 1 20 Q4 22 6 22 Z M35 26 Q40 25 39 20 Q36 22 34 22 Z" fill="#f3eee6" opacity="0.93" />
+      <ellipse cx="14.5" cy="19" rx="2.3" ry="3" fill="#2a1c14" />
+      <ellipse cx="25.5" cy="19" rx="2.3" ry="3" fill="#2a1c14" />
+      <circle cx="15.2" cy="18" r="0.8" fill="#fff" />
+      <circle cx="26.2" cy="18" r="0.8" fill="#fff" />
+      <ellipse cx="20" cy="26" rx="2" ry="2.4" fill="#2a1c14" />
+      <ellipse cx="11" cy="24" rx="2.4" ry="1.3" fill="#f2a08e" opacity="0.6" />
+      <ellipse cx="29" cy="24" rx="2.4" ry="1.3" fill="#f2a08e" opacity="0.6" />
+    </svg>
+  )
+}
+
+// A little bat hanging upside down from the plank above, wings folded.
+export function Bat() {
+  return (
+    <svg viewBox="0 0 30 40" width="100%" height="100%" overflow="visible">
+      {/* Feet hooked on the plank */}
+      <path d="M12 0 v5 M18 0 v5" stroke="#2a1c22" strokeWidth="1.3" strokeLinecap="round" />
+      <g className="decor-bat-body">
+        {/* Folded wings wrapped around the body */}
+        <path d="M15 4 C4 6 2 20 6 30 Q10 26 12 31 Q13.5 27 15 32 Q16.5 27 18 31 Q20 26 24 30 C28 20 26 6 15 4 Z" fill="#4a3542" stroke="#8a6a7a" strokeWidth="0.7" />
+        <path d="M15 5 C8 8 7 19 10 28 M15 5 C22 8 23 19 20 28" stroke="#6e5462" strokeWidth="0.9" fill="none" />
+        <path d="M8 12 Q6 20 8 26" stroke="#b08a9a" strokeWidth="0.8" fill="none" opacity="0.6" />
+        {/* Upside-down head: ears point down */}
+        <circle cx="15" cy="31" r="5" fill="#5a4250" stroke="#8a6a7a" strokeWidth="0.6" />
+        <path d="M11 34 L10 39 L13.5 35.5 Z M19 34 L20 39 L16.5 35.5 Z" fill="#5a4250" />
+        <path d="M11.2 35 L10.8 37.5 L12.6 35.8 Z M18.8 35 L19.2 37.5 L17.4 35.8 Z" fill="#c98a9a" />
+        <circle cx="13" cy="30" r="1.2" fill="#ffd36b" />
+        <circle cx="17" cy="30" r="1.2" fill="#ffd36b" />
+        <circle cx="13" cy="30.2" r="0.5" fill="#2a1608" />
+        <circle cx="17" cy="30.2" r="0.5" fill="#2a1608" />
+        <path d="M14 27 q1 -0.8 2 0" stroke="#f2a08e" strokeWidth="0.7" fill="none" />
+      </g>
+    </svg>
+  )
+}

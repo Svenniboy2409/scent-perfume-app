@@ -1,18 +1,26 @@
 import { useEffect, useRef, useState } from 'react'
 import {
   Acorns,
+  Apples,
+  Bat,
   Blanket,
   Books,
   Candle,
   CatArt,
+  Cobweb,
   Cushion,
   Drape,
   Garland,
+  Ghost,
+  JackOLantern,
   LEAF_COLOURS,
   Leaf,
   Lantern,
   Leaves,
   Mug,
+  Mushrooms,
+  Owl,
+  Pinecones,
   Pumpkins,
 } from './decorArt.jsx'
 import '../styles/shelf-decor.css'
@@ -24,7 +32,27 @@ import '../styles/shelf-decor.css'
 // The drawings themselves live in decorArt.jsx; this file decides what goes
 // where.
 
-const ART = { mug: Mug, pumpkins: Pumpkins, books: Books, candle: Candle, cushion: Cushion, blanket: Blanket, acorns: Acorns, leaves: Leaves, lantern: Lantern, drape: Drape, garland: Garland }
+const ART = {
+  mug: Mug,
+  pumpkins: Pumpkins,
+  books: Books,
+  candle: Candle,
+  cushion: Cushion,
+  blanket: Blanket,
+  acorns: Acorns,
+  leaves: Leaves,
+  lantern: Lantern,
+  pinecones: Pinecones,
+  jack: JackOLantern,
+  apples: Apples,
+  mushrooms: Mushrooms,
+  owl: Owl,
+  drape: Drape,
+  garland: Garland,
+  web: Cobweb,
+  ghost: Ghost,
+  bat: Bat,
+}
 
 // Natural size (px) and how far back each stands (lift: px up the plank's top
 // face). Shelf items stand behind the bottles (z 1) and may tuck in behind
@@ -40,9 +68,18 @@ const ITEMS = {
   acorns: { w: 58, h: 30, lift: 0 },
   leaves: { w: 70, h: 18, lift: -4, z: 3 },
   lantern: { w: 40, h: 74, lift: 2 },
+  pinecones: { w: 60, h: 32, lift: 0 },
+  jack: { w: 54, h: 50, lift: 1 },
+  apples: { w: 72, h: 52, lift: 2 },
+  mushrooms: { w: 48, h: 36, lift: 0 },
+  owl: { w: 36, h: 50, lift: 2 },
 }
 const TUCK = 0.3
-const SMALL = ['acorns', 'candle', 'leaves', 'lantern']
+const SMALL = ['acorns', 'candle', 'leaves', 'lantern', 'owl', 'mushrooms', 'pinecones']
+// Up high in a compartment, clear of the bottles: a cobweb in a top corner, a
+// floating ghost, a bat hanging from the plank above (not on the top shelf,
+// which has no plank above it).
+const UPPER = ['web', 'ghost', 'bat']
 
 // Deterministic randomness, so a shelf keeps its decorations between visits.
 function random(seed) {
@@ -59,10 +96,14 @@ function random(seed) {
  * Picks 1–2 decorations per shelf and places them in the free space beside
  * the bottles. A shelf never repeats what the shelf above it has; when there
  * is no room at all, a blanket or leaf garland goes over the plank's edge.
- * Returns per shelf { items: [{ type, x, w, h, lift, z }], edge: {type, side} | null }.
+ * Some shelves also get something up high (a cobweb, ghost or bat).
+ * Returns per shelf { items: [{ type, x, w, h, lift, z }], edge: {type, side} | null,
+ * upper: {type, side} | null }.
  */
 export function planDecor(shelves, width, scale = 1) {
   let previous = []
+  let previousUpper = null
+  let previousEdge = null
   let garlands = 0
   const usage = {}
   return shelves.map((shelf, s) => {
@@ -114,9 +155,35 @@ export function planDecor(shelves, width, scale = 1) {
       const sides = type === 'drape' ? freeSides : ['left', 'right']
       edge = { type, side: sides[Math.floor(rand() * sides.length)] }
     }
+    let upper = null
+    if (rand() < 0.45) {
+      // Least used first, like the shelf items.
+      const [type] = UPPER.filter((t) => t !== previousUpper && !(t === 'bat' && s === 0))
+        .map((t) => ({ t, order: (usage[t] ?? 0) + rand() }))
+        .sort((a, b) => a.order - b.order)
+        .map(({ t }) => t)
+      // Clear of anything hanging from the plank above; otherwise on the side
+      // with less standing below, so it doesn't crowd.
+      const side = previousEdge
+        ? previousEdge.side === 'left'
+          ? 'right'
+          : 'left'
+        : used.left === used.right
+          ? rand() < 0.5
+            ? 'left'
+            : 'right'
+          : used.left < used.right
+            ? 'left'
+            : 'right'
+      upper = { type, side }
+    }
+    previousUpper = upper?.type ?? null
+    previousEdge = edge
+    if (upper) usage[upper.type] = (usage[upper.type] ?? 0) + 1
+
     previous = [...items.map((i) => i.type), edge?.type].filter(Boolean)
     for (const type of previous) usage[type] = (usage[type] ?? 0) + 1
-    return { items, edge }
+    return { items, edge, upper }
   })
 }
 
@@ -128,6 +195,15 @@ export function DecorItem({ item, floor }) {
       style={{ left: item.x, bottom: floor + item.lift, width: item.w, height: item.h, zIndex: item.z }}
       aria-hidden="true"
     >
+      <Art />
+    </span>
+  )
+}
+
+export function UpperDecor({ upper, first }) {
+  const Art = ART[upper.type]
+  return (
+    <span className={`shelfie-upper is-${upper.type} on-${upper.side} ${first ? 'is-first' : ''}`} aria-hidden="true">
       <Art />
     </span>
   )

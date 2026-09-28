@@ -85,6 +85,99 @@
   transform-origin: 50% 100%;
 }
 
+.decor-glow.is-jack {
+  top: 62%;
+  width: 110px;
+  height: 90px;
+  background: radial-gradient(closest-side, rgba(255, 170, 60, 0.4), rgba(255, 150, 50, 0.1) 60%, transparent);
+}
+
+.decor-jack-face,
+.decor-owl-eyes {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+/* ---------- Up high in a compartment ---------- */
+
+.shelfie-upper {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+}
+
+.shelfie-upper > svg {
+  display: block;
+}
+
+/* A cobweb spans the corner between the side wall and the plank above. */
+.shelfie-upper.is-web {
+  top: 0;
+  width: 64px;
+  height: 64px;
+  z-index: 0;
+}
+
+.shelfie-upper.is-web.is-first {
+  top: -40px;
+}
+
+.shelfie-upper.is-web.on-left {
+  left: -12px;
+}
+
+.shelfie-upper.is-web.on-right {
+  right: -12px;
+  scale: -1 1;
+}
+
+.decor-spider {
+  transform-box: view-box;
+}
+
+.shelfie-upper.is-ghost {
+  top: 10px;
+  width: 38px;
+  height: 46px;
+  z-index: 2;
+  filter: drop-shadow(0 0 8px rgba(255, 248, 230, 0.35)) drop-shadow(0 6px 6px rgba(0, 0, 0, 0.3));
+}
+
+.shelfie-upper.is-ghost.is-first {
+  top: -6px;
+}
+
+.shelfie-upper.is-ghost.on-left {
+  left: 5%;
+}
+
+.shelfie-upper.is-ghost.on-right {
+  right: 5%;
+}
+
+/* The bat hangs from the plank above (just out of the LED's glow). */
+.shelfie-upper.is-bat {
+  top: 0;
+  width: 34px;
+  height: 46px;
+  z-index: 2;
+  transform-origin: 50% 0;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.4));
+}
+
+.shelfie-upper.is-bat.on-left {
+  left: 13%;
+}
+
+.shelfie-upper.is-bat.on-right {
+  right: 13%;
+}
+
+.decor-bat-body {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+}
+
 /* ---------- Over the plank's edge ---------- */
 
 .shelfie-edge {
@@ -304,6 +397,34 @@
     animation: garland-sway 6s ease-in-out infinite;
   }
 
+  .decor-jack-face {
+    animation: jack-flicker 1.9s ease-in-out infinite;
+  }
+
+  .decor-glow.is-jack {
+    animation: glow-pulse 1.9s ease-in-out infinite;
+  }
+
+  .decor-owl-eyes {
+    animation: owl-blink 6.5s ease-in-out infinite;
+  }
+
+  .decor-spider {
+    animation: spider-bob 7s ease-in-out infinite;
+  }
+
+  .shelfie-upper.is-ghost > svg {
+    animation: ghost-float 4.2s ease-in-out infinite;
+  }
+
+  .shelfie-upper.is-bat {
+    animation: bat-sway 5s ease-in-out infinite;
+  }
+
+  .decor-bat-body {
+    animation: bat-wriggle 9s ease-in-out infinite;
+  }
+
   .cat-body {
     animation: cat-breathe 3.6s ease-in-out infinite;
   }
@@ -364,6 +485,87 @@
   }
   70% {
     transform: scale(0.97, 1.05) rotate(-1deg);
+  }
+}
+
+@keyframes jack-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  55% {
+    opacity: 0.95;
+  }
+  75% {
+    opacity: 0.75;
+  }
+}
+
+/* Eyes shut briefly, twice in a row, then stay open a good while. */
+@keyframes owl-blink {
+  0%,
+  86%,
+  90%,
+  94%,
+  100% {
+    transform: scaleY(1);
+  }
+  88%,
+  92% {
+    transform: scaleY(0.1);
+  }
+}
+
+/* The spider lowers itself a little, then climbs back up. */
+@keyframes spider-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  45%,
+  55% {
+    transform: translateY(9px);
+  }
+}
+
+@keyframes ghost-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(3deg);
+  }
+}
+
+@keyframes bat-sway {
+  0%,
+  100% {
+    rotate: -4deg;
+  }
+  50% {
+    rotate: 4deg;
+  }
+}
+
+/* Now and then the bat gives its folded wings a little shake. */
+@keyframes bat-wriggle {
+  0%,
+  80%,
+  100% {
+    transform: scaleX(1);
+  }
+  84% {
+    transform: scaleX(1.15);
+  }
+  88% {
+    transform: scaleX(0.95);
+  }
+  92% {
+    transform: scaleX(1.08);
   }
 }
 
