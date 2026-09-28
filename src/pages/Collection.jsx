@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { PERFUMES } from '../data/perfumes.js'
 import { useCollection } from '../context/CollectionContext.jsx'
@@ -7,9 +7,13 @@ import { useLocalStorage } from '../hooks/useLocalStorage.js'
 import PerfumeGrid from '../components/PerfumeGrid.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import { useRestoreScroll } from '../hooks/useRestoreScroll.js'
+import { useViewPager } from '../hooks/useViewPager.jsx'
 
-// The shelf (and its bottle-silhouette data) only loads when it's chosen.
-const PerfumeShelf = lazy(() => import('../components/PerfumeShelf.jsx'))
+// The shelf (and its cut-out data) loads on its own; it's fetched in the
+// background shortly after the page opens, so a swipe can reveal it at once.
+const loadShelf = () => import('../components/PerfumeShelf.jsx')
+const PerfumeShelf = lazy(loadShelf)
+const VIEWS = ['tiles', 'shelf']
 
 const VIEW_KEY = 'perfume-app:collection-view'
 
@@ -51,6 +55,34 @@ export default function Collection() {
     { id: 'shelf', label: t('collection.viewShelf'), Icon: ShelfIcon },
   ]
 
+  useEffect(() => {
+    const timer = setTimeout(loadShelf, 1200)
+    return () => clearTimeout(timer)
+  }, [])
+
+  // Swipe left/right between Tiles and Shelfie; the switch's thumb follows.
+  const thumbRef = useRef(null)
+  const onProgress = useCallback((position, animate) => {
+    const thumb = thumbRef.current
+    if (!thumb) return
+    thumb.style.transition = animate ? '' : 'none'
+    thumb.style.translate = `${Math.min(1, Math.max(0, position)) * 100}% 0`
+  }, [])
+  const pager = useViewPager({
+    views: VIEWS,
+    active: view,
+    onChange: setView,
+    onProgress,
+    render: (id, active) =>
+      id === 'shelf' ? (
+        <Suspense fallback={<div className="shelfie-loading" aria-hidden="true" />}>
+          <PerfumeShelf perfumes={perfumes} active={active} />
+        </Suspense>
+      ) : (
+        <PerfumeGrid perfumes={perfumes} />
+      ),
+  })
+
   return (
     <div className="page">
       <header className="page-header page-header-with-action">
@@ -79,22 +111,20 @@ export default function Collection() {
                 role="radio"
                 aria-checked={view === id}
                 className={`view-option ${view === id ? 'view-option-active' : ''}`}
-                onClick={() => setView(id)}
+                onClick={() => pager.panTo(id)}
               >
                 <Icon />
                 {label}
               </button>
             ))}
-            <span className={`view-thumb ${view === 'shelf' ? 'view-thumb-right' : ''}`} aria-hidden="true" />
+            <span
+              ref={thumbRef}
+              className={`view-thumb ${view === 'shelf' ? 'view-thumb-right' : ''}`}
+              aria-hidden="true"
+            />
           </div>
 
-          {view === 'shelf' ? (
-            <Suspense fallback={<div className="shelfie-loading" aria-hidden="true" />}>
-              <PerfumeShelf perfumes={perfumes} />
-            </Suspense>
-          ) : (
-            <PerfumeGrid perfumes={perfumes} />
-          )}
+          {pager.element}
         </>
       ) : (
         <EmptyState

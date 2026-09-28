@@ -1500,6 +1500,28 @@ a {
   outline-offset: 1px;
 }
 
+/* Tiles and Shelfie side by side: a swipe pans between them (useViewPager).
+   Clipped sideways only, with a little room so shadows aren't cut off. */
+.view-pager {
+  margin: 0 -16px;
+  padding: 0 16px;
+  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.view-pager-track {
+  position: relative;
+  touch-action: pan-y;
+}
+
+.view-pager-pane.is-neighbour {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
 .shelfie-loading {
   height: 320px;
   border-radius: 24px;

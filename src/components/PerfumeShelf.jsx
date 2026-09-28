@@ -132,7 +132,7 @@ function ShelfBottle({ bottle, index, active, onPointerDown, onActivate, onHover
   )
 }
 
-export default function PerfumeShelf({ perfumes }) {
+export default function PerfumeShelf({ perfumes, active = true }) {
   const navigate = useNavigate()
   const { t } = useLanguage()
   const wrapRef = useRef(null)
@@ -190,7 +190,9 @@ export default function PerfumeShelf({ perfumes }) {
     44,
   )
 
-  useRestoreScroll(shelves.length > 0)
+  // Only the shelf on show restores the scroll position (not one being
+  // revealed by a swipe).
+  useRestoreScroll(active && shelves.length > 0)
 
   const open = (perfume) => {
     rememberSelectedPerfume(perfume.id)
