@@ -1,0 +1,476 @@
+/* ============================================================
+   Shelfie autumn decorations (src/components/ShelfDecor.jsx)
+   ============================================================ */
+
+.shelfie-decor {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.45));
+}
+
+.shelfie-decor > svg {
+  display: block;
+  overflow: visible;
+}
+
+.shelfie-decor.is-leaves {
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4));
+}
+
+/* Things standing further back are a touch dimmer, like the back row. */
+.shelfie-decor.is-cushion,
+.shelfie-decor.is-books,
+.shelfie-decor.is-blanket {
+  filter: brightness(0.92) drop-shadow(0 3px 4px rgba(0, 0, 0, 0.45));
+}
+
+.shelfie-decor.is-cushion > svg {
+  rotate: -7deg;
+  transform-origin: 50% 100%;
+}
+
+/* ---------- Coffee steam ---------- */
+
+.decor-steam {
+  position: absolute;
+  left: 12%;
+  bottom: 92%;
+  width: 60%;
+  height: 90%;
+}
+
+.decor-steam i {
+  position: absolute;
+  bottom: 0;
+  width: 5px;
+  height: 100%;
+  border-radius: 50%;
+  border-left: 1.6px solid rgba(255, 244, 228, 0.55);
+  filter: blur(0.6px);
+  opacity: 0;
+}
+
+.decor-steam i:nth-child(1) {
+  left: 20%;
+}
+
+.decor-steam i:nth-child(2) {
+  left: 48%;
+  --delay: 1.1s;
+}
+
+.decor-steam i:nth-child(3) {
+  left: 72%;
+  --delay: 2.2s;
+}
+
+/* ---------- Candle ---------- */
+
+.decor-glow {
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  width: 70px;
+  height: 70px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 190, 110, 0.35), rgba(255, 170, 80, 0.1) 55%, transparent);
+  pointer-events: none;
+}
+
+.decor-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+/* ---------- Over the plank's edge ---------- */
+
+.shelfie-edge {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.shelfie-edge > svg {
+  display: block;
+}
+
+.shelfie-edge.is-drape {
+  top: -9px;
+  width: 54px;
+  height: 40px;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.45));
+}
+
+.shelfie-edge.is-drape.on-left {
+  left: 26px;
+}
+
+.shelfie-edge.is-drape.on-right {
+  right: 26px;
+}
+
+.shelfie-edge.is-garland {
+  top: 60%;
+  width: 36%;
+  height: 34px;
+  transform-origin: 50% 0;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.45));
+}
+
+.shelfie-edge.is-garland.on-left {
+  left: 6%;
+}
+
+.shelfie-edge.is-garland.on-right {
+  right: 6%;
+}
+
+/* ---------- The cat on top of the cabinet ---------- */
+
+.shelfie.has-cat {
+  margin-top: 40px;
+}
+
+.shelfie-cat {
+  position: absolute;
+  right: 13%;
+  bottom: calc(100% + 4px);
+  z-index: 3;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  filter: drop-shadow(0 3px 3px rgba(40, 20, 6, 0.4));
+}
+
+.shelfie-cat svg {
+  display: block;
+}
+
+.shelfie-cat:focus-visible {
+  outline: 2px dashed var(--brass);
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+.cat-body,
+.cat-tail,
+.cat-head {
+  transform-box: view-box;
+}
+
+.cat-body {
+  transform-origin: 36px 36px;
+}
+
+.cat-tail {
+  transform-origin: 60px 34px;
+}
+
+.cat-head {
+  transform-origin: 17px 32px;
+}
+
+.cat-zzz,
+.cat-hearts {
+  position: absolute;
+  left: 8px;
+  bottom: 30px;
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+}
+
+.cat-zzz i,
+.cat-hearts i {
+  position: absolute;
+  bottom: 0;
+  font-style: normal;
+  font-weight: 700;
+  opacity: 0;
+}
+
+.cat-zzz i {
+  font-family: var(--serif);
+  font-size: 11px;
+  color: #8a6a4a;
+}
+
+.cat-zzz i:nth-child(1) {
+  left: 4px;
+}
+.cat-zzz i:nth-child(2) {
+  left: 10px;
+  font-size: 13px;
+  --delay: 1.3s;
+}
+.cat-zzz i:nth-child(3) {
+  left: 16px;
+  font-size: 15px;
+  --delay: 2.6s;
+}
+
+.cat-hearts i {
+  font-size: 12px;
+  color: #d9604a;
+}
+
+.cat-hearts i:nth-child(1) {
+  left: 0;
+}
+.cat-hearts i:nth-child(2) {
+  left: 12px;
+  --delay: 0.3s;
+}
+.cat-hearts i:nth-child(3) {
+  left: 24px;
+  --delay: 0.6s;
+}
+
+.shelfie-cat.is-purring .cat-zzz {
+  display: none;
+}
+
+.shelfie-cat.is-purring .cat-hearts i {
+  animation: heart-rise 1.6s ease-out both;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes heart-rise {
+  0% {
+    opacity: 0;
+    translate: 0 4px;
+    scale: 0.6;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    translate: 4px -26px;
+    scale: 1.1;
+  }
+}
+
+/* ---------- Falling leaves ---------- */
+
+.shelfie-falling {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+  overflow: hidden;
+}
+
+.falling-leaf {
+  position: absolute;
+  top: -16px;
+  opacity: 0;
+}
+
+.falling-leaf svg {
+  display: block;
+}
+
+/* ---------- Motion ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .decor-steam i {
+    animation: steam-rise 3.3s ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+  }
+
+  .decor-flame {
+    animation: flame-flicker 1.7s ease-in-out infinite;
+  }
+
+  .decor-glow {
+    animation: glow-pulse 2.3s ease-in-out infinite;
+  }
+
+  .shelfie-edge.is-garland {
+    animation: garland-sway 6s ease-in-out infinite;
+  }
+
+  .cat-body {
+    animation: cat-breathe 3.6s ease-in-out infinite;
+  }
+
+  .cat-tail {
+    animation: cat-tail 5.5s ease-in-out infinite;
+  }
+
+  .cat-head {
+    animation: cat-nod 11s ease-in-out infinite;
+  }
+
+  .cat-zzz i {
+    animation: zzz-rise 3.9s ease-out infinite;
+    animation-delay: var(--delay, 0s);
+  }
+
+  .shelfie-cat.is-purring .cat-body {
+    animation: cat-purr 0.18s linear infinite;
+  }
+
+  .falling-leaf {
+    animation: leaf-fall var(--duration) linear infinite;
+    animation-delay: var(--delay);
+  }
+
+  .falling-leaf svg {
+    animation: leaf-sway 3.2s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes steam-rise {
+  0% {
+    opacity: 0;
+    translate: 0 6px;
+    scale: 0.8 0.6;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    translate: 3px -12px;
+    scale: 1.2 1.1;
+  }
+}
+
+@keyframes flame-flicker {
+  0%,
+  100% {
+    transform: scale(1, 1) rotate(0deg);
+  }
+  20% {
+    transform: scale(0.94, 1.08) rotate(-3deg);
+  }
+  45% {
+    transform: scale(1.04, 0.93) rotate(2deg);
+  }
+  70% {
+    transform: scale(0.97, 1.05) rotate(-1deg);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+@keyframes garland-sway {
+  0%,
+  100% {
+    rotate: -1.2deg;
+  }
+  50% {
+    rotate: 1.2deg;
+  }
+}
+
+@keyframes cat-breathe {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.012, 1.045);
+  }
+}
+
+@keyframes cat-tail {
+  0%,
+  60%,
+  100% {
+    transform: rotate(0deg);
+  }
+  70% {
+    transform: rotate(-14deg);
+  }
+  80% {
+    transform: rotate(4deg);
+  }
+  90% {
+    transform: rotate(-8deg);
+  }
+}
+
+/* Now and then the cat half-lifts its head, then settles again. */
+@keyframes cat-nod {
+  0%,
+  78%,
+  100% {
+    transform: rotate(0deg);
+  }
+  84%,
+  90% {
+    transform: rotate(-6deg) translateY(-1px);
+  }
+}
+
+@keyframes cat-purr {
+  0%,
+  100% {
+    transform: scale(1, 1.02);
+  }
+  50% {
+    transform: scale(1.01, 1.035);
+  }
+}
+
+@keyframes zzz-rise {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+  }
+  25% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    translate: 10px -24px;
+  }
+}
+
+/* A leaf falls through the whole cabinet in the first 60% of the cycle, then
+   rests (invisible) until the next one. */
+@keyframes leaf-fall {
+  0% {
+    opacity: 0;
+    translate: 0 0;
+  }
+  4% {
+    opacity: 0.95;
+  }
+  52% {
+    opacity: 0.9;
+  }
+  60% {
+    opacity: 0;
+    translate: var(--sway) var(--fall);
+  }
+  100% {
+    opacity: 0;
+    translate: var(--sway) var(--fall);
+  }
+}
+
+@keyframes leaf-sway {
+  from {
+    transform: translateX(-10px) rotate(-35deg);
+  }
+  to {
+    transform: translateX(10px) rotate(40deg);
+  }
+}

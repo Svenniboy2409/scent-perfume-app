@@ -65,6 +65,7 @@ const en = {
   shelf: {
     plaque: (n) => `N° ${n}`,
     open: 'Open',
+    cat: 'Pet the cat',
     hint: 'Tap a bottle to see its label — tap again to open it. The tallest bottles stand at the back.',
   },
   toggle: {
@@ -188,6 +189,7 @@ const nl = {
   shelf: {
     plaque: (n) => `N° ${n}`,
     open: 'Openen',
+    cat: 'Aai de kat',
     hint: 'Tik op een flesje om het label te zien, tik nog eens om het te openen. De hoogste flessen staan achteraan.',
   },
   toggle: {

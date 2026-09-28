@@ -1,6 +1,7 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BottlePlaceholder } from './PerfumeImage.jsx'
+import { DecorItem, EdgeDecor, FallingLeaves, SleepingCat, planDecor } from './ShelfDecor.jsx'
 import { getFragranticaImage } from '../utils/images.js'
 import { bottleSize, getBottleShape } from '../utils/bottleShape.js'
 import { layoutShelves } from '../utils/shelfLayout.js'
@@ -13,7 +14,7 @@ import '../styles/shelf.css'
 // is cut out of its product photo with a measured mask, sized by its
 // real proportions, and placed in a back or front row (see utils/shelfLayout).
 
-const FRAME = 22 // cabinet frame + inner padding on each side (px)
+const FRAME = 25 // cabinet frame + inner padding on each side (px)
 const HEADROOM = 30 // space above the tallest bottle on a shelf (px)
 const SURFACE = 20 // visible top face of the plank the bottles stand on (px)
 const FRONT_FLOOR = 4 // front row stands this far up the top face (px)
@@ -153,13 +154,17 @@ export default function PerfumeShelf({ perfumes }) {
   const usable = Math.max(0, width - FRAME * 2)
   const shelves = useMemo(() => {
     if (!usable) return []
+    // Bottles stand in the middle part of each shelf; the ends are kept free
+    // for the decorations (see ShelfDecor).
+    const reserve = Math.round(Math.min(150, usable * 0.24))
+    const inner = usable - reserve
     const layout = (scale) =>
       layoutShelves(
         perfumes.map((perfume) => {
           const shape = getBottleShape(perfume.id)
           return { id: perfume.id, perfume, shape, ...bottleSize(shape?.aspect ?? FALLBACK_ASPECT, scale) }
         }),
-        usable,
+        inner,
       )
     const base = usable >= 560 ? 1.18 : 1
     let result = layout(base)
@@ -172,9 +177,18 @@ export default function PerfumeShelf({ perfumes }) {
         return right - left
       }),
     )
-    if (extent < usable * 0.75) result = layout(base * Math.min(1.3, (usable * 0.88) / extent))
-    return result
+    if (extent < inner * 0.75) result = layout(base * Math.min(1.3, (inner * 0.88) / extent))
+    return result.map((shelf) => ({
+      ...shelf,
+      bottles: shelf.bottles.map((b) => ({ ...b, x: b.x + reserve / 2 })),
+    }))
   }, [perfumes, usable])
+
+  const decor = useMemo(() => planDecor(shelves, usable, usable >= 560 ? 1.18 : 1), [shelves, usable])
+  const cabinetHeight = shelves.reduce(
+    (sum, shelf) => sum + shelf.height + HEADROOM + FRONT_FLOOR + SURFACE + 32,
+    44,
+  )
 
   useRestoreScroll(shelves.length > 0)
 
@@ -198,8 +212,9 @@ export default function PerfumeShelf({ perfumes }) {
   let order = 0
 
   return (
-    <div className="shelfie" ref={wrapRef} style={WOOD}>
+    <div className={`shelfie ${shelves.length ? 'has-cat' : ''}`} ref={wrapRef} style={WOOD}>
       <div className="shelfie-frame">
+      {shelves.length > 0 && <SleepingCat label={t('shelf.cat')} />}
       <div
         className="shelfie-cabinet"
         onClick={(e) => {
@@ -208,6 +223,7 @@ export default function PerfumeShelf({ perfumes }) {
       >
         {usable > 0 && <FairyLights width={usable} />}
         {shelves.length > 0 && <Motes count={Math.min(18, 6 + shelves.length * 4)} />}
+        {shelves.length > 0 && <FallingLeaves height={cabinetHeight} />}
 
         {shelves.map((shelf, s) => {
           const stageHeight = shelf.height + HEADROOM + FRONT_FLOOR + SURFACE
@@ -217,6 +233,9 @@ export default function PerfumeShelf({ perfumes }) {
               <div className="shelfie-stage" style={{ height: stageHeight }}>
                 <span className="shelfie-spot" aria-hidden="true" />
                 <span className="shelfie-surface" aria-hidden="true" />
+                {decor[s]?.items.map((item) => (
+                  <DecorItem key={item.type} item={item} floor={FRONT_FLOOR} />
+                ))}
                 {shelf.bottles.map((bottle) => (
                   <ShelfBottle
                     key={bottle.id}
@@ -260,6 +279,7 @@ export default function PerfumeShelf({ perfumes }) {
                 <span className="shelfie-bracket is-left" />
                 <span className="shelfie-bracket is-right" />
                 <span className="shelfie-led" />
+                {decor[s]?.edge && <EdgeDecor edge={decor[s].edge} />}
               </div>
             </section>
           )
