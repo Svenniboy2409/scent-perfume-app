@@ -34,10 +34,10 @@
 
 .decor-steam {
   position: absolute;
-  left: 12%;
-  bottom: 92%;
-  width: 60%;
-  height: 90%;
+  left: 24%;
+  bottom: 80%;
+  width: 42%;
+  height: 70%;
 }
 
 .decor-steam i {
@@ -70,13 +70,19 @@
 .decor-glow {
   position: absolute;
   left: 50%;
-  top: 18%;
-  width: 70px;
-  height: 70px;
+  top: 28%;
+  width: 96px;
+  height: 96px;
   translate: -50% -50%;
   border-radius: 50%;
   background: radial-gradient(closest-side, rgba(255, 190, 110, 0.35), rgba(255, 170, 80, 0.1) 55%, transparent);
   pointer-events: none;
+}
+
+.decor-glow.is-lantern {
+  top: 48%;
+  width: 110px;
+  height: 110px;
 }
 
 .decor-flame {
@@ -98,9 +104,9 @@
 }
 
 .shelfie-edge.is-drape {
-  top: -9px;
-  width: 54px;
-  height: 40px;
+  top: -10px;
+  width: 72px;
+  height: 52px;
   filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.45));
 }
 
@@ -131,13 +137,13 @@
 /* ---------- The cat on top of the cabinet ---------- */
 
 .shelfie.has-cat {
-  margin-top: 40px;
+  margin-top: 56px;
 }
 
 .shelfie-cat {
   position: absolute;
   right: 13%;
-  bottom: calc(100% + 4px);
+  bottom: calc(100% - 1px);
   z-index: 3;
   padding: 0;
   border: none;
@@ -163,23 +169,24 @@
   transform-box: view-box;
 }
 
+/* Origins in the cat's viewBox (the cat is drawn at an offset of 6, 3). */
 .cat-body {
-  transform-origin: 36px 36px;
+  transform-origin: 42px 39px;
 }
 
 .cat-tail {
-  transform-origin: 60px 34px;
+  transform-origin: 66px 37px;
 }
 
 .cat-head {
-  transform-origin: 17px 32px;
+  transform-origin: 23px 35px;
 }
 
 .cat-zzz,
 .cat-hearts {
   position: absolute;
-  left: 8px;
-  bottom: 30px;
+  left: 14px;
+  bottom: 38px;
   width: 30px;
   height: 30px;
   pointer-events: none;
@@ -284,7 +291,13 @@
     animation-delay: var(--delay, 0s);
   }
 
-  .decor-flame {
+  .decor-glow.is-lantern {
+  top: 48%;
+  width: 110px;
+  height: 110px;
+}
+
+.decor-flame {
     animation: flame-flicker 1.7s ease-in-out infinite;
   }
 
