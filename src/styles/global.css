@@ -87,7 +87,9 @@ a {
 .app-main {
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: 20px 18px calc(var(--nav-height) + 28px);
+  /* The bottom nav grows by the safe area (iPhone home bar), so leave room
+     for that too. */
+  padding: 20px 18px calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 36px);
 }
 
 .page {

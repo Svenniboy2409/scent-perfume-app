@@ -176,16 +176,22 @@ export function useViewPager({ views, active, onChange, onProgress, render }) {
         onPointerCancel={onPointerEnd}
         onClickCapture={onClickCapture}
       >
-        <div className="view-pager-pane">{render(views[index], true)}</div>
-        {neighbour !== null && neighbour !== index && (
-          <div
-            className="view-pager-pane is-neighbour"
-            style={{ left: `calc(${(neighbour - index) * 100}% + ${(neighbour - index) * GAP}px)` }}
-            aria-hidden="true"
-          >
-            {render(views[neighbour], false)}
-          </div>
-        )}
+        {/* Each view keeps its own key, so when a revealed neighbour becomes
+            the active view it stays mounted as it is (nothing reloads). */}
+        {views.map((view, i) => {
+          if (i !== index && i !== neighbour) return null
+          const isActive = i === index
+          return (
+            <div
+              key={view}
+              className={`view-pager-pane ${isActive ? '' : 'is-neighbour'}`}
+              style={isActive ? undefined : { left: `calc(${(i - index) * 100}% + ${(i - index) * GAP}px)` }}
+              aria-hidden={isActive ? undefined : 'true'}
+            >
+              {render(view, isActive)}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
