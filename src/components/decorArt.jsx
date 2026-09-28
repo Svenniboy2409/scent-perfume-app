@@ -610,6 +610,21 @@ export function JackOLantern() {
   )
 }
 
+function Apple({ x, y, r, colour, leaf = false, rotate = 0 }) {
+  return (
+    <g transform={`translate(${x} ${y}) rotate(${rotate})`}>
+      <path
+        d={`M0 ${-r * 0.7} C${r} ${-r * 1.3} ${r * 1.3} ${r * 0.4} ${r * 0.35} ${r * 0.95} Q0 ${r * 0.8} ${-r * 0.35} ${r * 0.95} C${-r * 1.3} ${r * 0.4} ${-r} ${-r * 1.3} 0 ${-r * 0.7} Z`}
+        fill={colour}
+      />
+      <path d={`M${r * 0.35} ${-r * 0.5} Q${r * 0.9} ${r * 0.1} ${r * 0.3} ${r * 0.85}`} stroke="#000" strokeOpacity="0.15" strokeWidth={r * 0.35} fill="none" />
+      <ellipse cx={-r * 0.4} cy={-r * 0.2} rx={r * 0.22} ry={r * 0.35} fill="#fff" opacity="0.35" />
+      <path d={`M0 ${-r * 0.65} q0.5 ${-r * 0.4} 1.6 ${-r * 0.6}`} stroke="#5b3a1c" strokeWidth="1.1" fill="none" strokeLinecap="round" />
+      {leaf && <path d={`M1 ${-r * 0.9} q5 -4 8 0 q-4 2 -8 0 z`} fill="#6f8a34" />}
+    </g>
+  )
+}
+
 export function Apples() {
   const apple = (x, y, r, colour, leaf) => (
     <g key={`${x}-${y}`} transform={`translate(${x} ${y})`}>
@@ -631,9 +646,9 @@ export function Apples() {
       <path d="M10 26 Q36 -6 62 26" stroke="#8a6030" strokeWidth="3.4" fill="none" />
       <path d="M10 26 Q36 -6 62 26" stroke="#c99a5c" strokeWidth="1.2" fill="none" strokeDasharray="3 2" />
       {/* Apples */}
-      {apple(22, 24, 8.5, '#c0392b', true)}
-      {apple(48, 23, 8, '#a8b83a', false)}
-      {apple(35, 21, 9, '#d6452b', true)}
+      <Apple x={22} y={24} r={8.5} colour="#c0392b" leaf />
+      <Apple x={48} y={23} r={8} colour="#a8b83a" />
+      <Apple x={35} y={21} r={9} colour="#d6452b" leaf />
       {/* Checked cloth peeking over the rim */}
       <path d="M44 27 L60 23 L56 33 Z" fill="#efe2c6" />
       <path d="M47 26.2 L55.5 32 M51 25.2 L57.4 29 M44.5 29 L58 25.5" stroke="#b0512e" strokeWidth="1.3" opacity="0.8" />
@@ -654,29 +669,20 @@ export function Apples() {
   )
 }
 
-export function Mushrooms() {
+// A few loose apples: two whole, one lying on its side, one cut in half.
+export function LooseApples() {
   return (
-    <svg viewBox="0 0 48 36" width="100%" height="100%" overflow="visible">
-      {/* Moss */}
-      <path d="M2 34 Q6 27 12 30 Q17 25 24 29 Q31 25 37 29 Q43 27 46 34 Z" fill="#5f7a34" />
-      <path d="M5 33 q2 -3 4 -1 M15 31 q2 -3 4 -1 M29 31 q2 -3 4 -1 M38 32 q2 -3 4 0" stroke="#86a24a" strokeWidth="1" fill="none" />
-      {/* Brown cap */}
-      <path d="M33 30 Q32.5 22 34 18 H38 Q39.5 22 39 30 Z" fill="#efe3cc" />
-      <path d="M26 19 Q36 6 46 19 Q36 22 26 19 Z" fill="#9a5a2a" />
-      <path d="M29 16 Q36 9 43 16" stroke="#c07a42" strokeWidth="1" fill="none" opacity="0.7" />
-      {/* Red toadstool */}
-      <path d="M14 31 Q13 20 15 13 H20 Q22 20 21 31 Z" fill="#f4ead8" />
-      <path d="M15.5 21 Q17.5 22.5 19.8 21" stroke="#d8c7a6" strokeWidth="1" fill="none" />
-      <path d="M4 14 Q17.5 -4 31 14 Q17.5 18 4 14 Z" fill="#c8321f" />
-      <path d="M8 10 Q17.5 0 27 10" stroke="#e8634a" strokeWidth="1.4" fill="none" opacity="0.6" />
-      <circle cx="11" cy="10" r="1.6" fill="#fbf2e2" />
-      <circle cx="17" cy="5.5" r="1.9" fill="#fbf2e2" />
-      <circle cx="23.5" cy="9" r="1.5" fill="#fbf2e2" />
-      <circle cx="15" cy="12" r="1.1" fill="#fbf2e2" />
-      <circle cx="21" cy="12.5" r="1" fill="#fbf2e2" />
-      {/* A tiny one */}
-      <path d="M7.5 32 v-4 h2 v4 z" fill="#efe3cc" />
-      <path d="M5.5 28.4 Q8.5 23.5 11.5 28.4 Q8.5 29.4 5.5 28.4 Z" fill="#b8742c" />
+    <svg viewBox="0 0 64 28" width="100%" height="100%" overflow="visible">
+      <Apple x={12} y={16} r={10} colour="#c0392b" leaf />
+      <Apple x={33} y={19} r={8.5} colour="#d9a33a" rotate={-70} />
+      {/* Half an apple, cut side up */}
+      <g transform="translate(51 22)">
+        <ellipse cx="0" cy="1.5" rx="9" ry="4.5" fill="#b8321f" />
+        <ellipse cx="0" cy="0" rx="8.4" ry="3.8" fill="#f6e7c4" />
+        <ellipse cx="0" cy="0" rx="4.2" ry="1.9" fill="none" stroke="#e2cf9e" strokeWidth="0.7" />
+        <path d="M-1.4 -0.3 q0.7 -0.9 1.4 0 q-0.7 0.9 -1.4 0 z M0.4 0.2 q0.7 -0.9 1.4 0 q-0.7 0.9 -1.4 0 z" fill="#5b3a1c" />
+      </g>
+      <Leaf x={28} y={26} size={10} rotate={20} colour={LEAF_COLOURS[1]} flat />
     </svg>
   )
 }
@@ -798,7 +804,8 @@ export function Bat() {
   return (
     <svg viewBox="0 0 30 40" width="100%" height="100%" overflow="visible">
       {/* Feet hooked on the plank */}
-      <path d="M12 0 v5 M18 0 v5" stroke="#2a1c22" strokeWidth="1.3" strokeLinecap="round" />
+      <path d="M12 0 v5 M18 0 v5" stroke="#8a6a7a" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M10.6 0.6 h2.8 M16.6 0.6 h2.8" stroke="#8a6a7a" strokeWidth="1.2" strokeLinecap="round" />
       <g className="decor-bat-body">
         {/* Folded wings wrapped around the body */}
         <path d="M15 4 C4 6 2 20 6 30 Q10 26 12 31 Q13.5 27 15 32 Q16.5 27 18 31 Q20 26 24 30 C28 20 26 6 15 4 Z" fill="#4a3542" stroke="#8a6a7a" strokeWidth="0.7" />

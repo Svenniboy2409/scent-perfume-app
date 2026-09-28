@@ -111,8 +111,11 @@
 }
 
 /* A cobweb spans the corner between the side wall and the plank above. */
+/* Shelves below the first sit 10px under the plank above (see
+   .shelfie-shelf + .shelfie-shelf), so things anchored to that plank's
+   underside start 10px up. */
 .shelfie-upper.is-web {
-  top: 0;
+  top: -10px;
   width: 64px;
   height: 64px;
   z-index: 0;
@@ -157,7 +160,7 @@
 
 /* The bat hangs from the plank above (just out of the LED's glow). */
 .shelfie-upper.is-bat {
-  top: 0;
+  top: -10px;
   width: 34px;
   height: 46px;
   z-index: 2;

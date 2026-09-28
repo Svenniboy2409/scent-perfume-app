@@ -17,8 +17,8 @@ import {
   Leaf,
   Lantern,
   Leaves,
+  LooseApples,
   Mug,
-  Mushrooms,
   Owl,
   Pinecones,
   Pumpkins,
@@ -45,7 +45,7 @@ const ART = {
   pinecones: Pinecones,
   jack: JackOLantern,
   apples: Apples,
-  mushrooms: Mushrooms,
+  looseApples: LooseApples,
   owl: Owl,
   drape: Drape,
   garland: Garland,
@@ -71,11 +71,11 @@ const ITEMS = {
   pinecones: { w: 60, h: 32, lift: 0 },
   jack: { w: 54, h: 50, lift: 1 },
   apples: { w: 72, h: 52, lift: 2 },
-  mushrooms: { w: 48, h: 36, lift: 0 },
+  looseApples: { w: 64, h: 28, lift: 0 },
   owl: { w: 36, h: 50, lift: 2 },
 }
 const TUCK = 0.3
-const SMALL = ['acorns', 'candle', 'leaves', 'lantern', 'owl', 'mushrooms', 'pinecones']
+const SMALL = ['acorns', 'candle', 'leaves', 'lantern', 'owl', 'looseApples', 'pinecones']
 // Up high in a compartment, clear of the bottles: a cobweb in a top corner, a
 // floating ghost, a bat hanging from the plank above (not on the top shelf,
 // which has no plank above it).
