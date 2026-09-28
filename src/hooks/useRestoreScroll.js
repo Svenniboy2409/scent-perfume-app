@@ -30,7 +30,10 @@ export function useRestoreScroll(ready) {
     }
     if (!id) return
 
-    const el = document.querySelector(`[data-id="${id}"]`)
+    // Both Collection views can be mounted at once; use the one on show.
+    const el = [...document.querySelectorAll(`[data-id="${id}"]`)].find(
+      (node) => !node.closest('[aria-hidden="true"]') && node.getClientRects().length > 0,
+    )
     if (el) {
       el.scrollIntoView({ block: 'center' })
     }

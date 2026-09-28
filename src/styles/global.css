@@ -1512,16 +1512,31 @@ a {
   overflow-y: visible;
 }
 
+/* The views sit in a row; the row is translated to show the active one and
+   stays on its own layer, so panning never forces a repaint. */
 .view-pager-track {
-  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
   touch-action: pan-y;
+  will-change: transform;
 }
 
-.view-pager-pane.is-neighbour {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  pointer-events: none;
+.view-pager-pane {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+/* A view that isn't on show keeps its slot (and stays mounted) but takes no
+   height, and its animations rest. */
+.view-pager-pane.is-collapsed {
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.view-pager-pane.is-collapsed * {
+  animation-play-state: paused !important;
 }
 
 .shelfie-loading {

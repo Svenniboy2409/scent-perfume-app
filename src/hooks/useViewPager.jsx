@@ -1,10 +1,15 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
-// Two (or more) views side by side, like a panorama: a clear horizontal swipe
-// pans the "camera" from one to the next, following the finger. Views are
-// ordered left → right as given; the neighbour of the active view is only
-// rendered while it's being revealed, so the page keeps the height (and the
-// scroll behaviour) of the active one.
+// Two (or more) views side by side in a row, like a panorama: a clear
+// horizontal swipe pans the "camera" (a translate on the row) from one to the
+// next, following the finger.
+//
+// The row never changes layout when a pan ends: every view keeps its slot,
+// and the camera simply stays where the pan stopped. (Swapping elements or
+// dropping the transform at that moment forced a full repaint of the shelf,
+// which Safari showed as half the cabinet blinking out.) A view that isn't on
+// show is collapsed to zero height, so the page keeps the active view's
+// height, and it's kept mounted once it has been seen.
 //
 // A swipe only counts when it's clearly horizontal and goes far enough:
 // COMMIT of the width, or FLICK of it done quickly. Anything less springs
@@ -21,12 +26,12 @@ const EASE = 'cubic-bezier(0.22, 0.8, 0.2, 1)'
 const reducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
 /**
- * @param views     view ids, left to right
- * @param active    the active view id
- * @param onChange  (view) => void, called once a pan to a view has finished
+ * @param views      view ids, left to right
+ * @param active     the active view id
+ * @param onChange   (view) => void, called once a pan to a view has finished
  * @param onProgress (position, animate) => void — position is a fractional
- *                  index (0 = first view … 1 = second), e.g. for a switch thumb
- * @param render    (view, isActive) => element
+ *                   index (0 = first view … 1 = second), e.g. for a switch thumb
+ * @param render     (view, isActive) => element
  * @returns { element, panTo(view) }
  */
 export function useViewPager({ views, active, onChange, onProgress, render }) {
@@ -37,23 +42,29 @@ export function useViewPager({ views, active, onChange, onProgress, render }) {
   const springBack = useRef(null)
   const [peek, setPeek] = useState(null) // index of the neighbour on show
   const [settling, setSettling] = useState(null) // index being panned to
+  const [seen, setSeen] = useState(() => new Set([index]))
 
   const callbacks = useRef({ onChange, onProgress })
   callbacks.current = { onChange, onProgress }
 
   const width = () => (trackRef.current?.offsetWidth ?? 0) + GAP
 
+  // Camera position: the active view's slot, plus `px` while dragging.
   const setOffset = useCallback(
-    (px, animate) => {
+    (px, animate, at = index) => {
       const track = trackRef.current
       if (!track) return
       track.style.transition = animate ? `transform ${DURATION}ms ${EASE}` : 'none'
-      // No transform at rest: it would trap fixed-position descendants.
-      track.style.transform = px ? `translate3d(${px}px, 0, 0)` : ''
-      callbacks.current.onProgress?.(index - px / width(), animate)
+      track.style.transform = `translate3d(calc(${-at} * (100% + ${GAP}px) + ${px}px), 0, 0)`
+      callbacks.current.onProgress?.(at - px / width(), animate)
     },
     [index],
   )
+
+  const reveal = useCallback((i) => {
+    setPeek(i)
+    setSeen((s) => (s.has(i) ? s : new Set([...s, i])))
+  }, [])
 
   const settle = useCallback(
     (target) => {
@@ -78,13 +89,12 @@ export function useViewPager({ views, active, onChange, onProgress, render }) {
     return () => clearTimeout(done)
   }, [settling, views])
 
-  // The active view changed: it now sits at the origin, no neighbour showing.
-  const shown = useRef(index)
+  // Place the camera on the active view: on mount, and when the active view
+  // changes (after a pan this is exactly where the pan ended, so nothing moves).
   useLayoutEffect(() => {
-    if (shown.current === index) return
-    shown.current = index
     setSettling(null)
     setPeek(null)
+    setSeen((s) => (s.has(index) ? s : new Set([...s, index])))
     setOffset(0, false)
   }, [index, setOffset])
 
@@ -100,10 +110,10 @@ export function useViewPager({ views, active, onChange, onProgress, render }) {
         return
       }
       clearTimeout(springBack.current)
-      setPeek(target)
+      reveal(target)
       requestAnimationFrame(() => requestAnimationFrame(() => settle(target)))
     },
-    [index, settle, settling, views],
+    [index, reveal, settle, settling, views],
   )
 
   const onPointerDown = (e) => {
@@ -132,7 +142,7 @@ export function useViewPager({ views, active, onChange, onProgress, render }) {
     let offset = e.clientX - g.x
     const target = offset < 0 ? index + 1 : index - 1
     if (target < 0 || target >= views.length) offset *= 0.2 // nothing there: resist
-    else if (peek !== target) setPeek(target)
+    else if (peek !== target) reveal(target)
     g.offset = offset
     g.samples.push([e.timeStamp, e.clientX])
     if (g.samples.length > 6) g.samples.shift()
@@ -176,19 +186,16 @@ export function useViewPager({ views, active, onChange, onProgress, render }) {
         onPointerCancel={onPointerEnd}
         onClickCapture={onClickCapture}
       >
-        {/* Each view keeps its own key, so when a revealed neighbour becomes
-            the active view it stays mounted as it is (nothing reloads). */}
         {views.map((view, i) => {
-          if (i !== index && i !== neighbour) return null
           const isActive = i === index
+          const shown = isActive || i === neighbour
           return (
             <div
               key={view}
-              className={`view-pager-pane ${isActive ? '' : 'is-neighbour'}`}
-              style={isActive ? undefined : { left: `calc(${(i - index) * 100}% + ${(i - index) * GAP}px)` }}
+              className={`view-pager-pane ${shown ? '' : 'is-collapsed'}`}
               aria-hidden={isActive ? undefined : 'true'}
             >
-              {render(view, isActive)}
+              {seen.has(i) || shown ? render(view, isActive) : null}
             </div>
           )
         })}
